@@ -1,8 +1,16 @@
-@import '~@angular/material/core/theming/prebuilt/purple-green';
+/*@import '~@angular/material/core/theming/prebuilt/pink-bluegrey';*/
+@import '~@angular/material/core/theming/prebuilt/indigo-pink';
 @include md-core(); // include all mixins
 
 .user-card {
     background-color: md-color($primary);
+    .username-text {
+      color: white;
+    }
+
+    .email-text {
+      color: white;
+    }
 }
 
 .remaining-space {

@@ -1,0 +1,37 @@
+.container {
+  margin: 48px; 
+  .heading-img {
+    margin-bottom: -24px;
+  }
+  .heading-text {
+    font-size: 36px;
+  }
+  .news-divider {
+    margin: 24px 0;
+  }
+
+  md-card {
+    margin-bottom: 24px;
+  }
+
+  #column-wrap {
+    
+  }
+
+  .col-md-4 {
+    
+  }
+
+  .news-img {
+    height: 200px;
+    max-height: 200px;
+  }
+
+  .news-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+}
