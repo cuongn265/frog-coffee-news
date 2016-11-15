@@ -1,0 +1,14 @@
+@import '~@angular/material/core/theming/prebuilt/purple-green';
+@include md-core(); // include all mixins
+
+.user-card {
+    background-color: md-color($primary);
+}
+
+.remaining-space {
+  flex: 1 1 auto;
+}
+
+.md-sidenav-left {
+  width: 300px;
+}

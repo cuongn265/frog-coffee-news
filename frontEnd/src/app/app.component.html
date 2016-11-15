@@ -1,3 +1,66 @@
-<h1>
-  {{title}}
-</h1>
+<md-sidenav-layout fullscreen>
+  <md-toolbar color="primary">
+    <button md-icon-button (click)="start.toggle()">
+      <md-icon class="md-24">menu</md-icon>
+    </button>
+    <span id="header-title"> Dogular</span>
+    <span class="remaining-space"></span>
+    <button md-button>WEB</button>
+    <button md-button>MOBILE</button>
+    <button md-button>HYBRID</button>
+    <button md-icon-button>
+      <md-icon class="md-24">face</md-icon>
+    </button>
+  </md-toolbar>
+
+  <md-sidenav class="md-sidenav-left" #start mode="over">
+    <md-card class="user-card">
+      <md-card-header>
+          <img md-card-avatar src="assets/images/logo.png">
+          <md-card-title>Eugene</md-card-title>
+          <md-card-subtitle>cuongnm265@gmail.com</md-card-subtitle>
+      </md-card-header>
+      <!--<img md-card-image src="assets/images/background.jpg">-->
+      <!--<md-card-content>
+          <p>Here is some more content</p>
+      </md-card-content>-->
+    </md-card>
+    <md-nav-list>
+      <md-list>
+        <md-list-item>
+          <a md-line href="#">Bookmarks</a>
+          <button md-icon-button>
+              <md-icon>bookmark</md-icon>
+          </button>
+        </md-list-item>
+        <md-list-item>
+          <a md-line href="#">Favorites</a>
+          <button md-icon-button>
+              <md-icon>favorite</md-icon>
+          </button>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-list-item>
+          <a md-line href="#">Account</a>
+          <button md-icon-button>
+              <md-icon>person</md-icon>
+          </button>
+        </md-list-item>
+        <md-list-item>
+          <a md-line href="#">Comment</a>
+          <button md-icon-button>
+              <md-icon>comment</md-icon>
+          </button>
+        </md-list-item>
+        <md-list-item>
+          <button md-icon-button>
+              <md-icon>settings</md-icon>
+          </button>
+          <a md-line href="#">Setting</a>
+         
+        </md-list-item>
+      </md-list>
+    </md-nav-list>
+  </md-sidenav>
+  <!--<router-outlet></router-outlet>-->
+</md-sidenav-layout>
