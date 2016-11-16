@@ -4,20 +4,17 @@ var mysql = require('mysql2');
 //create connection instance
 var connection = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: '',
+    user: 'administrator',
+    password: 'admin',
     database: 'newsdb'
 });
 
 module.exports = {
     connectToServer: function () {
-        console.log("Attemp to connect");
         connection.connect(function (err) {
             if (err) {
                 console.log(err);
                 return;
-            } else {
-                console.log("Connection Established");
             }
         }); 
     },
@@ -26,8 +23,6 @@ module.exports = {
             if (err) {
                 console.log(err);
                 return;
-            } else {
-                console.log("Disconnected");
             }
         });
     },
