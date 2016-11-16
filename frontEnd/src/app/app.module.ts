@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { MaterialModule } from '@angular/material';
+import { CollapseDirective } from 'ng2-bootstrap';
 
 import { AppComponent } from './app.component';
 import { ArticleComponent } from './article/article.component';
@@ -11,7 +12,8 @@ import { ArticleComponent } from './article/article.component';
 @NgModule({
   declarations: [
     AppComponent,
-    ArticleComponent
+    ArticleComponent,
+    CollapseDirective
   ],
   imports: [
     BrowserModule,
