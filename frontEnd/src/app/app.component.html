@@ -3,11 +3,11 @@
     <button md-icon-button (click)="start.toggle()">
       <md-icon class="md-24">menu</md-icon>
     </button>
-    <span id="header-title"> Dogular</span>
+    <span id="header-title"> Frog Coffee News </span>
     <span class="remaining-space"></span>
-    <button md-button>WEB</button>
-    <button md-button>MOBILE</button>
-    <button md-button>HYBRID</button>
+    <button md-button *ngFor="let category of categoryList">
+      {{category.categoryName}}
+    </button>
     <button md-icon-button>
       <md-icon class="md-24">face</md-icon>
     </button>
@@ -63,5 +63,5 @@
     </md-nav-list>
   </md-sidenav>
   <!--<router-outlet></router-outlet>-->
-  <app-news></app-news>
+  <app-article></app-article>
 </md-sidenav-layout>

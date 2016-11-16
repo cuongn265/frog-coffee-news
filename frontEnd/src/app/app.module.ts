@@ -6,12 +6,12 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
-import { NewsComponent } from './news/news.component';
+import { ArticleComponent } from './article/article.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NewsComponent
+    ArticleComponent
   ],
   imports: [
     BrowserModule,
