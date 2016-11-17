@@ -17,7 +17,7 @@
   </div>
   <md-divider class="articles-divider"></md-divider>
   <div class="row">
-    <div class="col-md-4 col-sm-6" *ngFor="let article of articlesList; let i = index">
+    <div class="col-md-4 col-sm-6" *ngFor="let article of articlesList | slice:1">
       <md-card>
         <img md-card-image src={{article.headerImagePath}} class="articles-img">
         <md-card-content>

@@ -6,14 +6,14 @@
     <span id="header-title"> Frog Coffee News </span>
     <span class="remaining-space"></span>
 
-    <span [collapse]="isCollapsed" class="card card-block card-header">
-      <button md-button *ngFor="let category of categoryList">
-        {{category.categoryName}}
-      </button>
-    </span>
-    <button md-icon-button (click)="isCollapsed = !isCollapsed">
-      <md-icon class="md-24">menu</md-icon>
+    <!--<span [collapse]="isCollapsed" class="card card-block card-header">-->
+    <button md-button *ngFor="let category of categoryList">
+      {{category.categoryName}}
     </button>
+    <!--</span>-->
+    <!--<button md-icon-button (click)="isCollapsed = !isCollapsed">
+      <md-icon class="md-24">menu</md-icon>
+    </button>-->
   </md-toolbar>
 
   <md-sidenav class="md-sidenav-left" #start mode="over">
