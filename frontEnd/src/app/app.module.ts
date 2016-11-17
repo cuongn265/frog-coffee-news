@@ -4,14 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { MaterialModule } from '@angular/material';
+import { CollapseDirective } from 'ng2-bootstrap';
 
 import { AppComponent } from './app.component';
-import { NewsComponent } from './news/news.component';
+import { ArticleComponent } from './article/article.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NewsComponent
+    ArticleComponent,
+    CollapseDirective
   ],
   imports: [
     BrowserModule,

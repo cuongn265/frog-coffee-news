@@ -1,0 +1,37 @@
+<div class="container" *ngIf="articlesList" >
+  <div class="row article-header">
+    <div class="col-md-8 col-lg-8 col-xs-12">
+      <md-card>
+        <img md-card-image src={{articlesList[0].headerImagePath}} class="heading-img">
+      </md-card>
+    </div>
+    <div class="col-md-4 col-lg-4 col-xs-12">
+      <h1 class="heading-text">{{articlesList[0].articleHeaderTitle}}</h1>
+      <p>
+        {{articlesList[0].articleHeaderDescription}}
+      </p>
+      <button md-raised-button color="primary">
+        LEARN MORE
+      </button>
+    </div>
+  </div>
+  <md-divider class="articles-divider"></md-divider>
+  <div class="row">
+    <div class="col-md-4 col-sm-6" *ngFor="let article of articlesList; let i = index">
+      <md-card>
+        <img md-card-image src={{article.headerImagePath}} class="articles-img">
+        <md-card-content>
+          <h4 class="article-title">{{article.articleHeaderTitle}}</h4>
+          <p class="article-description">
+            {{article.articleHeaderDescription}}
+          </p>
+        </md-card-content>
+        <md-card-actions>
+          <button md-button color="primary">LEARN MORE</button>
+        </md-card-actions>
+      </md-card>
+      <div class="clearfix visible-sm-block"></div> 
+    </div>
+    
+  </div>
+</div>
