@@ -1,13 +1,17 @@
 <md-sidenav-layout fullscreen>
   <md-toolbar color="primary">
-    <button md-icon-button (click)="start.toggle()">
+    <button md-icon-button (click)="start.toggle()" class="menu-btn">
       <md-icon class="md-24">menu</md-icon>
     </button>
     <span id="header-title"> Frog Coffee News </span>
     <span class="remaining-space"></span>
 
     <!--<span [collapse]="isCollapsed" class="card card-block card-header">-->
-    <button md-button *ngFor="let category of categoryList">
+    <button 
+      md-button
+      *ngFor="let category of categoryList"
+      [routerLink]="['/article', category.categoryName | lowercase]" 
+      >
       {{category.categoryName}}
     </button>
     <!--</span>-->
@@ -65,5 +69,5 @@
       </md-list>
     </md-nav-list>
   </md-sidenav>
-  <app-article></app-article>
+  <router-outlet></router-outlet>
 </md-sidenav-layout>

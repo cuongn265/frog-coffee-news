@@ -1,11 +1,17 @@
 .container {
-  margin: 48px; 
   .heading-img {
     margin-bottom: -24px;
   }
   .heading-text {
-    font-size: 36px;
+    .md-tooltip {
+      font-size: 14px;
+    }
   }
+
+  md-tooltip {
+    font-size: 18px;
+  }
+
   .articles-divider {
     margin: 24px 0;
   }
