@@ -14,15 +14,14 @@
 
 | URI | RESTful Method | Description | Example |
 | --- | --- | --- | --- |
-| /api/users | get | List all users | --- |
-| /api/users/role: | get | List all users of specified role | /api/users/collaborator |
-| /api/articles | get | List all articles | --- |
+| /api/all/users | get | List all users | --- |
+| /api/role:/users | get | List all users of specified role | /api/collaborator/users |
+| /api/all/articles | get | List all articles | --- |
+| /api/:category/articles | get | List all articles in specified category | api/technology/articles |
 | /api/taglist | get | List all tags | --- |
 | /api/apisource | get | List all API News Source | --- |
-| /api/category | get | List all news category | --- |
-| /api/articles/:category | get | List all articles in specified category | api/articles/technology |
+| /api/categories | get | List all news category | --- |
 | /api/figure/:articleid | get | List of figures in specified article | api/figure/1 |
-
 
 ---------------------------------------------------
 ###Authors###
