@@ -10,8 +10,8 @@ export class ArticleService {
 
   constructor(private http: Http) { }
 
-  getArticles(): Promise<Article[]> {
-    return this.http.get(this.articleUrl)
+  getArticles(categoryName: string): Promise<Article[]> {
+    return this.http.get(this.articleUrl + '/' + categoryName)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
