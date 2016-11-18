@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArticleService } from './article.service';
 import { Article } from './article';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-article',
@@ -8,17 +9,28 @@ import { Article } from './article';
   styleUrls: ['./article.component.scss'],
   providers: [ArticleService]
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent implements OnInit, OnDestroy {
 
-  constructor(private articleService: ArticleService) { }
+  constructor(private articleService: ArticleService, private route: ActivatedRoute) { }
 
   articlesList: Article[];
+  categoryName: string;
+  private sub: any;
 
   ngOnInit() {
-    this.articleService.getArticles().then(
-      (response) => {
-        this.articlesList = response;
-      }
-    );
+    this.sub = this.route.params.subscribe(params => {
+      this.categoryName = params['categoryName']; // (+) converts string 'id' to a number
+      console.log(this.categoryName);
+      this.articleService.getArticles(this.categoryName).then(
+        (response) => {
+          this.articlesList = response;
+          console.log(this.articlesList.length);
+        }
+      );
+    });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 }

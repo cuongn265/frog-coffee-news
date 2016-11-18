@@ -1,11 +1,17 @@
 .container {
-  margin: 48px; 
   .heading-img {
     margin-bottom: -24px;
   }
   .heading-text {
-    font-size: 36px;
+    .md-tooltip {
+      font-size: 14px;
+    }
   }
+
+  md-tooltip {
+    font-size: 18px;
+  }
+
   .articles-divider {
     margin: 24px 0;
   }
@@ -22,6 +28,7 @@
   .article-description {
     overflow: hidden;
     text-overflow: ellipsis;
+    height: 40px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -34,5 +41,19 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+  }
+}
+
+.container-notfound {
+  height: 100%;
+  .wrapper {
+    height: 100%;
+    text-align: center;
+    margin-top: 50px;
+
+    .notfound-text {
+      margin-top: 20px;
+      font-size: 30px;
+    }
   }
 }
