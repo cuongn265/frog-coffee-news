@@ -6,12 +6,21 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class ArticleService {
 
-  private articleUrl: string = 'http://localhost:3000/api/articles';
+  private apiUrl: string = 'http://localhost:3000/api/';
 
   constructor(private http: Http) { }
 
   getArticles(categoryName: string): Promise<Article[]> {
-    return this.http.get(this.articleUrl + '/' + categoryName)
+    let articleUrl: string;
+    if (categoryName === undefined) {
+      articleUrl = this.apiUrl + 'all/articles';
+    } else {
+      articleUrl = this.apiUrl + categoryName + '/articles';
+    }
+
+    console.log(articleUrl);
+
+    return this.http.get(articleUrl)
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);

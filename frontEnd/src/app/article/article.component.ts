@@ -24,6 +24,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
       this.articleService.getArticles(this.categoryName).then(
         (response) => {
           this.articlesList = response;
+          console.log(this.articlesList.length);
         }
       );
     });
