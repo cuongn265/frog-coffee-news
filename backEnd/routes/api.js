@@ -24,6 +24,7 @@ router.get('/:role/users', function (req, res) {
 
 // get all articles
 router.get('/all/articles', function (req, res) {
+
     SQLquery.getArticle(function (err, data) {
         if (err) return;
         else
@@ -52,10 +53,10 @@ router.get('/articles/:category/:keyword', function (req, res) {
     }
 })
 */
-router.get('/figures/:articleid',function(req,res){
+router.get('/figures/:articleid', function (req, res) {
     let articleID = req.params.articleid;
-    SQLquery.getArticleFigures(articleID,function(err,data){
-        if(err) return err;
+    SQLquery.getArticleFigures(articleID, function (err, data) {
+        if (err) return err;
         else
             res.status(200).send(data);
     })
@@ -86,6 +87,84 @@ router.get('/apisource', function (req, res) {
         else
             res.status(200).send(data);
     })
+});
+
+// test head 
+router.get('/testheader', function (req, res) {
+    let token = req.headers['token'];
+    console.log(token);
+    if (typeof token != 'undefined') {
+        res.status(200).send(token);
+    } else {
+        res.status(404).send("Not found");
+    }
+});
+
+router.get('/:articleID/:userID/find', function (req, res) {
+    let articleID = req.params.articleID;
+    let userID = req.params.userID;
+    SQLquery.findUserInUpvotingList(articleID, userID, function (err, data) {
+
+    });
+});
+
+router.get('/:articleID/:userID/upvote', function (req, res) {
+    let articleID = req.params.articleID;
+    let userID = req.params.userID;
+});
+
+router.get('/voting', function (req, res) {
+    let voteType = req.query.votetype;
+    let articleID = req.query.articleid;
+    let userID = req.query.userid;
+    // no parameter for query
+    if (typeof (voteType) == 'undefined' || typeof (articleID) == 'undefined' || typeof (userID) == 'undefined') {
+        res.status(204).send({
+            "Message": "No parameter found for query"
+        });
+    } else {
+        switch (voteType) {
+            case "upvote":
+                SQLquery.upvoteInArticleFromUser(articleID, userID, function (err, data) {
+                    if (err)
+                        res.status(406).send({
+                            "Message": "Already Upvoted !"
+                        });
+                    else {
+                        res.status(202).send({
+                            "Message": "Upvoting Accepted !"
+                        });
+                    }
+                });
+                break;
+            case "downvote":
+                SQLquery.downvoteInArticleFromUser(articleID, userID, function (err, data) {
+                    if (err)
+                        res.status(406).send({
+                            "Message": "Already Downvoted !"
+                        });
+                    else {
+                        res.status(202).send({
+                            "Message": "Downvoting Accepted !"
+                        });
+                    }       
+                });
+                break;
+            default:
+                res.status(400).send({
+                    "Message": "No parameter found for query"
+                });
+                break;
+        }
+    }
+});
+
+router.get('/testpromise',function(req,res){
+    console.log("da chay");
+    res.status(404).send("khong chay ddc");
+    SQLquery.indexOfUserInVotingList('upvote',1,1).then(function(result){
+        console.log(result);
+    });
 });
 
 module.exports = router;
