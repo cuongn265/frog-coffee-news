@@ -7,13 +7,6 @@
     <span class="remaining-space"></span>
 
     <!--<span [collapse]="isCollapsed" class="card card-block card-header">-->
-    <button 
-      md-button
-      *ngFor="let category of categoryList"
-      [routerLink]="['/article', category.categoryName | lowercase]" 
-      >
-      {{category.categoryName}}
-    </button>
     <!--</span>-->
     <!--<button md-icon-button (click)="isCollapsed = !isCollapsed">
       <md-icon class="md-24">menu</md-icon>
@@ -32,6 +25,19 @@
         <p>Here is some more content</p>
     </md-card-content>-->
     </md-card>
+
+
+    <md-nav-list>
+      <md-list-item 
+        *ngFor="let category of categoryList" 
+        [routerLink]="['/article', category.categoryName | lowercase]" 
+        (click)="start.close()"
+        >
+        <p md-line >{{category.categoryName}}</p>
+        <md-icon color="primary">home</md-icon>
+      </md-list-item>
+    </md-nav-list>
+
     <md-nav-list>
       <md-list>
         <md-list-item>
@@ -40,6 +46,7 @@
             <md-icon>bookmark</md-icon>
         </button>
         </md-list-item>
+        <md-divider></md-divider>
         <md-list-item>
           <a md-line href="#">Favorites</a>
           <button md-icon-button>
