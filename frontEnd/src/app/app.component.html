@@ -3,6 +3,8 @@
     <button md-icon-button (click)="start.toggle()" class="menu-btn">
       <md-icon class="md-24">menu</md-icon>
     </button>
+    <button class="btn btn-primary btn-margin" (click)="auth.login()" *ngIf="!auth.authenticated()">Log In</button>
+    <button class="btn btn-primary btn-margin" (click)="auth.logout()" *ngIf="auth.authenticated()">Log Out</button>
     <span id="header-title"> Frog Coffee News </span>
     <span class="remaining-space"></span>
 
@@ -28,12 +30,8 @@
 
 
     <md-nav-list>
-      <md-list-item 
-        *ngFor="let category of categoryList" 
-        [routerLink]="['/article', category.categoryName | lowercase]" 
-        (click)="start.close()"
-        >
-        <p md-line >{{category.categoryName}}</p>
+      <md-list-item *ngFor="let category of categoryList" [routerLink]="['/article', category.categoryName | lowercase]" (click)="start.close()">
+        <p md-line>{{category.categoryName}}</p>
         <md-icon color="primary">home</md-icon>
       </md-list-item>
     </md-nav-list>
