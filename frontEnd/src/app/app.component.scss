@@ -1,5 +1,6 @@
 /*@import '~@angular/material/core/theming/prebuilt/pink-bluegrey';*/
-@import '~@angular/material/core/theming/prebuilt/indigo-pink';
+// @import '~@angular/material/core/theming/prebuilt/pink-bluegrey';
+@import '~@angular/material/core/theming/prebuilt/deeppurple-amber';
 @include md-core(); // include all mixins
 
 .user-card {
@@ -23,4 +24,8 @@
 
 .md-sidenav-left {
   width: 300px;
+}
+
+md-tab-group {
+  background: transparent;
 }

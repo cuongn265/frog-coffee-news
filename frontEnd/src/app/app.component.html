@@ -7,14 +7,18 @@
     <button class="btn btn-primary btn-margin" (click)="auth.logout()" *ngIf="auth.authenticated()">Log Out</button>
     <span id="header-title"> Frog Coffee News </span>
     <span class="remaining-space"></span>
+    <!--<span>
+      <button md-icon-button (click)="start.toggle()" class="menu-btn">
+        <md-icon class="md-24">menu</md-icon>
+      </button>
+    </span>-->
 
-    <!--<span [collapse]="isCollapsed" class="card card-block card-header">-->
-    <!--</span>-->
-    <!--<button md-icon-button (click)="isCollapsed = !isCollapsed">
-      <md-icon class="md-24">menu</md-icon>
-    </button>-->
   </md-toolbar>
-
+  <md-tab-group>
+    <md-tab *ngFor="let category of categoryList" label={{category.categoryName}}>
+      <app-article [name]="category.categoryName"></app-article>
+    </md-tab>
+  </md-tab-group>
   <md-sidenav class="md-sidenav-left" #start mode="over">
     <md-card class="user-card">
       <md-card-header>
@@ -27,15 +31,6 @@
         <p>Here is some more content</p>
     </md-card-content>-->
     </md-card>
-
-
-    <md-nav-list>
-      <md-list-item *ngFor="let category of categoryList" [routerLink]="['/article', category.categoryName | lowercase]" (click)="start.close()">
-        <p md-line>{{category.categoryName}}</p>
-        <md-icon color="primary">home</md-icon>
-      </md-list-item>
-    </md-nav-list>
-
     <md-nav-list>
       <md-list>
         <md-list-item>
@@ -74,5 +69,5 @@
       </md-list>
     </md-nav-list>
   </md-sidenav>
-  <router-outlet></router-outlet>
 </md-sidenav-layout>
+<router-outlet></router-outlet>

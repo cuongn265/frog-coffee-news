@@ -26,9 +26,11 @@ export class AppComponent implements OnInit {
 
   public collapsed(event: any): void {
     console.log(event);
+    console.log("test atom");
   }
 
   public expanded(event: any): void {
     console.log(event);
+    console
   }
 }

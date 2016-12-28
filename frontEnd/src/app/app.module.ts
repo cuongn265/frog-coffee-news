@@ -28,7 +28,7 @@ import { LoginComponent } from './login/login.component';
     MaterialModule.forRoot(),
     RouterModule.forRoot(AppRoutes)
   ],
-  providers: [AuthService, ...AUTH_PROVIDERS],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
