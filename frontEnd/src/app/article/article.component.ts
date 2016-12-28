@@ -19,7 +19,28 @@ export class ArticleComponent implements OnInit, OnDestroy {
   categoryName: string;
   private sub: any;
 
-  constructor(private articleService: ArticleService) { }
+  public myInterval: number = 0;
+  public noWrapSlides: boolean = false;
+  public slides: any[] = [];
+
+  public addSlide(): void {
+    let newWidth = 600 + this.slides.length + 1;
+    this.slides.push({
+      image: `//placekitten.com/${newWidth}/300`,
+      text: `${['More', 'Extra', 'Lots of', 'Surplus'][this.slides.length % 4]}
+      ${['Cats', 'Kittys', 'Felines', 'Cutes'][this.slides.length % 4]}`
+    });
+  }
+
+  public removeSlide(index: number): void {
+    this.slides.splice(index, 1);
+  }
+
+  constructor(private articleService: ArticleService) {
+    for (let i = 0; i < 4; i++) {
+      this.addSlide();
+    }
+  }
 
 
   ngOnInit() {
