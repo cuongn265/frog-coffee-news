@@ -1,6 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var SQLquery = require('../mysql/mysql-query');
+var bodyParser = require('body-parser');
+
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: false }));
+
 
 router.get('/all/users', function (req, res) {
     SQLquery.getUserAccount(function (err, data) {
@@ -42,6 +47,17 @@ router.get('/:category/articles', function (req, res) {
     });
 });
 
+// get article detail 
+router.get('/:category/:articleID/detail', function(req,res){
+    let articleID = req.params.articleID;
+    SQLquery.getArticleDetail(articleID, function(err, data){
+        if(err)
+            res.status(404).send("Not found");
+        else
+            res.status(200).send(data);
+    });
+});
+
 /*
 router.get('/articles/:category/:keyword', function (req, res) {
     let category = req.params.category;
@@ -60,7 +76,8 @@ router.get('/figures/:articleid', function (req, res) {
         else
             res.status(200).send(data);
     })
-})
+});
+
 
 // get all category
 router.get('/categories', function (req, res) {
@@ -107,6 +124,7 @@ router.get('/:articleID/:userID/find', function (req, res) {
 
     });
 });
+
 
 router.get('/:articleID/:userID/upvote', function (req, res) {
     let articleID = req.params.articleID;
@@ -166,5 +184,45 @@ router.get('/testpromise',function(req,res){
         console.log(result);
     });
 });
+
+
+
+
+
+
+router.get('/:category/:articleID/comments', function(req,res){
+    let articleID = req.params.articleID;
+    SQLquery.getComments(articleID, function(err,data){
+        if(err) throw err;
+        res.status(200).send(data);
+    })
+});
+
+// POST request to save comment of user (specify by ID) to article (specify by ID)
+router.post('/article/:articleID/user/:userID/comment', function(req,res){
+
+    // get current time;
+    let date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth() +1;
+    let day = date.getDate();
+    let hour = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+
+    let articleID = req.params.articleID;
+    let userID = req.params.userID;
+    let timeOfPost = year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
+    let content = req.body.content;
+
+    // call to save comment function in server
+    SQLquery.postComment(articleID, userID, content,timeOfPost, function(err){
+        if(err) return;
+        else
+            res.status(201).send('Comment submitted !');
+    });
+    
+});
+
 
 module.exports = router;

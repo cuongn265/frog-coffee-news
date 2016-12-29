@@ -68,12 +68,41 @@ module.exports = {
         });
     },
 
+    getArticleDetail: function(articleID, callback){
+        SQLconnection.connectToServer();
+        db = SQLconnection.getConnectionInstance();
+        db.query('SELECT * FROM article WHERE article.idArticle = ?', [articleID], function(err, rows){
+            if(err) throw err;
+            // return rows
+            return callback(null, rows);
+        });
+    },
+
     getArticleFigures: function (articleId, callback) {
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
         db.query('SELECT * FROM articlefigure WHERE articlefigure.idArticle = ?', [articleId], function (err, rows) {
             if (err) throw err;
             return callback(null, rows);
+        });
+    },
+
+
+    getComments: function(articleID, callback){
+        SQLconnection.connectToServer();
+        db = SQLconnection.getConnectionInstance();
+        db.query('SELECT * FROM comment WHERE comment.idArticle = ?', [articleID], function(err, rows){
+            if(err) throw err;
+            return callback(null, rows);
+        });
+    },
+    
+    postComment: function(articleId, userId, content, time, callback){
+        SQLconnection.connectToServer();
+        db = SQLconnection.getConnectionInstance();
+        db.query('INSERT INTO comment(idArticle,idUser,content,time) VALUES(?,?,?,?)', [articleId, userId, content, time], function(err){
+            if(err) throw err;
+            return callback(null);
         });
     },
 
@@ -129,7 +158,7 @@ module.exports = {
         let foundUser = false;
         // check if the user exist in upvoters array
 
-        let userIndex = this.indexOfUserInVotingList('upvote', articleID, userID).then(function(userIndex));
+        let userIndex = this.indexOfUserInVotingList('upvote', articleID, userID).then(function(userIndex){});
         console.log("User index: " + userIndex);
         /*
         db.query('SELECT upVoters FROM article WHERE article.idArticle = ?', [articleID], function (err, rows) {
