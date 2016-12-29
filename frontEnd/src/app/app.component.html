@@ -5,69 +5,79 @@
     </button>
     <span id="header-title"> Frog Coffee News </span>
     <span class="remaining-space"></span>
-
-    <!--<span [collapse]="isCollapsed" class="card card-block card-header">-->
-    <button 
-      md-button
-      *ngFor="let category of categoryList"
-      [routerLink]="['/article', category.categoryName | lowercase]" 
-      >
-      {{category.categoryName}}
+    <!--<span>
+      <button md-icon-button (click)="start.toggle()" class="menu-btn">
+        <md-icon class="md-24">menu</md-icon>
+      </button>
+    </span>-->
+    <button class="category-button" 
+      md-button 
+      *ngFor="let category of categoryList" 
+      [routerLink]="['/article', category.categoryName | lowercase]"  
+    > 
+      {{category.categoryName}} 
     </button>
-    <!--</span>-->
-    <!--<button md-icon-button (click)="isCollapsed = !isCollapsed">
-      <md-icon class="md-24">menu</md-icon>
-    </button>-->
   </md-toolbar>
-
   <md-sidenav class="md-sidenav-left" #start mode="over">
     <md-card class="user-card">
-      <md-card-header>
-        <img md-card-avatar src="assets/images/logo.png">
-        <md-card-title class="username-text">Eugene</md-card-title>
-        <md-card-subtitle class="email-text">cuongnm265@gmail.com</md-card-subtitle>
+      <md-card-header *ngIf="checkProfile()" >
+        <img md-card-avatar [src]="user.picture">
+        <md-card-title class="username-text">{{user.firstName}} {{user.lastName}}</md-card-title>
+        <md-card-subtitle class="email-text">{{user.email}}</md-card-subtitle>
       </md-card-header>
-      <!--<img md-card-image src="assets/images/background.jpg">-->
-      <!--<md-card-content>
-        <p>Here is some more content</p>
-    </md-card-content>-->
+      <md-card-header *ngIf="!checkProfile()" >
+        <img md-card-avatar src="assets/images/logo.png">
+        <md-card-title class="username-text">anonymous</md-card-title>
+        <md-card-subtitle class="email-text">anonymous@gmail.com</md-card-subtitle>
+      </md-card-header>
     </md-card>
     <md-nav-list>
-      <md-list>
-        <md-list-item>
-          <a md-line href="#">Bookmarks</a>
-          <button md-icon-button>
-            <md-icon>bookmark</md-icon>
+      <!--<md-list-item>
+        <a md-line href="#">Bookmarks</a>
+        <button md-icon-button>
+          <md-icon>bookmark</md-icon>
         </button>
-        </md-list-item>
-        <md-list-item>
-          <a md-line href="#">Favorites</a>
-          <button md-icon-button>
-            <md-icon>favorite</md-icon>
+      </md-list-item>-->
+      <md-divider></md-divider>
+      <md-list-item>
+        <a md-line href="#">Favorites</a>
+        <button md-icon-button>
+          <md-icon>favorite</md-icon>
         </button>
-        </md-list-item>
-        <md-divider></md-divider>
-        <md-list-item>
-          <a md-line href="#">Account</a>
-          <button md-icon-button>
-            <md-icon>person</md-icon>
+      </md-list-item>
+      <md-divider></md-divider>
+      <md-list-item>
+        <a md-line href="#">Account</a>
+        <button md-icon-button>
+          <md-icon>person</md-icon>
         </button>
-        </md-list-item>
-        <md-list-item>
-          <a md-line href="#">Comment</a>
-          <button md-icon-button>
-            <md-icon>comment</md-icon>
+      </md-list-item>
+      <md-list-item>
+        <a md-line href="#">Comment</a>
+        <button md-icon-button>
+          <md-icon>comment</md-icon>
         </button>
-        </md-list-item>
-        <md-list-item>
-          <button md-icon-button>
-            <md-icon>settings</md-icon>
+      </md-list-item>
+      <md-list-item>
+        <button md-icon-button>
+          <md-icon>settings</md-icon>
         </button>
-          <a md-line href="#">Setting</a>
-
-        </md-list-item>
-      </md-list>
+        <a md-line href="#">Setting</a>
+      </md-list-item>
+      <md-divider></md-divider>
+      <md-list-item *ngIf="!auth.authenticated()">
+        <button md-icon-button>
+          <md-icon>vpn_key</md-icon>
+        </button>
+        <a md-line (click)="auth.login()">Log In</a>
+      </md-list-item>
+        <md-list-item *ngIf="auth.authenticated()">
+        <button md-icon-button>
+          <md-icon>vpn_key</md-icon>
+        </button>
+        <a md-line (click)="auth.logout()">Log Out</a>
+      </md-list-item>
     </md-nav-list>
   </md-sidenav>
-  <router-outlet></router-outlet>
+  <router-outlet></router-outlet> 
 </md-sidenav-layout>

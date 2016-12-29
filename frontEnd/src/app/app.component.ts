@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from './category.service';
 import { Category } from './category';
+import { User } from './user/user';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [CategoryService]
+  providers: [CategoryService, AuthService]
 })
 export class AppComponent implements OnInit {
-  constructor(private categoryService: CategoryService) { }
-
   categoryList: Category[];
-  public isCollapsed: boolean = true;
+  user: User;
+
+  constructor(private categoryService: CategoryService, private auth: AuthService) { }
 
   ngOnInit() {
     this.categoryService.getCategories().then(
@@ -22,11 +24,12 @@ export class AppComponent implements OnInit {
     );
   }
 
-  public collapsed(event: any): void {
-    console.log(event);
-  }
-
-  public expanded(event: any): void {
-    console.log(event);
+  checkProfile() {
+    let profile = localStorage.getItem('profile');
+    if (profile) {
+      this.user = JSON.parse(profile);
+      return true;
+    }
+    return false;
   }
 }
