@@ -26,6 +26,8 @@
   width: 300px;
 }
 
-md-tab-group {
-  background: transparent;
+@media screen and (max-width: 800px) {
+  .category-button {
+    display: none;
+  }
 }

@@ -13,10 +13,10 @@ export const AppRoutes: Routes = [
     path: 'home',
     component: AppComponent,
   },
-  // {
-  //   path: 'article/:categoryName',
-  //   component: ArticleComponent,
-  // },
+  {
+    path: 'article/:categoryName',
+    component: ArticleComponent,
+  },
   {
     path: 'login',
     component: LoginComponent,

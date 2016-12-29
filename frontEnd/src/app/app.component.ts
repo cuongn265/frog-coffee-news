@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from './category.service';
 import { Category } from './category';
+import { User } from './user/user';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -10,9 +11,8 @@ import { AuthService } from './auth.service';
   providers: [CategoryService, AuthService]
 })
 export class AppComponent implements OnInit {
-
-  isCollapsed: boolean = true;
   categoryList: Category[];
+  user: User;
 
   constructor(private categoryService: CategoryService, private auth: AuthService) { }
 
@@ -24,13 +24,12 @@ export class AppComponent implements OnInit {
     );
   }
 
-  public collapsed(event: any): void {
-    console.log(event);
-    console.log("test atom");
-  }
-
-  public expanded(event: any): void {
-    console.log(event);
-    console
+  checkProfile() {
+    let profile = localStorage.getItem('profile');
+    if (profile) {
+      this.user = JSON.parse(profile);
+      return true;
+    }
+    return false;
   }
 }
