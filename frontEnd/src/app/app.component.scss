@@ -24,6 +24,20 @@
 
 .md-sidenav-left {
   width: 300px;
+  md-nav-list {
+    md-list-item {
+      a {
+        &:hover {
+          text-decoration: none;
+        }
+        outline: none;
+        text-decoration: none
+      }
+      button {
+        color: md-color($primary);
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 800px) {
