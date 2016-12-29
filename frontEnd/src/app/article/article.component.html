@@ -1,29 +1,25 @@
+<header class="module" *ngIf="articlesList && articlesList.length > 0">
+  <!--<carousel [interval]="myInterval" [noWrap]="noWrapSlides" style="width: 100%">
+    <slide *ngFor="let article of articlesList; let index=index">
+      <img [src]="article.headerImagePath" style="margin:auto; width: 100%; height: 100%">
+      <div class="carousel-caption">
+        <h4>Slide {{index}}</h4>
+        <p>{{article.text}}</p>
+      </div>
+    </slide>
+  </carousel>-->
+</header>
+
+
 <div class="container" *ngIf="articlesList && articlesList.length > 0">
-  <div class="row article-header">
-    <div class="col-md-7 col-lg-7 col-xs-12">
-      <md-card>
-        <img md-card-image src={{articlesList[0].headerImagePath}} class="heading-img">
-      </md-card>
-    </div>
-    <div class="col-md-5 col-lg-5 col-xs-12">
-      <h3 class="heading-text" md-tooltip={{articlesList[0].articleHeaderTitle}}>
-        {{articlesList[0].articleHeaderTitle}}</h3>
-      <p md-tooltip={{articlesList[0].articleHeaderDescription}}>
-        {{articlesList[0].articleHeaderDescription}}
-      </p>
-      <button md-raised-button color="primary">
-        LEARN MORE
-      </button>
-    </div>
-  </div>
   <md-divider class="articles-divider"></md-divider>
   <div class="row">
     <div class="col-md-4 col-sm-6" *ngFor="let article of articlesList | slice:1">
       <md-card>
         <img md-card-image src={{article.headerImagePath}} class="articles-img">
         <md-card-content>
-          <h4 class="article-title" md-tooltip={{article.articleHeaderTitle}}>{{article.articleHeaderTitle}}</h4>
-          <p class="article-description" md-tooltip={{article.articleHeaderDescription}}>
+          <h4 class="article-title">{{article.articleHeaderTitle}}</h4>
+          <p class="article-description">
             {{article.articleHeaderDescription}}
           </p>
         </md-card-content>
@@ -44,4 +40,3 @@
     <p class="notfound-text"> 💔 💔 💔 </p>
   </div>
 </div>
-<router-outlet></router-outlet>
