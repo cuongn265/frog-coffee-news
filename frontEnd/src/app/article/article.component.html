@@ -3,7 +3,9 @@
               *ngFor="let article of articlesList | slice:0:3; let i = index" 
               [colspan]="i == 0 ? 4 : 3"
               [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.85)), url(' + article.headerImagePath + ')'}"
-              [rowspan]=1>
+              [rowspan]=1
+              [routerLink]="[article.idArticle]">
+              
   <div class="content">
     <h3>{{article.articleHeaderTitle}}</h3>
     <p class="description" *ngIf="i == 0" >{{article.articleHeaderDescription}}</p>
