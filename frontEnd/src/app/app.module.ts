@@ -12,8 +12,7 @@ import { AppComponent } from './app.component';
 import { ArticleComponent } from './article/article.component';
 import { AppRoutes } from './app.routing';
 import { LoginComponent } from './login/login.component';
-import { AlertModule } from 'ng2-bootstrap';
-import { CarouselModule } from 'ng2-bootstrap';
+import { ShareButtonsModule } from 'ng2-sharebuttons';
 import { ArticleDetailComponent } from './article-detail/article-detail.component';
 
 @NgModule({
@@ -30,8 +29,7 @@ import { ArticleDetailComponent } from './article-detail/article-detail.componen
     HttpModule,
     MaterialModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
-    AlertModule,
-    CarouselModule
+    ShareButtonsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
