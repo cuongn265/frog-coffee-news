@@ -1,10 +1,59 @@
-<article *ngIf="article">
-  <h3>{{article.articleHeaderTitle}}</h3>
+<div *ngIf="article" class="article-detail">
+  <header [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.51), rgba(0, 0, 0, 0.85)), url(' + article.headerImagePath + ')'}">
+    <div class="row" style="position: relative">
+      <div class="col-md-10">
+        <div class="content">
+          <h1>{{article.articleHeaderTitle}}</h1>
+          <h3 class="description">{{article.articleHeaderDescription}}</h3>
+        </div>
+      </div>
+        <div class="author">
+          <p>by <b>{{article.author}}</b></p>
+        </div>
+    </div>
+  </header>
+
+  <div class="row article-content-row">
+    <div class="col-md-12 col-sm-12">
+    </div>
+    <div class="col-md-2 col-sm-2 col-xs-12">
+      <p>Publish by:</p>
+      <div>
+        <figure>
+          <img src="https://byuc.files.wordpress.com/2012/07/avat-2.jpg" alt="#" style="height: 80px; width: 80px; border-radius: 50%">
+        </figure>
+        <h6>{{article.author}}</h6>
+        <h6>{{article.date | date:'medium'}}</h6>
+      </div>
+    </div>
+    <div class="col-md-7 col-sm-6 col-xs-12 article-body">
+      <div [innerHTML] = "article.articleContent" class="text-body"></div>
+    </div>
+    <div class="col-md-3 col-sm-4 col-xs-12">
+      <p><b>Related Stories</b></p>
+      <div *ngIf="relatedArticleList" >
+        <div class="row" 
+            *ngFor="let relatedArticle of relatedArticleList | slice:0:4; let i = index" 
+            [hidden]="relatedArticleList[i].idArticle == article.idArticle"
+            style="margin-bottom: 20px"
+            [routerLink]="[ '/', categoryName, relatedArticle.idArticle]"
+            >
+          <div class="col-md-4 col-sm-4" >
+            <img [src]="relatedArticle.headerImagePath" alt="img" style="width: 80px; height: 80px">
+          </div>
+          <div class="col-md-8 col-sm-8">
+            <p>{{relatedArticle.articleHeaderTitle}}</p>
+            <!--<p>{{relatedArticle.date}}</p>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div>
     <div *ngFor="let comment of article.comments">
       <p>{{comment.content}}</p>
     </div>
   </div>
-</article>
+</div>
 <div id="fb-root"></div>
-

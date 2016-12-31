@@ -1,0 +1,40 @@
+.article-detail {
+  header {
+    padding: 0 !important;
+    height: 60vh;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    .content {
+      padding: 30px;
+      margin: 0;
+      color: white;
+      .description {
+        color: #cecece;
+        line-height: 1.5;
+      }
+    }
+  }
+  .author {
+    font-size: 12px;
+    position: absolute;
+    right: 55px;
+    bottom: 20px;
+    color: white;
+    z-index: 1;
+  }
+  .article-content-row {
+    margin: auto;
+    margin-top: 80px;
+    .article-body {
+      display: table;
+      .text-body {    
+        img {
+          width: 100% !important; 
+        }
+      }
+    }
+  }
+}

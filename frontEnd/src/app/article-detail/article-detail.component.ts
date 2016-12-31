@@ -16,11 +16,11 @@ export class ArticleDetailComponent implements OnInit {
   private categoryName: string;
   private articleId: number;
   private article: Article;
+  private relatedArticleList: Article[];
   constructor(private route: ActivatedRoute,
               private articleService: ArticleService) { }
 
   ngOnInit() {
-    // get articleID from requestURL
     this.sub = this.route.params.subscribe(params => {
       this.categoryName = params['categoryName'];
       this.articleId = +params['articleId'];
@@ -28,9 +28,13 @@ export class ArticleDetailComponent implements OnInit {
         this.article = article[0];
         console.log(this.article);
       });
+
+       this.articleService.getArticles(this.categoryName).then(
+        (response) => {
+          this.relatedArticleList = response;
+          console.log(this.relatedArticleList.length);
+        }
+      );
     });
   }
-
-  
-
 }

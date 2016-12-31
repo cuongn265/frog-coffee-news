@@ -4,7 +4,8 @@ export class Article {
     private idArticle: number;
     private articleHeaderTitle: Text;
     private articleHeaderDescription: Text;
-    private date: String;
+    private articleContent: Text;
+    private date: Date;
     private headerImagePath: String;
     private author: String;
     private source: String;
