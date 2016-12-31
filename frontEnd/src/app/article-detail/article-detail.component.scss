@@ -36,5 +36,34 @@
         }
       }
     }
+    .related-articles {
+      .related-article-row {
+        &:hover {
+          cursor: pointer;
+          color: red;
+        }
+      }
+    }
+  }
+
+  .comment-line {
+    // width: 100%;
+    font-weight: 400;
+    position: relative;
+    pointer-events: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    h4 {
+      padding-right: 25px;
+      // text-transform: uppercase
+    }
+    .line {
+      position: relative;
+      height: 5px;
+      background-color: #E4E7EA;
+      flex: 2;
+    }
   }
 }
