@@ -14,13 +14,15 @@ import { AppRoutes } from './app.routing';
 import { LoginComponent } from './login/login.component';
 import { AlertModule } from 'ng2-bootstrap';
 import { CarouselModule } from 'ng2-bootstrap';
+import { ArticleDetailComponent } from './article-detail/article-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ArticleComponent,
     CollapseDirective,
-    LoginComponent
+    LoginComponent,
+    ArticleDetailComponent
   ],
   imports: [
     BrowserModule,

@@ -10,6 +10,7 @@ export class ArticleService {
 
   constructor(private http: Http) { }
 
+  // get articles of selected category
   getArticles(categoryName: string): Promise<Article[]> {
     let articleUrl: string;
     if (categoryName === undefined) {
@@ -22,7 +23,21 @@ export class ArticleService {
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
+    }
+
+  // get article detail by articleID
+  getArticleDetail(categoryName: string , articleID: number): Promise<Article>{
+
+    if(articleID === undefined){
+      return null;
+    }
+    else {
+      let requestURL = this.apiUrl + categoryName + '/' + articleID;
+      return this.http.get(requestURL).toPromise().then(response => response.json()).catch(this.handleError);
+    }
   }
+
+
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);

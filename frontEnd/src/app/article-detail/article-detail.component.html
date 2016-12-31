@@ -1,0 +1,11 @@
+<p>Article Detail Component</p>
+<article *ngIf="article">
+  <h3>{{article.articleHeaderTitle}}</h3>
+  <div>
+    <div *ngFor="let comment of article.comments">
+      <p>{{comment.content}}</p>
+    </div>
+  </div>
+</article>
+<div id="fb-root"></div>
+

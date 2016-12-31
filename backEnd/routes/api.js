@@ -48,13 +48,25 @@ router.get('/:category/articles', function (req, res) {
 });
 
 // get article detail 
-router.get('/:category/:articleID/detail', function(req,res){
+router.get('/:category/:articleID', function(req,res){
     let articleID = req.params.articleID;
-    SQLquery.getArticleDetail(articleID, function(err, data){
+
+    SQLquery.getArticleDetail(articleID, function(err, article){
         if(err)
             res.status(404).send("Not found");
         else
-            res.status(200).send(data);
+        {
+            let articleJSON = article;
+            SQLquery.getComments(articleID, function(err, comments){
+                if(err) 
+                    res.status(404).send('Not Found');
+                else
+                {
+                    articleJSON[0].comments = comments;
+                    return res.status(200).send(articleJSON);
+                }
+            });
+        }
     });
 });
 

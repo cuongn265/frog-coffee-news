@@ -13,7 +13,7 @@
     <button class="category-button" 
       md-button 
       *ngFor="let category of categoryList" 
-      [routerLink]="['/article', category.categoryName | lowercase]"  
+      [routerLink]="['/',category.categoryName,'articles' | lowercase]"  
     > 
       {{category.categoryName}} 
     </button>
@@ -79,5 +79,7 @@
       </md-list-item>
     </md-nav-list>
   </md-sidenav>
-  <router-outlet></router-outlet> 
+  <router-outlet></router-outlet>
+  <div class="fb-comments" data-href="http://localhost:4200/home" data-width="600px" data-numposts="5"></div> 
 </md-sidenav-layout>
+

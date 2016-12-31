@@ -1,34 +1,62 @@
 <!doctype html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>FrontEnd</title>
   <base href="/">
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+    crossorigin="anonymous">
   <!--<link rel="stylesheet" href="http://getbootstrap.com.vn/examples/equal-height-columns/equal-height-columns.css"/>-->
-   <!-- Auth0 Lock script -->
+  <!-- Auth0 Lock script -->
   <script src="//cdn.auth0.com/js/lock/10.2.2/lock.min.js"></script>
-
   <!-- Setting the right viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <!-- Facebook social plugin -->
+  <meta property="fb:app_id" content="1507775342583895" />
+  <meta property="fb:admins" content="100003176800774" />
+  <meta property="fb:admins" content="{YOUR_FACEBOOK_USER_ID_2}" />
 </head>
+
 <body>
+  <div id="fb-root"></div>
+  <script>
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: '1507775342583895',
+        xfbml: true,
+        version: 'v2.8'
+      });
+    };
+
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {
+        return;
+      }
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+  </script>
   <app-root>
     <div class="loader">
-		<div class="item-1"><span></span></div>
-		<div class="item-2"><span></span></div>
-		<div class="item-3"><span></span></div>
-		<div class="item-4"><span></span></div>
-		<div class="item-5"><span></span></div>
-		<div class="item-6"><span></span></div>
-		<div class="item-7"><span></span></div>
-		<div class="item-8"><span></span></div>
-	</div>
+      <div class="item-1"><span></span></div>
+      <div class="item-2"><span></span></div>
+      <div class="item-3"><span></span></div>
+      <div class="item-4"><span></span></div>
+      <div class="item-5"><span></span></div>
+      <div class="item-6"><span></span></div>
+      <div class="item-7"><span></span></div>
+      <div class="item-8"><span></span></div>
+    </div>
   </app-root>
   </app-root>
 </body>
+
 </html>

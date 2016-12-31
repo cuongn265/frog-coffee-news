@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { ArticleComponent } from './article/article.component';
 import { LoginComponent } from './login/login.component';
 import { AppComponent } from './app.component';
+import { ArticleDetailComponent } from './article-detail/article-detail.component';
 
 export const AppRoutes: Routes = [
   {
@@ -14,11 +15,15 @@ export const AppRoutes: Routes = [
     component: AppComponent,
   },
   {
-    path: 'article/:categoryName',
+    path: ':categoryName/articles',
     component: ArticleComponent,
   },
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: ':categoryName/articles/:articleId',
+    component: ArticleDetailComponent
   }
 ];

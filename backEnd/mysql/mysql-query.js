@@ -71,7 +71,7 @@ module.exports = {
     getArticleDetail: function(articleID, callback){
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
-        db.query('SELECT * FROM article WHERE article.idArticle = ?', [articleID], function(err, rows){
+        db.query('SELECT * FROM article WHERE article.idArticle = ? ', [articleID], function(err, rows){
             if(err) throw err;
             // return rows
             return callback(null, rows);

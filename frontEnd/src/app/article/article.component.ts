@@ -45,4 +45,10 @@ export class ArticleComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
+  doTest(idArticle: number){
+    console.log(idArticle);
+    console.log(this.categoryName);
+    this.articleService.getArticleDetail(this.categoryName, idArticle);
+  }
 }
