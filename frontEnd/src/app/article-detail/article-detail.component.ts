@@ -16,6 +16,8 @@ export class ArticleDetailComponent implements OnInit {
   private categoryName: string;
   private articleId: number;
   private article: Article;
+  private fbCommentUrl: string;
+
   constructor(private route: ActivatedRoute,
               private articleService: ArticleService) { }
 
@@ -24,13 +26,13 @@ export class ArticleDetailComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
       this.categoryName = params['categoryName'];
       this.articleId = +params['articleId'];
+      this.fbCommentUrl = 'http://localhost:4200/' + this.categoryName + '/' + this.articleId;
       this.articleService.getArticleDetail(this.categoryName, this.articleId).then(article => {
         this.article = article[0];
         console.log(this.article);
+        console.log(this.fbCommentUrl);
       });
     });
   }
-
-  
 
 }
