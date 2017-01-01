@@ -5,4 +5,5 @@ export class User {
   public lastName: string;
   public telephoneNumber;
   public email: string;
+  public role: number;
 }

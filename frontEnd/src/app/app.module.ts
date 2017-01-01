@@ -1,3 +1,4 @@
+import { UserComponent } from './user/user.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +15,8 @@ import { AppRoutes } from './app.routing';
 import { LoginComponent } from './login/login.component';
 import { ShareButtonsModule } from 'ng2-sharebuttons';
 import { ArticleDetailComponent } from './article-detail/article-detail.component';
+import { AdminComponent } from './admin/admin.component';
+import { AuthGuard } from './auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,9 @@ import { ArticleDetailComponent } from './article-detail/article-detail.componen
     ArticleComponent,
     CollapseDirective,
     LoginComponent,
-    ArticleDetailComponent
+    ArticleDetailComponent,
+    AdminComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +36,7 @@ import { ArticleDetailComponent } from './article-detail/article-detail.componen
     RouterModule.forRoot(AppRoutes),
     ShareButtonsModule
   ],
-  providers: [],
+  providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
