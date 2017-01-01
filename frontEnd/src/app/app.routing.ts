@@ -1,3 +1,4 @@
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { ArticlesListComponent } from './articles-list/articles-list.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UserComponent } from './user/user.component';
@@ -12,32 +13,31 @@ import { AuthGuard } from './auth-guard.service';
 export const AppRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'news',
     pathMatch: 'full'
   },
   {
-    path: 'home',
+    path: 'news',
     component: UserComponent,
-  },
-  {
-    path: 'news/:categoryName',
-    component: ArticleComponent,
+    children: [
+      { path: '', redirectTo: 'all', pathMatch: 'full' },
+      { path: ':categoryName', component: ArticleComponent, },
+      { path: ':categoryName/:articleId', component: ArticleDetailComponent },
+    ]
   },
   {
     path: 'login',
     component: LoginComponent,
   },
   {
-    path: 'news/:categoryName/:articleId',
-    component: ArticleDetailComponent
-  },
-  {
     path: 'admin',
     component: AdminComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: 'users-list', component: UsersListComponent},
-      { path: 'articles-list', component: ArticlesListComponent},
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'users-list', component: UsersListComponent },
+      { path: 'articles-list', component: ArticlesListComponent },
     ]
   }
 ];

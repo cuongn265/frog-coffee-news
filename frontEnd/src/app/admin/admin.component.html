@@ -22,7 +22,7 @@
       
     <md-nav-list dense>
       <md-list-item>
-        <a md-line href="#">Dashboard</a>
+        <a md-line [routerLink]="['dashboard']">Dashboard</a>
         <button md-icon-button>
           <md-icon>dashboard</md-icon>
         </button>
@@ -53,7 +53,7 @@
         <button md-icon-button>
           <md-icon>vpn_key</md-icon>
         </button>
-        <a md-line (click)="auth.logout()">Log Out</a>
+        <a md-line (click)="logout()">Log Out</a>
       </md-list-item>
     </md-nav-list>
   </md-sidenav>

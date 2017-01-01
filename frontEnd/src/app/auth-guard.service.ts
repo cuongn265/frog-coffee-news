@@ -15,14 +15,14 @@ export class AuthGuard implements CanActivate {
   canActivate() {
     // If user is not logged in we'll send them to the homepage 
     if (!this.auth.authenticated()) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/news/all']);
       return false;
     } else {
       let profile = localStorage.getItem('profile');
       this.user = JSON.parse(profile);
       console.log(this.user.role);
       if (this.user.role !== 1) {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/news/all']);
         return false;
       } else {
         return true;

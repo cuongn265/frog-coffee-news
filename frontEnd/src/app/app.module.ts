@@ -20,8 +20,10 @@ import { AuthGuard } from './auth-guard.service';
 import { UsersListComponent } from './users-list/users-list.component';
 import { ArticlesListComponent } from './articles-list/articles-list.component';
 
-import { DataTableModule, ButtonModule, InputTextModule, DialogModule, DataGridModule, MenuModule, ContextMenuModule } from 'primeng/primeng';
+import { DataTableModule, ButtonModule, InputTextModule, DialogModule,
+         DataGridModule, MenuModule, ContextMenuModule, PanelModule, ChartModule } from 'primeng/primeng';
 import { PizzaDialogComponent } from './pizza-dialog/pizza-dialog.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { PizzaDialogComponent } from './pizza-dialog/pizza-dialog.component';
     UsersListComponent,
     ArticlesListComponent,
     PizzaDialogComponent,
-    PizzaDialogComponent
+    PizzaDialogComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,9 @@ import { PizzaDialogComponent } from './pizza-dialog/pizza-dialog.component';
     DialogModule,
     DataGridModule,
     MenuModule,
-    ContextMenuModule
+    ContextMenuModule,
+    PanelModule,
+    ChartModule
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],

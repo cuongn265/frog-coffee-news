@@ -1,0 +1,76 @@
+<div class="ui-g" style="font-size:16px;text-align:center;padding:20px">
+  <div class="ui-g-3 ui-lg-3 ui-sm-12 ui-md-6">
+    <md-card style="width: 100%; height: 100%">
+      <div class="ui-g-4">
+        <i class="material-icons" style="color: lightcoral">people</i>
+      </div>
+      <div class="ui-g-8">
+        <div class="info">
+          <p>120</p>
+          <p>New Users</p>
+        </div>
+      </div>
+    </md-card>
+  </div>
+
+  <div class="ui-g-3 ui-lg-3 ui-sm-12 ui-md-6">
+    <md-card style="width: 100%; height: 100%">
+      <div class="ui-g-4">
+        <i class="material-icons" style="color: deepskyblue">remove_red_eye</i>
+      </div>
+      <div class="ui-g-8">
+        <div class="info">
+          <p>4251</p>
+          <p>Views</p>
+        </div>
+      </div>
+    </md-card>
+  </div>
+
+  <div class="ui-g-3 ui-lg-3 ui-sm-12 ui-md-6">
+    <md-card style="width: 100%; height: 100%">
+      <div class="ui-g-4">
+        <i class="material-icons" style="color: seagreen">comment</i>
+      </div>
+      <div class="ui-g-8">
+        <div class="info">
+          <p>5210</p>
+          <p>Comments</p>
+        </div>
+      </div>
+    </md-card>
+  </div>
+
+  <div class="ui-g-3 ui-lg-3 ui-sm-12 ui-md-6">
+    <md-card style="width: 100%; height: 100%">
+      <div class="ui-g-4">
+        <i class="material-icons" style="color: dimgray">feedback</i>
+      </div>
+      <div class="ui-g-8">
+        <div class="info">
+          <p>62</p>
+          <p>Feedbacks</p>
+        </div>
+      </div>
+    </md-card>
+  </div>
+
+   <div class="ui-g-6 ui-lg-6 ui-sm-12 ui-md-12">
+    <md-card style="width: 100%; height: 100%">
+        <p-chart type="doughnut" [data]="data" [options]="options"></p-chart>
+    </md-card>
+  </div>
+
+  <div class="ui-g-6 ui-lg-6 ui-sm-12 ui-md-12">
+    <md-card style="width: 100%; height: 100%">
+        <p-chart type="bar" [data]="dataBar" [options]="options"></p-chart>
+    </md-card>
+  </div>
+
+  <div class="ui-g-12 ui-lg-12 ui-sm-12 ui-md-12">
+    <md-card style="width: 100%; height: 100%">
+        <p-chart type="line" [data]="dataLine" [options]="options"></p-chart>
+    </md-card>
+  </div>
+
+</div>
