@@ -12,6 +12,13 @@
         </div>
     </div>
   </header>    
+  <div class="row">
+    <share-buttons
+
+      [url]="'https://twitter.com'"
+      >
+    </share-buttons>
+  </div>
   <div class="row article-content-row">
     <div class="col-md-2 col-sm-2 col-xs-12">
       <p><b>Publish by:</b></p>
@@ -21,19 +28,6 @@
         </figure>
         <h6>{{article.author}}</h6>
         <h6>{{article.date | date:'medium'}}</h6>
-      </div>
-      <div class="row">
-        <div class="col-md-2 col-sm-2 col-md-offset-5 col-sm-offset-5">
-          <share-buttons
-            [pinterest]="false"
-            [linkedIn]="false"
-            [tumblr]="false"
-            [reddit]="false"
-            [stumbleUpOn]="false"
-            [url]="'https://twitter.com'"
-            >
-          </share-buttons>
-        </div>
       </div>
       
     </div>
