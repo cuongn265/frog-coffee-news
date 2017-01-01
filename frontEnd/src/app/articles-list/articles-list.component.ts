@@ -1,6 +1,8 @@
+import { PizzaDialogComponent } from './../pizza-dialog/pizza-dialog.component';
 import { ArticleService } from './../article/article.service';
 import { Article } from './../article/article';
 import { Component, OnInit } from '@angular/core';
+import { MdDialogRef, MdDialog } from '@angular/material';
 
 @Component({
   selector: 'app-articles-list',
@@ -11,20 +13,11 @@ import { Component, OnInit } from '@angular/core';
 export class ArticlesListComponent implements OnInit {
 
   articlesList: Article[];
-
-  displayDialog: boolean;
-
   article: Article = new Article();
-
-  selectedArticle: Article;
-
-  newArticle: boolean;
-
-  cars: Article[];
-
   stacked: boolean;
+  dialogRef: MdDialogRef<PizzaDialogComponent>;
 
-  constructor(private articlesService: ArticleService) { }
+  constructor(private articlesService: ArticleService, public dialog: MdDialog) { }
 
   ngOnInit() {
     this.articlesService.getArticles('all').then(
@@ -35,48 +28,28 @@ export class ArticlesListComponent implements OnInit {
     );
   }
 
+  openDialog() {
+    this.dialogRef = this.dialog.open(PizzaDialogComponent, {
+      disableClose: false,
+      width: '600px'
+    });
+
+    this.dialogRef.afterClosed().subscribe(result => {
+      console.log('result: ' + result);
+      this.dialogRef = null;
+    });
+  }
+
   toggle() {
     this.stacked = !this.stacked;
   }
 
-  showDialogToAdd() {
-    this.newArticle = true;
-    this.article = new Article();
-    this.displayDialog = true;
-  }
-
-  save() {
-    if (this.newArticle) {
-      this.cars.push(this.article);
-    } else {
-      this.cars[this.findSelectedCarIndex()] = this.article;
-    }
-
-    this.article = null;
-    this.displayDialog = false;
-  }
-
-  delete() {
-    this.articlesList.splice(this.findSelectedCarIndex(), 1);
-    this.article = null;
-    this.displayDialog = false;
-  }
-
   onRowSelect(event) {
-    this.newArticle = false;
-    this.article = this.cloneCar(event.data);
-    this.displayDialog = true;
-  }
-
-  cloneCar(c: Article): Article {
-    let article = new Article();
-    for (let prop in c) {
-      article[prop] = c[prop];
-    }
-    return article;
-  }
-
-  findSelectedCarIndex(): number {
-    return this.articlesList.indexOf(this.selectedArticle);
+    console.log(event);
+    this.dialogRef = this.dialog.open(PizzaDialogComponent, {
+      disableClose: false,
+      width: '600px'
+    });
+    this.dialogRef.componentInstance.articleDetail = event.data;
   }
 }

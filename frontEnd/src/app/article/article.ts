@@ -1,13 +1,13 @@
 import { Comment } from '../comment';
 
 export class Article {
-    private idArticle: number;
-    private articleHeaderTitle: Text;
-    private articleHeaderDescription: Text;
-    private articleContent: Text;
-    private date: Date;
-    private headerImagePath: String;
-    private author: String;
-    private source: String;
-    private comments: Comment[];
+    public idArticle: number;
+    public articleHeaderTitle: Text;
+    public articleHeaderDescription: Text;
+    public articleContent: Text;
+    public date: Date;
+    public headerImagePath: String;
+    public author: String;
+    public source: String;
+    public comments: Comment[];
 }

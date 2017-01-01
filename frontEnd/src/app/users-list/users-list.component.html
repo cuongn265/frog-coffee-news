@@ -1,3 +1,41 @@
-<p>
-  users-list works!
-</p>
+<div class="users-list-container">
+  <button pButton type="button" (click)="toggle()" 
+          style="margin-bottom:10px" label="Desktop" 
+          icon="fa-desktop"
+          *ngIf="!stacked">
+  </button>
+  <button pButton type="button" (click)="toggle()" 
+          style="margin-bottom:10px" label="Mobile" 
+          icon="fa-mobile" *ngIf="stacked">
+  </button>
+  <input #gb type="text" placeholder="Global search" pInputText>
+  <button type="button" pButton icon="fa-plus" style="float:right" (click)="openDialog()" label="Add">
+  </button>
+  <p-dataTable  [value]="users" 
+              [rows]="9" 
+              [paginator]="true" 
+              [pageLinks]="3" 
+              [responsive]="true" 
+              [stacked]="stacked"
+              [globalFilter]="gb"
+              [(selection)]="selectedUser"
+              selectionMode="single" [contextMenu]="cm">
+    <header>Users List</header>
+    <p-column field="firstName" header="First name"></p-column>
+    <p-column field="lastName" header="Last name"></p-column>
+    <p-column field="email" header="Email"></p-column>
+    <p-column field="phone" header="Phone"></p-column>
+    <p-column field="role" header="Role"></p-column>
+    <p-column [style]="!stacked ? {'text-align':'center'} : {}">
+        <template pTemplate="header">
+            Status
+        </template>
+        <template let-user="rowData" pTemplate="body">
+            <button *ngIf="user.idUser > 3"  type="button" pButton (click)="selectUser(user)" icon="fa-lock"></button>
+            <button *ngIf="user.idUser <= 3"  type="button" pButton (click)="selectUser(user)" icon="fa-unlock"></button>
+        </template>
+    </p-column>
+  </p-dataTable>
+
+  <p-contextMenu #cm [model]="items" *ngIf="Property" ></p-contextMenu>
+</div>

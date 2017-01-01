@@ -1,0 +1,51 @@
+<form (ngSubmit)="onSubmit()" #articleForm="ngForm">
+  <h1 md-dialog-title>Article Details</h1>
+  <md-dialog-content>
+
+      <md-input-container style="width: 100%">
+        <input md-input maxlength="100"
+               id="title"
+               required
+               [(ngModel)]="articleDetail.articleHeaderTitle" 
+               name="title"
+               placeholder="Title" 
+               #title="ngModel" >
+        <!--<md-hint align="end">{{title.value.length}} / 100</md-hint>-->
+      </md-input-container>
+
+      <md-input-container style="width: 100%">
+        <textarea md-input maxlength="100" placeholder="Desciption" 
+                  required
+                  [(ngModel)]="articleDetail.articleHeaderDescription"         
+                  id="description"
+                  name="description"
+                  #description="ngModel">
+        </textarea>
+        <!--<md-hint align="end">{{description.value.length}} / 200</md-hint>-->
+      </md-input-container>
+
+      <table style="width: 100%" cellspacing="0">
+        <tr>
+          <td><md-input-container style="width: 100%">
+            <input md-input placeholder="Category" required
+                  [(ngModel)]="articleDetail.category"
+                  id="category"
+                  name="category"
+                  #category="ngModel">
+          </md-input-container></td>
+          <td><md-input-container style="width: 100%">
+            <input md-input placeholder="Author" required
+                  [(ngModel)]="articleDetail.author"         
+                  id="author"
+                  name="author"
+                  #author="ngModel">
+          </md-input-container></td>
+        </tr>
+      </table>
+
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button style="float: right" md-button md-dialog-close>Cancel</button>  
+    <button type="submit" style="float: right" md-button (click)="dialogRef.close('yes')">Submit</button>
+  </md-dialog-actions>
+</form>

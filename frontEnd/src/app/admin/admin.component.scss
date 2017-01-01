@@ -23,12 +23,9 @@ html, body, material-app, md-sidenav-container, .admin-content {
           color: md-color($primary);
         }
       }
+      md-list-item.md-list-item {
+        font-size: 14px !important;
+      }
     }
-    .user-card {
-      // background-color:  md-color($primary);
-    }
-  }
-  .admin-content {
-
   }
 }

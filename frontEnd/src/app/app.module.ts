@@ -20,7 +20,8 @@ import { AuthGuard } from './auth-guard.service';
 import { UsersListComponent } from './users-list/users-list.component';
 import { ArticlesListComponent } from './articles-list/articles-list.component';
 
-import { DataTableModule, ButtonModule, InputTextModule, DialogModule, DataGridModule } from 'primeng/primeng';
+import { DataTableModule, ButtonModule, InputTextModule, DialogModule, DataGridModule, MenuModule, ContextMenuModule } from 'primeng/primeng';
+import { PizzaDialogComponent } from './pizza-dialog/pizza-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,9 @@ import { DataTableModule, ButtonModule, InputTextModule, DialogModule, DataGridM
     AdminComponent,
     UserComponent,
     UsersListComponent,
-    ArticlesListComponent
+    ArticlesListComponent,
+    PizzaDialogComponent,
+    PizzaDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -45,9 +48,14 @@ import { DataTableModule, ButtonModule, InputTextModule, DialogModule, DataGridM
     ButtonModule,
     InputTextModule,
     DialogModule,
-    DataGridModule
+    DataGridModule,
+    MenuModule,
+    ContextMenuModule
   ],
   providers: [AuthGuard, AuthService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    PizzaDialogComponent
+  ],
 })
 export class AppModule { }
