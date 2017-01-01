@@ -20,6 +20,8 @@ import { AuthGuard } from './auth-guard.service';
 import { UsersListComponent } from './users-list/users-list.component';
 import { ArticlesListComponent } from './articles-list/articles-list.component';
 
+import { DataTableModule, ButtonModule, InputTextModule, DialogModule, DataGridModule } from 'primeng/primeng';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +40,12 @@ import { ArticlesListComponent } from './articles-list/articles-list.component';
     HttpModule,
     MaterialModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
-    ShareButtonsModule
+    ShareButtonsModule,
+    DataTableModule,
+    ButtonModule,
+    InputTextModule,
+    DialogModule,
+    DataGridModule
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent]
