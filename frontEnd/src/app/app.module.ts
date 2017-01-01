@@ -17,6 +17,8 @@ import { ShareButtonsModule } from 'ng2-sharebuttons';
 import { ArticleDetailComponent } from './article-detail/article-detail.component';
 import { AdminComponent } from './admin/admin.component';
 import { AuthGuard } from './auth-guard.service';
+import { UsersListComponent } from './users-list/users-list.component';
+import { ArticlesListComponent } from './articles-list/articles-list.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { AuthGuard } from './auth-guard.service';
     LoginComponent,
     ArticleDetailComponent,
     AdminComponent,
-    UserComponent
+    UserComponent,
+    UsersListComponent,
+    ArticlesListComponent
   ],
   imports: [
     BrowserModule,

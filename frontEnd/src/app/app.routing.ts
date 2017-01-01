@@ -1,3 +1,5 @@
+import { ArticlesListComponent } from './articles-list/articles-list.component';
+import { UsersListComponent } from './users-list/users-list.component';
 import { UserComponent } from './user/user.component';
 import { AdminComponent } from './admin/admin.component';
 import { Routes } from '@angular/router';
@@ -32,6 +34,10 @@ export const AppRoutes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'users-list', component: UsersListComponent},
+      { path: 'articles-list', component: ArticlesListComponent},
+    ]
   }
 ];
