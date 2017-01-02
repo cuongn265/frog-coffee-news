@@ -24,6 +24,7 @@ import { DataTableModule, ButtonModule, InputTextModule, DialogModule,
          DataGridModule, MenuModule, ContextMenuModule, PanelModule, ChartModule } from 'primeng/primeng';
 import { PizzaDialogComponent } from './pizza-dialog/pizza-dialog.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { Ng2SelectModule } from 'ng2-material-select';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     MenuModule,
     ContextMenuModule,
     PanelModule,
-    ChartModule
+    ChartModule,
+    Ng2SelectModule
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],
