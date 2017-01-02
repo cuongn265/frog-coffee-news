@@ -1,29 +1,43 @@
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ArticlesListComponent } from './articles-list/articles-list.component';
+import { UsersListComponent } from './users-list/users-list.component';
+import { UserComponent } from './user/user.component';
+import { AdminComponent } from './admin/admin.component';
 import { Routes } from '@angular/router';
 import { ArticleComponent } from './article/article.component';
 import { LoginComponent } from './login/login.component';
 import { AppComponent } from './app.component';
 import { ArticleDetailComponent } from './article-detail/article-detail.component';
+import { AuthGuard } from './auth-guard.service';
 
 export const AppRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: 'news',
     pathMatch: 'full'
   },
   {
-    path: 'home',
-    component: AppComponent,
-  },
-  {
-    path: ':categoryName/articles',
-    component: ArticleComponent,
+    path: 'news',
+    component: UserComponent,
+    children: [
+      { path: '', redirectTo: 'all', pathMatch: 'full' },
+      { path: ':categoryName', component: ArticleComponent, },
+      { path: ':categoryName/:articleId', component: ArticleDetailComponent },
+    ]
   },
   {
     path: 'login',
     component: LoginComponent,
   },
   {
-    path: ':categoryName/:articleId',
-    component: ArticleDetailComponent
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'users-list', component: UsersListComponent },
+      { path: 'articles-list', component: ArticlesListComponent },
+    ]
   }
 ];

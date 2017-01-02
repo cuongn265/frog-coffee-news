@@ -1,5 +1,5 @@
 <md-sidenav-layout fullscreen>
-  <md-toolbar color="primary">
+  <md-toolbar color="primary" style="height: 10vh;">
     <button md-icon-button (click)="start.toggle()" class="menu-btn">
       <md-icon class="md-24">menu</md-icon>
     </button>
@@ -13,7 +13,7 @@
     <button class="category-button" 
       md-button 
       *ngFor="let category of categoryList" 
-      [routerLink]="['/',category.categoryName | lowercase,'articles' | lowercase]"  
+      [routerLink]="['/news', category.categoryName | lowercase]"  
     > 
       {{category.categoryName}} 
     </button>
@@ -38,7 +38,6 @@
           <md-icon>bookmark</md-icon>
         </button>
       </md-list-item>-->
-      <md-divider></md-divider>
       <md-list-item>
         <a md-line href="#">Favorites</a>
         <button md-icon-button>
@@ -62,7 +61,7 @@
         <button md-icon-button>
           <md-icon>settings</md-icon>
         </button>
-        <a md-line href="#">Setting</a>
+        <a md-line [routerLink]="['/admin']">Admin</a>
       </md-list-item>
       <md-divider></md-divider>
       <md-list-item *ngIf="!auth.authenticated()">
@@ -80,4 +79,6 @@
     </md-nav-list>
   </md-sidenav>
   <router-outlet></router-outlet>
+  <!--<div class="fb-comments" data-href="http://localhost:4200/home" data-width="600px" data-numposts="5"></div> -->
 </md-sidenav-layout>
+

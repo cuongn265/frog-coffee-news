@@ -1,0 +1,8 @@
+@import '~@angular/material/core/theming/prebuilt/deeppurple-amber';
+@include md-core(); // include all mixins
+.articles-list-container {
+  margin: 40px;
+  .ui-button {
+    background-color: md-color($primary)
+  }
+}

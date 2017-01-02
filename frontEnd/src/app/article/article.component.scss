@@ -1,5 +1,7 @@
-.container {
-  margin-top: 50px;
+@import '~@angular/material/core/theming/prebuilt/deeppurple-amber';
+@include md-core(); // include all mixins
+.articles-container {
+  margin-top: 80px;
   .heading-img {
     margin-bottom: -24px;
   }
@@ -42,6 +44,29 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+  }
+
+  .heading-line {
+    // width: 100%;
+    font-weight: 400;
+    position: relative;
+    pointer-events: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    h4 {
+      padding-right: 25px;
+      font-size: 24px;
+      // font-weight: bold;
+      text-transform: uppercase
+    }
+    .line {
+      position: relative;
+      height: 5px;
+      background-color: md-color($primary);
+      flex: 2;
+    }
   }
 }
 

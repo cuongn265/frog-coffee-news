@@ -1,3 +1,4 @@
+import { UserComponent } from './user/user.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -12,9 +13,17 @@ import { AppComponent } from './app.component';
 import { ArticleComponent } from './article/article.component';
 import { AppRoutes } from './app.routing';
 import { LoginComponent } from './login/login.component';
-import { AlertModule } from 'ng2-bootstrap';
-import { CarouselModule } from 'ng2-bootstrap';
+import { ShareButtonsModule } from 'ng2-sharebuttons';
 import { ArticleDetailComponent } from './article-detail/article-detail.component';
+import { AdminComponent } from './admin/admin.component';
+import { AuthGuard } from './auth-guard.service';
+import { UsersListComponent } from './users-list/users-list.component';
+import { ArticlesListComponent } from './articles-list/articles-list.component';
+
+import { DataTableModule, ButtonModule, InputTextModule, DialogModule,
+         DataGridModule, MenuModule, ContextMenuModule, PanelModule, ChartModule } from 'primeng/primeng';
+import { PizzaDialogComponent } from './pizza-dialog/pizza-dialog.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +31,14 @@ import { ArticleDetailComponent } from './article-detail/article-detail.componen
     ArticleComponent,
     CollapseDirective,
     LoginComponent,
-    ArticleDetailComponent
+    ArticleDetailComponent,
+    AdminComponent,
+    UserComponent,
+    UsersListComponent,
+    ArticlesListComponent,
+    PizzaDialogComponent,
+    PizzaDialogComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -30,10 +46,21 @@ import { ArticleDetailComponent } from './article-detail/article-detail.componen
     HttpModule,
     MaterialModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
-    AlertModule,
-    CarouselModule
+    ShareButtonsModule,
+    DataTableModule,
+    ButtonModule,
+    InputTextModule,
+    DialogModule,
+    DataGridModule,
+    MenuModule,
+    ContextMenuModule,
+    PanelModule,
+    ChartModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [AuthGuard, AuthService],
+  bootstrap: [AppComponent],
+  entryComponents: [
+    PizzaDialogComponent
+  ],
 })
 export class AppModule { }

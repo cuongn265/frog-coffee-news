@@ -4,6 +4,7 @@ export class User {
   public picture: string ;
   public firstName: string;
   public lastName: string;
-  public telephoneNumber;
+  public phone: string;
   public email: string;
+  public role: number;
 }

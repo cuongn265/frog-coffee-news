@@ -30,8 +30,7 @@ export class ArticleService {
 
     if (articleID === undefined) {
       return null;
-    }
-    else {
+    } else {
       let requestURL = this.apiUrl + categoryName + '/' + articleID;
       return this.http.get(requestURL).toPromise().then(response => response.json()).catch(this.handleError);
     }

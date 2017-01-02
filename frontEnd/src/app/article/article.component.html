@@ -1,19 +1,26 @@
 <md-grid-list cols="10" *ngIf="articlesList && articlesList.length > 2" class="header-grid">
-<md-grid-tile class="header" 
-              *ngFor="let article of articlesList | slice:0:3; let i = index" 
-              [colspan]="i == 0 ? 4 : 3"
-              [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.85)), url(' + article.headerImagePath + ')'}"
-              [rowspan]=1>
-  <div class="content">
-    <h3>{{article.articleHeaderTitle}}</h3>
-    <p class="description" *ngIf="i == 0" >{{article.articleHeaderDescription}}</p>
-    <p>by <b>{{article.author}}</b></p>
-  </div>
-</md-grid-tile>
+  <md-grid-tile class="header" 
+                *ngFor="let article of articlesList | slice:0:3; let i = index" 
+                [colspan]="i == 0 ? 4 : 3"
+                [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.85)), url(' + article.headerImagePath + ')'}"
+                [rowspan]=1
+                [routerLink]="[article.idArticle]">
+                
+    <div class="content">
+      <h3>{{article.articleHeaderTitle}}</h3>
+      <p class="description" *ngIf="i == 0" >{{article.articleHeaderDescription}}</p>
+      <p>by <b>{{article.author}}</b></p>
+    </div>
+  </md-grid-tile>
 </md-grid-list>
 
-<div class="container" *ngIf="articlesList && articlesList.length > 0">
-  <md-divider class="articles-divider"></md-divider>
+<div class="container articles-container" *ngIf="articlesList && articlesList.length > 0">
+  <div class="row">
+    <div class="heading-line col-md-12 col-sm-12">
+      <h4>top <b>stories</b></h4>
+      <div class="line"></div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-4 col-sm-6" *ngFor="let article of articlesList | slice:1">
       <md-card>
