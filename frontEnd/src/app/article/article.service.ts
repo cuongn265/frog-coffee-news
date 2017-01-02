@@ -23,15 +23,14 @@ export class ArticleService {
       .toPromise()
       .then(response => response.json())
       .catch(this.handleError);
-    }
+  }
 
   // get article detail by articleID
-  getArticleDetail(categoryName: string , articleID: number): Promise<Article>{
+  getArticleDetail(categoryName: string, articleID: number): Promise<Article> {
 
-    if(articleID === undefined){
+    if (articleID === undefined) {
       return null;
-    }
-    else {
+    } else {
       let requestURL = this.apiUrl + categoryName + '/' + articleID;
       return this.http.get(requestURL).toPromise().then(response => response.json()).catch(this.handleError);
     }

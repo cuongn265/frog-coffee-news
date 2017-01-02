@@ -1,0 +1,70 @@
+<md-sidenav-container fullscreen class="admin-container">
+  <md-sidenav mode="side" opened="true" class="admin-sidenav">
+    <md-toolbar color="primary">
+      <!--<button md-icon-button (click)="start.toggle()" class="menu-btn">
+        <md-icon class="md-24">menu</md-icon>
+      </button>-->
+      <span id="header-title"> Frog Coffee News </span>
+      <span class="remaining-space"></span>
+    </md-toolbar>
+    <md-card class="user-card">
+      <md-card-header *ngIf="checkProfile()" >
+        <img md-card-avatar [src]="user.picture">
+        <md-card-title class="username-text">{{user.firstName}} {{user.lastName}}</md-card-title>
+        <md-card-subtitle class="email-text">{{user.email}}</md-card-subtitle>
+      </md-card-header>
+      <md-card-header *ngIf="!checkProfile()" >
+        <img md-card-avatar src="assets/images/logo.png">
+        <md-card-title class="username-text">anonymous</md-card-title>
+        <md-card-subtitle class="email-text">anonymous@gmail.com</md-card-subtitle>
+      </md-card-header>
+    </md-card>
+      
+    <md-nav-list dense>
+      <md-list-item>
+        <a md-line [routerLink]="['dashboard']">Dashboard</a>
+        <button md-icon-button>
+          <md-icon>dashboard</md-icon>
+        </button>
+      </md-list-item>
+
+      <md-list-item>
+        <a md-line [routerLink]="['users-list']">Users</a>
+        <button md-icon-button>
+          <md-icon>people</md-icon>
+        </button>
+      </md-list-item>
+
+      <md-list-item>
+        <a md-line [routerLink]="['articles-list']">Articles</a>
+        <button md-icon-button>
+          <md-icon>assignment</md-icon>
+        </button>
+      </md-list-item>
+
+      <md-divider></md-divider>
+      <md-list-item *ngIf="!auth.authenticated()">
+        <button md-icon-button>
+          <md-icon>vpn_key</md-icon>
+        </button>
+        <a md-line (click)="auth.login()">Log In</a>
+      </md-list-item>
+        <md-list-item *ngIf="auth.authenticated()">
+        <button md-icon-button>
+          <md-icon>vpn_key</md-icon>
+        </button>
+        <a md-line (click)="logout()">Log Out</a>
+      </md-list-item>
+    </md-nav-list>
+  </md-sidenav>
+  <div class="admin-content">
+    <md-toolbar color="primary">
+      <!--<button md-icon-button (click)="start.toggle()" class="menu-btn">
+        <md-icon class="md-24">menu</md-icon>
+      </button>-->
+      <span id="header-title"></span>
+      <span class="remaining-space"></span>
+    </md-toolbar>
+    <router-outlet></router-outlet>  
+  </div>
+</md-sidenav-container>

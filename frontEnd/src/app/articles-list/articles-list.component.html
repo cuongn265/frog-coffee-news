@@ -1,0 +1,28 @@
+<div class="articles-list-container">
+  <button pButton type="button" (click)="toggle()" 
+          style="margin-bottom:10px" label="Desktop" 
+          icon="fa-desktop"
+          *ngIf="!stacked">
+  </button>
+  <button pButton type="button" (click)="toggle()" 
+          style="margin-bottom:10px" label="Mobile" 
+          icon="fa-mobile" *ngIf="stacked">
+  </button>
+  <input #gb type="text" placeholder="Global search" pInputText>
+  <button type="button" pButton icon="fa-plus" style="float:right" (click)="openDialog()" label="Add">
+  </button>
+  <p-dataTable  [value]="articlesList" 
+              [rows]="4" 
+              [paginator]="true" 
+              [pageLinks]="3" 
+              [responsive]="true" 
+              [stacked]="stacked"
+              [globalFilter]="gb"
+              selectionMode="single" [(selection)]="selectedArticle" (onRowSelect)="onRowSelect($event)">
+    <header>Articles List</header>
+    <p-column field="articleHeaderTitle" header="Title"></p-column>
+    <p-column field="date" header="Date"></p-column>
+    <p-column field="author" header="Author"></p-column>
+    <p-column field="source" header="Source"></p-column>
+  </p-dataTable>
+</div>
