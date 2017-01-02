@@ -10,8 +10,9 @@
                [(ngModel)]="articleDetail.articleHeaderTitle" 
                name="articleHeaderTitle"
                placeholder="Title" 
+               #title
                >
-        <!--<md-hint align="end">{{title.value.length}} / 100</md-hint>-->
+        <md-hint align="end">{{title.value.length}} / 100</md-hint>
       </md-input-container>
 
       <md-input-container style="width: 100%">
@@ -20,9 +21,10 @@
                   [(ngModel)]="articleDetail.articleHeaderDescription"         
                   id="description"
                   name="articleHeaderDescription"
+                  #description
                   >
         </textarea>
-        <!--<md-hint align="end">{{description.value.length}} / 200</md-hint>-->
+        <md-hint align="end">{{description.value.length}} / 200</md-hint>
       </md-input-container>
 
       <table style="width: 100%" cellspacing="0">
@@ -42,19 +44,46 @@
                 </select>
             </div>
           </td>
-          <td><md-input-container style="width: 100%">
-            <input md-input placeholder="Author" required
+          <td>
+            <md-input-container style="width: 100%">
+              <input md-input placeholder="Author" required
                   [(ngModel)]="articleDetail.author"         
                   id="author"
                   name="author"
                   >
-          </md-input-container></td>
+            </md-input-container>
+          </td>
         </tr>
       </table>
+      
+      <md-input-container style="width: 100%">
+        <input md-input 
+               id="imageUrl"
+               required
+               [(ngModel)]="articleDetail.headerImagePath" 
+               name="headerImagePath"
+               placeholder="Image URL" 
+               >
+      </md-input-container>
+      <input   type="image"
+               id="image"
+               [(ngModel)]="articleDetail.headerImagePath" 
+               name="headerImage"
+               placeholder="Image" 
+               [src]="articleDetail.headerImagePath"
+               >
+      <ckeditor
+          required
+          name="articleContent"
+          [(ngModel)]="articleDetail.articleContent"
+          [config]="{extraPlugins: 'divarea'}"
+          debounce="500">
+      </ckeditor>
 
   </md-dialog-content>
   <md-dialog-actions>
-    <button type="button" style="float: right" md-button md-dialog-close (click)="onRemove(articleDetail.idArticle);dialogRef.close('yes')">Cancel</button>  
-    <button type="submit" style="float: right" md-button>Submit</button>
+    <button type="button" style="float: right" md-button md-dialog-close (click)="dialogRef.close('yes')">Cancel</button>  
+    <button type="button" style="float: right" md-button md-dialog-close (click)="onRemove(articleDetail.idArticle);dialogRef.close('yes')">Remove</button>  
+    <button type="submit" style="float: right" md-button>Modify</button>
   </md-dialog-actions>
 </form>

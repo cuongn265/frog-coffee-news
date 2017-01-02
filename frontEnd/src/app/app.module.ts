@@ -25,6 +25,7 @@ import { DataTableModule, ButtonModule, InputTextModule, DialogModule,
 import { PizzaDialogComponent } from './pizza-dialog/pizza-dialog.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { Ng2SelectModule } from 'ng2-material-select';
+import { CKEditorModule } from 'ng2-ckeditor';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { Ng2SelectModule } from 'ng2-material-select';
     ContextMenuModule,
     PanelModule,
     ChartModule,
-    Ng2SelectModule
+    Ng2SelectModule,
+    CKEditorModule
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],

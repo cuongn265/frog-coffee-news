@@ -34,7 +34,7 @@ export class PizzaDialogComponent implements OnInit {
 
   onSubmit(article: any): void {
     console.log('you submitted value:', article);
-    if (article.idArticle !== undefined) {
+    if (article.idArticle === undefined) {
       this.articleService.postArticle(article).then(res => console.log(res));
     } else {
       this.articleService.putArticle(article).then(res => console.log(res));
