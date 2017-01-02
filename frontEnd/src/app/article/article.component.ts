@@ -26,11 +26,9 @@ export class ArticleComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.categoryName = params['categoryName']; // (+) converts string 'id' to a number 
-      // console.log(this.categoryName);
       this.articleService.getArticles(this.categoryName).then(
         (response) => {
           this.articlesList = response;
-          console.log(this.articlesList.length);
         }
       );
     });
@@ -44,11 +42,5 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
-  }
-
-  doTest(idArticle: number){
-    console.log(idArticle);
-    console.log(this.categoryName);
-    this.articleService.getArticleDetail(this.categoryName, idArticle);
   }
 }
