@@ -51,5 +51,20 @@ export class ArticlesListComponent implements OnInit {
       width: '600px'
     });
     this.dialogRef.componentInstance.articleDetail = event.data;
+
+    this.dialogRef.afterClosed().subscribe(result => {
+      console.log('result: ' + result);
+      this.dialogRef = null;
+      let self = this;
+      setTimeout(function () {
+        self.articlesService.getArticles('all').then(
+          (response) => {
+            self.articlesList = response;
+            console.log(self.articlesList.length);
+          }
+        );
+      }, 1);
+
+    });
   }
 }

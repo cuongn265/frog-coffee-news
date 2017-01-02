@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Article } from './article';
-import { Http, Headers } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
@@ -39,8 +39,26 @@ export class ArticleService {
   postArticle(article: Article) {
     let body = JSON.stringify(article);
     let header = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.post(this.apiUrl + 'all/articles/post', body, {headers: header})
-        .toPromise().then(response => response).catch(this.handleError);
+    return this.http.post(this.apiUrl + 'all/articles/post', body, { headers: header })
+      .toPromise().then(response => response).catch(this.handleError);
+  }
+
+
+  putArticle(article: Article) {
+    let body = JSON.stringify(article);
+    let header = new Headers({ 'Content-Type': 'application/json' });
+    return this.http.put(this.apiUrl + 'all/articles/modify', body, { headers: header })
+      .toPromise().then(response => response).catch(this.handleError);
+  }
+
+  deleteArticle(articleId: number) {
+    let article = { 'idArticle': articleId };
+    let body = JSON.stringify(article);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    return this.http.delete(this.apiUrl + 'all/articles/remove', new RequestOptions({
+      headers: headers,
+      body: body
+    })).toPromise().then(response => response).catch(this.handleError);
   }
 
 

@@ -1,7 +1,7 @@
 <form (ngSubmit)="onSubmit(articleForm.value)" #articleForm="ngForm">
   <h1 md-dialog-title>Article Details</h1>
   <md-dialog-content>
-
+      <input type="hidden" id="id" [(ngModel)]="articleDetail.idArticle" name="idArticle">
       <md-input-container style="width: 100%">
         <input md-input 
                maxlength="100"
@@ -31,13 +31,12 @@
               <div style="width: 100%">
                 <select name="category" 
                         id="category"
-                        [(ngModel)]="articleDetail.category"
+                        [(ngModel)]="articleDetail.Category"
                         required
                         md-input
                         style="width: 80%">
                     <option *ngFor="let category of categories; let i = index;" 
-                            [value]="category.idCategory"
-                            [selected]="i == 0">
+                            [value]="category.idCategory">
                       {{category.categoryName}}
                     </option>
                 </select>
@@ -55,7 +54,7 @@
 
   </md-dialog-content>
   <md-dialog-actions>
-    <button style="float: right" md-button md-dialog-close>Cancel</button>  
+    <button type="button" style="float: right" md-button md-dialog-close (click)="onRemove(articleDetail.idArticle);dialogRef.close('yes')">Cancel</button>  
     <button type="submit" style="float: right" md-button>Submit</button>
   </md-dialog-actions>
 </form>
