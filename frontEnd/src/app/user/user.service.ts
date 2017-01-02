@@ -1,41 +1,24 @@
-import { Article } from './../article/article';
-import { User } from './user';
+import { Injectable } from '@angular/core'
 import { Http } from '@angular/http';
-import { Injectable } from '@angular/core';
+import { User } from './user';
+import { Comment } from '../comment';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class UserService {
-  private apiUrl: string = 'http://localhost:3000/api/';
+    private apiUrl: string = 'http://localhost:3000/api/';
+    constructor(private http: Http) { }
 
-  constructor(private http: Http) { }
-
-  getUsers(): Promise<User[]> {
-    return this.http.get(this.apiUrl + 'all/users')
-      .toPromise()
-      .then((response) => {
-        console.log('in service');
-        response.json();
-        console.log(response.json());
-      })
-      .catch(this.handleError);
-  }
-
-  getArticles(categoryName: string): Promise<Article[]> {
-    let articleUrl: string;
-    if (categoryName === undefined) {
-      articleUrl = this.apiUrl + 'all/articles';
-    } else {
-      articleUrl = this.apiUrl + categoryName + '/articles';
+    getUserAccounts(): Promise<User[]> {
+        return this.http.get(this.apiUrl + '/users').toPromise().then(response => response.json()).catch(this.handleError);
     }
 
-    return this.http.get(articleUrl)
-      .toPromise()
-      .then(response => response.json())
-      .catch(this.handleError);
-  }
+    getUserAccount(userId: number): Promise<User> {
+        return this.http.get(this.apiUrl + '/users/' + userId).toPromise().then(response => response.json()).catch(this.handleError);
+    }
 
-  private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error);
-    return Promise.reject(error.message || error);
-  }
+    private handleError(error: any): Promise<any> {
+        console.error('An error occurred', error);
+        return Promise.reject(error.message || error);
+    }
 }

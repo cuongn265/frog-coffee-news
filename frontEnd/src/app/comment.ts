@@ -1,7 +1,10 @@
 export class Comment{
-    private idComment: number;
-    private idArticle: number;
-    private idUser: number;
-    private content: Text;
-    private time: String;
+    idComment: number;
+    idArticle: number;
+    idUser: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    content: Text;
+    time: String;
 }

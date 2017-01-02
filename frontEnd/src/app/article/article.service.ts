@@ -37,6 +37,49 @@ export class ArticleService {
   }
 
 
+  // Time Converting Methods ---------------------------- //
+  getTimeDistance(Post_TimeStamp: string): string {
+    // get current time - UTC format
+    let currentTimestamp = new Date().getTime();
+    let date_string = Post_TimeStamp;
+    let date_converted = new Date(date_string).getTime();
+
+    let distance = currentTimestamp - date_converted;
+
+    let distance_dates = +this.toDate(distance);
+    let distance_hours = +this.toHour(distance);
+    let distance_minutes = +this.toMinutes(distance);
+
+    let message: string = '';
+
+
+    if (distance_dates < 1) {
+      if (distance_hours < 1) {
+        message = distance_minutes + ' minutes ago';
+      }
+      else {
+        message = distance_hours + ' hours ago';
+      }
+    }
+    else {
+      message = distance_dates + ' days ago';
+    }
+
+    return message;
+  }
+
+  private toHour(time) {
+    return (time / (1000 * 60 * 60)).toFixed(0);
+  }
+
+  private toDate(time) {
+    return (time / (1000 * 60 * 60 * 24)).toFixed(0);
+  }
+
+  private toMinutes(time) {
+    return (time / (1000 * 60)).toFixed(0);
+  }
+
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);

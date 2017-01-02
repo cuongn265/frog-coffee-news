@@ -4,9 +4,22 @@ var Q = require('q');
 
 var db;
 
+let getCurrentDay = function () {
+    let date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let hour = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+
+    let time = year + '-' + month + '-' + day + ' ' + hour + ':' + minutes + ':' + seconds;
+    return time;
+}
+
 module.exports = {
     //
-    getUserAccount: function (callback) {
+    getUserAccounts: function (callback) {
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
         db.query('SELECT * FROM useraccount', function (err, rows) {
@@ -16,12 +29,39 @@ module.exports = {
     },
 
     getUserAccountByRole: function (role, callback) {
+        console.log('get useraccount by role' + role);
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
         db.query('SELECT * FROM useraccount, role WHERE useraccount.role = role.idRole AND role.roleName = ?', [role], function (err, rows) {
             if (err) throw err;
             return callback(null, rows);
         })
+    },
+
+    getUserAccount: function (userId, callback) {
+        SQLconnection.connectToServer();
+        db = SQLconnection.getConnectionInstance();
+        db.query('SELECT * FROM useraccount WHERE useraccount.idUser = ?', [userId], function (err, rows) {
+            if (err) throw err;
+            return callback(null, rows);
+        });
+    },
+
+    lockUserAccount: function (userId, callback) {
+        SQLconnection.connectToServer();
+        db = SQLconnection.getConnectionInstance();
+        db.query('UPDATE useraccount SET useraccount.enable = 0 WHERE useraccount.idUser = ?', [userId], function (err) {
+            if (err) throw err;
+            return callback(null);
+        });
+    },
+    unlockUserAccount: function (userId, callback) {
+        SQLconnection.connectToServer();
+        db = SQLconnection.getConnectionInstance();
+        db.query('UPDATE useraccount SET useraccount.enable = 1 WHERE useraccount.idUser = ?', [userId], function (err) {
+            if (err) throw err;
+            return callback(null);
+        });
     },
 
     getAPISource: function (callback) {
@@ -53,7 +93,7 @@ module.exports = {
     getArticle: function (callback) {
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
-        db.query('SELECT * FROM article', function (err, rows) {
+        db.query('SELECT * FROM article WHERE article.deletedAt IS NULL', function (err, rows) {
             if (err) throw err;
             return callback(null, rows);
         });
@@ -61,47 +101,97 @@ module.exports = {
     getArticleInCategory: function (category, callback) {
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
-        db.query('SELECT * FROM article,category WHERE category.categoryName = ? AND article.Category = category.idCategory', [category], function (err, rows) {
+        db.query('SELECT * FROM article,category WHERE category.categoryName = ? AND article.Category = category.idCategory AND article.deletedAt IS NULL', [category], function (err, rows) {
             if (err) throw err;
             //return rows
             return callback(null, rows);
         });
     },
-
-    getArticleDetail: function(articleID, callback){
+    getArticleDetail: function (articleID, callback) {
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
-        db.query('SELECT * FROM article WHERE article.idArticle = ? ', [articleID], function(err, rows){
-            if(err) throw err;
+        db.query('SELECT * FROM article WHERE article.idArticle = ? ', [articleID], function (err, rows) {
+            if (err) throw err;
             // return rows
             return callback(null, rows);
         });
     },
-
-    getArticleFigures: function (articleId, callback) {
+    // post article
+    postArticle: function (article, callback) {
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
-        db.query('SELECT * FROM articlefigure WHERE articlefigure.idArticle = ?', [articleId], function (err, rows) {
+
+        let newArticle = {
+            articleHeaderTitle: article.articleHeaderTitle,
+            articleHeaderDescription: article.articleHeaderDescription,
+            category: article.category,
+            articleEditor: article.articleEditor,
+            date: article.date,
+            headerImagePath: article.headerImagePath,
+            published: 1,
+            articleContent: article.articleContent,
+            articleKeyword: article.articleKeyword,
+            author: article.author,
+            source: article.source
+        };
+        db.query('INSERT INTO article SET ?', newArticle, function (err) {
+            if (err) throw err;
+            return callback(null);
+        });
+    },
+    modifyArticle: function (article, callback) {
+        SQLconnection.connectToServer();
+        db = SQLconnection.getConnectionInstance();
+        let condition = {
+            idArticle: article.idArticle
+        };
+        let modifiedArticle = {
+            articleHeaderTitle: article.articleHeaderTitle,
+            articleHeaderDescription: article.articleHeaderDescription,
+            category: article.category,
+            articleEditor: article.articleEditor,
+            date: article.date,
+            headerImagePath: article.headerImagePath,
+            published: 1,
+            articleContent: article.articleContent,
+            articleKeyword: article.articleKeyword,
+            author: article.author,
+            source: article.source
+        };
+        db.query('UPDATE article SET ? WHERE ?', [modifiedArticle, condition], function (err) {
+            if (err) throw err;
+            return callback(null);
+        });
+    },
+    removeArticle: function (article, callback) {
+        SQLconnection.connectToServer();
+        db = SQLconnection.getConnectionInstance();
+        let condition = {
+            idArticle: article.idArticle
+        };
+        let removedArticle = {
+            deletedAt: getCurrentDay()
+        }
+        db.query('UPDATE article SET ? WHERE ?', [removedArticle, condition], function (err) {
+            if (err) throw err;
+            return callback(null);
+        })
+    },
+
+    getComments: function (articleID, callback) {
+        SQLconnection.connectToServer();
+        db = SQLconnection.getConnectionInstance();
+        db.query('SELECT comment.idComment, comment.idArticle, useraccount.idUser ,useraccount.firstName, useraccount.lastName, useraccount.email ,comment.content, comment.time FROM comment,useraccount WHERE comment.idArticle = ? AND comment.idUser = useraccount.idUser', [articleID], function (err, rows) {
             if (err) throw err;
             return callback(null, rows);
         });
     },
 
-
-    getComments: function(articleID, callback){
+    postComment: function (articleId, userId, content, time, callback) {
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
-        db.query('SELECT * FROM comment WHERE comment.idArticle = ?', [articleID], function(err, rows){
-            if(err) throw err;
-            return callback(null, rows);
-        });
-    },
-    
-    postComment: function(articleId, userId, content, time, callback){
-        SQLconnection.connectToServer();
-        db = SQLconnection.getConnectionInstance();
-        db.query('INSERT INTO comment(idArticle,idUser,content,time) VALUES(?,?,?,?)', [articleId, userId, content, time], function(err){
-            if(err) throw err;
+        db.query('INSERT INTO comment(idArticle,idUser,content,time) VALUES(?,?,?,?)', [articleId, userId, content, time], function (err) {
+            if (err) throw err;
             return callback(null);
         });
     },
@@ -158,7 +248,7 @@ module.exports = {
         let foundUser = false;
         // check if the user exist in upvoters array
 
-        let userIndex = this.indexOfUserInVotingList('upvote', articleID, userID).then(function(userIndex){});
+        let userIndex = this.indexOfUserInVotingList('upvote', articleID, userID).then(function (userIndex) {});
         console.log("User index: " + userIndex);
         /*
         db.query('SELECT upVoters FROM article WHERE article.idArticle = ?', [articleID], function (err, rows) {

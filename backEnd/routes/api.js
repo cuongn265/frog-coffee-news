@@ -7,15 +7,16 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
 
-router.get('/all/users', function (req, res) {
-    SQLquery.getUserAccount(function (err, data) {
+router.get('/users', function (req, res) {
+    SQLquery.getUserAccounts(function (err, data) {
         if (err) throw err;
         else
             res.status(200).send(data);
     });
 });
 
-router.get('/:role/users', function (req, res) {
+
+router.get('/role/:role/users', function (req, res) {
     let role = req.params.role;
     SQLquery.getUserAccountByRole(role, function (err, data) {
         if (err) throw err;
@@ -24,12 +25,39 @@ router.get('/:role/users', function (req, res) {
     });
 });
 
+router.get('/users/:userId', function(req,res){
+    let userId = req.params.userId;
+    SQLquery.getUserAccount(userId, function(err,data){
+        if(err) return;
+        else
+            res.status(200).send(data);
+    });
+});
 
+// lock useraccount
+router.put('/users/:userId/lock', function(req,res){
+    let userId = req.params.userId;
+    SQLquery.lockUserAccount(userId, function(err){
+        if(err) return;
+        else
+            res.status(202).send('Lock user successfully');
+    });
+});
+
+
+// unlock useraccount
+router.put('/users/:userId/unlock', function(req,res){
+    let userId = req.params.userId;
+    SQLquery.unlockUserAccount(userId, function(err){
+        if(err) return;
+        else
+            res.status(202).send('Lock user successfully');
+    });
+})
 /* Begin article query */
 
 // get all articles
 router.get('/all/articles', function (req, res) {
-
     SQLquery.getArticle(function (err, data) {
         if (err) return;
         else
@@ -47,10 +75,36 @@ router.get('/:category/articles', function (req, res) {
     });
 });
 
+// post article
+router.post('/:category/articles/post', function(req,res){
+    let articleJSON = req.body;
+    SQLquery.postArticle(articleJSON, function(err){
+        if(err) return err;
+        else
+            res.status(201).send('Article created successfully');
+    });
+});
+
+router.put('/:category/articles/modify', function(req,res){
+    let articleJSON = req.body;
+    SQLquery.modifyArticle(articleJSON, function(err){
+        if(err) return err;
+        else
+            res.status(202).send('Article modified successfully');
+    })
+});
+
+router.delete('/:category/articles/remove', function(req,res){
+    let articleJSON = req.body;
+    SQLquery.removeArticle(articleJSON, function(err){
+        if(err) throw err;
+        else
+            res.status(202).send('Article removed successfully');
+    })
+});
 // get article detail 
 router.get('/:category/:articleID', function(req,res){
     let articleID = req.params.articleID;
-
     SQLquery.getArticleDetail(articleID, function(err, article){
         if(err)
             res.status(404).send("Not found");
@@ -70,17 +124,6 @@ router.get('/:category/:articleID', function(req,res){
     });
 });
 
-/*
-router.get('/articles/:category/:keyword', function (req, res) {
-    let category = req.params.category;
-    let keyword = req.param(keyword);
-    if (keyword) {
-        console.log(keyword);
-    } else {
-        console.log(category);
-    }
-})
-*/
 router.get('/figures/:articleid', function (req, res) {
     let articleID = req.params.articleid;
     SQLquery.getArticleFigures(articleID, function (err, data) {
@@ -118,16 +161,6 @@ router.get('/apisource', function (req, res) {
     })
 });
 
-// test head 
-router.get('/testheader', function (req, res) {
-    let token = req.headers['token'];
-    console.log(token);
-    if (typeof token != 'undefined') {
-        res.status(200).send(token);
-    } else {
-        res.status(404).send("Not found");
-    }
-});
 
 router.get('/:articleID/:userID/find', function (req, res) {
     let articleID = req.params.articleID;
@@ -188,18 +221,6 @@ router.get('/voting', function (req, res) {
         }
     }
 });
-
-router.get('/testpromise',function(req,res){
-    console.log("da chay");
-    res.status(404).send("khong chay ddc");
-    SQLquery.indexOfUserInVotingList('upvote',1,1).then(function(result){
-        console.log(result);
-    });
-});
-
-
-
-
 
 
 router.get('/:category/:articleID/comments', function(req,res){
