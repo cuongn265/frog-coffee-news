@@ -23,7 +23,7 @@ export const AppRoutes: Routes = [
     component: LoginComponent,
   },
   {
-    path: ':categoryName/articles/:articleId',
+    path: ':categoryName/:articleId',
     component: ArticleDetailComponent
   }
 ];

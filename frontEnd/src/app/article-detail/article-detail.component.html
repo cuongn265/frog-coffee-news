@@ -4,8 +4,9 @@
   <div>
     <div *ngFor="let comment of article.comments">
       <p>{{comment.content}}</p>
+      <p>{{getCommentPeriod(comment.time)}}</p>
     </div>
   </div>
+  
 </article>
-<div id="fb-root"></div>
 
