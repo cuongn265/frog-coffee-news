@@ -7,7 +7,7 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
 
-router.get('/users', function (req, res) {
+router.get('/all/users', function (req, res) {
     SQLquery.getUserAccounts(function (err, data) {
         if (err) throw err;
         else
