@@ -19,7 +19,9 @@
               [stacked]="stacked"
               [globalFilter]="gb"
               [(selection)]="selectedUser"
-              selectionMode="single" [contextMenu]="cm">
+              selectionMode="single" [contextMenu]="cm"
+              #dt
+              *ngIf="visible" >
     <header>Users List</header>
     <p-column field="firstName" header="First name"></p-column>
     <p-column field="lastName" header="Last name"></p-column>
@@ -28,11 +30,16 @@
     <p-column field="role" header="Role"></p-column>
     <p-column [style]="!stacked ? {'text-align':'center'} : {}">
         <template pTemplate="header">
-            Status
+            Lock
         </template>
         <template let-user="rowData" pTemplate="body">
-            <button *ngIf="user.idUser > 3"  type="button" pButton (click)="selectUser(user)" icon="fa-lock"></button>
-            <button *ngIf="user.idUser <= 3"  type="button" pButton (click)="selectUser(user)" icon="fa-unlock"></button>
+            <!--<button *ngIf="user.enable"  type="button" pButton (click)="lock(user.idUser, dt)" icon="fa-lock"></button>
+            <button *ngIf="!user.enable"  type="button" pButton (click)="unlock(user.idUser)" icon="fa-unlock"></button>-->
+            <md-slide-toggle [checked]="!user.enable" 
+                            (change)="changeState($event, user)"
+                            style="display: inline-block"
+                            color="primary">
+            </md-slide-toggle>
         </template>
     </p-column>
   </p-dataTable>
