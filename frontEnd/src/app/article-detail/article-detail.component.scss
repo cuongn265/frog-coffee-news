@@ -29,7 +29,8 @@
     margin: auto;
     margin-top: 80px;
     .article-body {
-      display: table;
+      // display: table;
+      overflow: hidden;
       .text-body {
         img {
           width: 100% !important;
