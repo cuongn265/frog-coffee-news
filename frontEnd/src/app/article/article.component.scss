@@ -10,42 +10,39 @@
       font-size: 14px;
     }
   }
-
   md-tooltip {
     font-size: 18px;
   }
-
   .articles-divider {
     margin: 24px 0;
   }
-
   md-card {
     margin-bottom: 24px;
   }
-
   .articles-img {
     height: 200px;
     max-height: 200px;
   }
-
-  .article-description {
+  .article-description-container {
     overflow: hidden;
-    text-overflow: ellipsis;
-    height: 40px;
+    height: 60px;
+  }
+  .article-description {
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
   }
-
+  .article-title-container {
+    overflow: hidden;
+    height: 85px;
+  }
   .article-title {
     font-weight: 550;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 19px;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
   }
-
   .heading-line {
     // width: 100%;
     font-weight: 400;
@@ -76,7 +73,6 @@
   .wrapper {
     height: 100%;
     text-align: center;
-
     .notfound-text {
       margin-top: 20px;
       font-size: 30px;
@@ -109,8 +105,6 @@
     }
   }
 }
-
-
 
 md-grid-tile figure {
   align-items: flex-end !important;
