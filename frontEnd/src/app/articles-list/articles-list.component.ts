@@ -16,10 +16,12 @@ export class ArticlesListComponent implements OnInit {
   article: Article = new Article();
   stacked: boolean;
   dialogRef: MdDialogRef<PizzaDialogComponent>;
+  ckeditorContent: string;
 
   constructor(private articlesService: ArticleService, public dialog: MdDialog) { }
 
   ngOnInit() {
+    this.ckeditorContent = `<p>My HTML</p>`;
     this.articlesService.getArticles('all').then(
       (response) => {
         this.articlesList = response;
@@ -31,12 +33,14 @@ export class ArticlesListComponent implements OnInit {
   openDialog() {
     this.dialogRef = this.dialog.open(PizzaDialogComponent, {
       disableClose: false,
-      width: '600px'
+      width: '700px'
     });
 
     this.dialogRef.afterClosed().subscribe(result => {
       console.log('result: ' + result);
       this.dialogRef = null;
+      let self = this;
+      this.refresh(self);
     });
   }
 
@@ -44,12 +48,30 @@ export class ArticlesListComponent implements OnInit {
     this.stacked = !this.stacked;
   }
 
+  refresh(self: any) {
+    setTimeout(function () {
+        self.articlesService.getArticles('all').then(
+          (response) => {
+            self.articlesList = response;
+            console.log(self.articlesList.length);
+          }
+        );
+      }, 1);
+  }
+
   onRowSelect(event) {
     console.log(event);
     this.dialogRef = this.dialog.open(PizzaDialogComponent, {
       disableClose: false,
-      width: '600px'
+      width: '700px'
     });
     this.dialogRef.componentInstance.articleDetail = event.data;
+
+    this.dialogRef.afterClosed().subscribe(result => {
+      console.log('result: ' + result);
+      this.dialogRef = null;
+      let self = this;
+      this.refresh(self);
+    });
   }
 }

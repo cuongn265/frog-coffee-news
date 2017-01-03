@@ -7,4 +7,5 @@ export class User {
   public phone: string;
   public email: string;
   public role: number;
+  public enable: boolean;
 }

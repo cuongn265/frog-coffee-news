@@ -6,7 +6,7 @@ import { Article } from './../article/article';
 import { Component, OnInit } from '@angular/core';
 import { PizzaDialogComponent } from './../pizza-dialog/pizza-dialog.component';
 import { MdDialogRef, MdDialog } from '@angular/material';
-import { MenuItem } from 'primeng/primeng';
+import { MenuItem, DataTable } from 'primeng/primeng';
 
 @Component({
   selector: 'app-users-list',
@@ -23,6 +23,7 @@ export class UsersListComponent implements OnInit {
   dialogRef: MdDialogRef<PizzaDialogComponent>;
   items: MenuItem[];
   icon: string;
+  visible: boolean = true;
 
   constructor(private http: Http, private userService: UserService) { }
 
@@ -47,4 +48,30 @@ export class UsersListComponent implements OnInit {
   selectUser(user: User) {
     console.log(user.email);
   }
+
+  lock(userId: number) {
+    this.userService.lockUser(userId).then((res) => {
+      console.log(res);
+    });
+  }
+
+  unlock(userId: number) {
+    this.userService.unlockUser(userId).then((res) => {
+      console.log(res);
+    });
+  }
+
+  changeState(event: any, user: User) {
+    if (event.checked) {
+      console.log('checked');
+      this.lock(user.idUser);
+    } else {
+      console.log('unchecked');
+      this.unlock(user.idUser);
+    }
+    return true;
+  }
 }
+
+
+
