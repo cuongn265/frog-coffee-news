@@ -39,11 +39,24 @@ export class ArticlesListComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe(result => {
       console.log('result: ' + result);
       this.dialogRef = null;
+      let self = this;
+      this.refresh(self);
     });
   }
 
   toggle() {
     this.stacked = !this.stacked;
+  }
+
+  refresh(self: any) {
+    setTimeout(function () {
+        self.articlesService.getArticles('all').then(
+          (response) => {
+            self.articlesList = response;
+            console.log(self.articlesList.length);
+          }
+        );
+      }, 1);
   }
 
   onRowSelect(event) {
@@ -58,15 +71,7 @@ export class ArticlesListComponent implements OnInit {
       console.log('result: ' + result);
       this.dialogRef = null;
       let self = this;
-      setTimeout(function () {
-        self.articlesService.getArticles('all').then(
-          (response) => {
-            self.articlesList = response;
-            console.log(self.articlesList.length);
-          }
-        );
-      }, 1);
-
+      this.refresh(self);
     });
   }
 }

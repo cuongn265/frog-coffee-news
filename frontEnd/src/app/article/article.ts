@@ -10,5 +10,6 @@ export class Article {
     public headerImagePath: String;
     public author: String;
     public source: String;
+    public published: boolean;
     public comments: Comment[];
 }
