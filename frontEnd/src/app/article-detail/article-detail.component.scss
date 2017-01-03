@@ -78,3 +78,21 @@
 .sb-buttons {
   flex-direction: column;
 }
+
+@media screen and (max-width: 800px) {
+  .article-detail {
+    header {
+      .content {
+        h1 {
+          font-size: 24px;
+        }
+        h3 {
+          font-size: 12px;
+        }
+      }
+      .author {
+        bottom: 10px;
+      }
+    }
+  }
+}
