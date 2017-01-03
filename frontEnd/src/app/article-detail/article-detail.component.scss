@@ -30,9 +30,9 @@
     margin-top: 80px;
     .article-body {
       display: table;
-      .text-body {    
+      .text-body {
         img {
-          width: 100% !important; 
+          width: 100% !important;
         }
       }
     }
@@ -45,7 +45,6 @@
       }
     }
   }
-
   .comment-line {
     // width: 100%;
     font-weight: 400;
@@ -66,8 +65,15 @@
       flex: 2;
     }
   }
+  .comment-content {
+    margin-left: 72px;
+  }
+
+  .comment-divider{
+    border-top: 2px solid #eee;
+  }
 }
 
-.sb-buttons{
+.sb-buttons {
   flex-direction: column;
 }
