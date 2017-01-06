@@ -67,9 +67,25 @@ export class ArticleService {
     let body = JSON.stringify(comment);
     console.log(body);
     let header = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.post(this.apiUrl + 'comment', body, { headers: header }).toPromise().then(response => {
+    return this.http. post(this.apiUrl + 'comment', body, { headers: header }).toPromise().then(response => {
       console.log(response.status);
     }).catch(this.handleError);
+  }
+
+  putComment(comment: Comment){
+    let body = JSON.stringify(comment);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    return this.http.put(this.apiUrl + 'comment', body, {headers: headers}).toPromise().then(response => response);
+  }
+
+  removeComment(comment: Comment){
+    let selectedComment = {'idComment': comment.idComment}
+    let body = JSON.stringify(selectedComment);
+    let headers = new Headers({ 'Content-Type': 'application/json '});
+    return this.http.delete(this.apiUrl + 'comment', new RequestOptions({
+      headers: headers,
+      body: body
+    })).toPromise().then(response => response).catch(this.handleError);
   }
 
   // Time Converting Methods ---------------------------- //

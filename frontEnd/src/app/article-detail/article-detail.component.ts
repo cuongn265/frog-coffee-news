@@ -1,12 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Article } from '../article/article';
 import { ArticleService } from '../article/article.service';
-import { UserService } from '../user/user.service';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AuthService } from '../auth.service';
 import { User } from '../user/user';
 import { Comment } from '../comment';
+
+import { MdMenuTrigger } from '@angular/material/menu/menu';
+import { MdDialogRef, MdDialog } from '@angular/material/dialog';
+import { ModifyCommentDialogComponent } from '../comment-dialog/modify-comment-dialog/modify-comment-dialog.component';
+import { RemoveCommentDialogComponent } from '../comment-dialog/remove-comment-dialog/remove-comment-dialog.component';
+
 @Component({
   selector: 'app-article-detail',
   templateUrl: './article-detail.component.html',
@@ -24,28 +29,35 @@ export class ArticleDetailComponent implements OnInit {
   private shareUrl;
   private loggedIn: boolean = false;
   private user: User = new User();
-
+  private storedComment: Comment = new Comment();
   private newComment: Comment = new Comment();
   private submittingComment: boolean = false;
   private commentContent: Text;
+
+  @ViewChild(MdMenuTrigger) trigger: MdMenuTrigger;
+  dialogModifyRef: MdDialogRef<ModifyCommentDialogComponent>;
+  dialogRemoveRef: MdDialogRef<RemoveCommentDialogComponent>;
+
   constructor(private route: ActivatedRoute,
-              private articleService: ArticleService,
-              private location: Location,
-              private authService: AuthService
+    private articleService: ArticleService,
+    private location: Location,
+    private authService: AuthService,
+    private dialog: MdDialog
+
   ) { }
 
   ngOnInit() {
     // get user profile from localStorage
-    if(localStorage.getItem('profile')){
+    if (localStorage.getItem('profile')) {
       let profileJSON = JSON.parse(localStorage.getItem('profile'));
       this.user.email = profileJSON.email;
       this.user.username = profileJSON.nickname;
       this.user.firstName = profileJSON.firstName;
       this.user.lastName = profileJSON.lastName;
       this.user.phone = profileJSON.telephoneNumber;
-      this.user.idUser = profileJSON.user_id;
+      this.user.idUser = profileJSON.idUser;
     }
-    
+
     this.sub = this.route.params.subscribe(params => {
       this.categoryName = params['categoryName'];
       this.articleId = +params['articleId'];
@@ -61,29 +73,78 @@ export class ArticleDetailComponent implements OnInit {
         }
       );
     });
-    
+
     this.shareUrl = window.location.href.toString();
   }
 
-  getCommentPeriod(timeStamp: string){
+  getCommentPeriod(timeStamp: string) {
     return this.articleService.getTimeDistance(timeStamp);
   }
 
-  comment(){
+  comment() {
     this.submittingComment = true;
     this.newComment.content = this.commentContent;
     this.newComment.firstName = this.user.firstName;
     this.newComment.lastName = this.user.lastName;
     this.newComment.idArticle = this.articleId;
     this.newComment.idUser = this.user.idUser;
-    this.articleService.postComment(this.newComment).then(response => {
-      
+
+    if (this.commentContent == null) {
       this.submittingComment = false;
-      this.commentContent = null;
-       this.articleService.getArticleDetail(this.categoryName, this.articleId).then(article => {
-        this.article = article[0];
-        this.commentList = this.article['comments'];
+      return;
+    }
+    else {
+      this.articleService.postComment(this.newComment).then(response => {
+        this.submittingComment = false;
+        this.commentContent = null;
+        this.articleService.getArticleDetail(this.categoryName, this.articleId).then(article => {
+          this.article = article[0];
+          this.commentList = this.article['comments'];
+        });
       });
-    })
+    }
   }
+
+  removeComment(event, comment) {
+    event.stopPropagation();
+    this.dialogRemoveRef = this.dialog.open(RemoveCommentDialogComponent, {
+      disableClose: false
+    });
+    this.dialogRemoveRef.afterClosed().subscribe(result => {
+      this.dialogRemoveRef = null;
+      if (result === 'yes') {
+        this.articleService.removeComment(comment).then(response => {
+          this.articleService.getArticleDetail(this.categoryName, this.articleId).then(article => {
+            this.article = article[0];
+            this.commentList = this.article['comments'];
+          });
+        });
+      }
+      else {
+        return;
+      }
+    });
+  }
+
+  modifyComment(event, comment) {
+    event.stopPropagation();
+    this.dialogModifyRef = this.dialog.open(ModifyCommentDialogComponent, {
+      disableClose: false,
+      width: '600px'
+    });
+    this.storedComment = comment;
+    this.dialogModifyRef.componentInstance.selectedComment = comment;
+
+    this.dialogModifyRef.afterClosed().subscribe(result => {
+      if(result === undefined){
+        //
+      }
+    });
+  }
+
+  closeCommentMenu() {
+    this.trigger.closeMenu();
+  }
+
+
 }

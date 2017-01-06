@@ -240,5 +240,34 @@ router.post('/comment', function(req,res){
     })    
 });
 
+// PUT request to modify comment
+router.put('/comment', function(req,res){
+    let commentJSON = req.body;
+    SQLquery.modifyComment(commentJSON, function(err){
+        if(err) {
+            console.log(err);
+            res.status(500).send('Server Error');
+
+        }
+        else{
+            res.status(202).send('Comment modified successfully');
+        }
+    })
+});
+
+router.delete('/comment', function(req,res){
+    let commentJSON = req.body;
+    console.log(commentJSON);
+    SQLquery.removeComment(commentJSON, function(err){
+        if(err){
+            console.log(err);
+            res.status(500).send('Server Error');
+        }
+        else{
+            res.status(202).send('Comment removed successfully');
+        }
+    })
+})
+
 
 module.exports = router;

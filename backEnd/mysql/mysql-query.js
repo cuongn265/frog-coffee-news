@@ -187,6 +187,41 @@ module.exports = {
         });
     },
 
+
+    modifyComment: function (comment, callback) {
+        SQLconnection.connectToServer();
+        db = SQLconnection.getConnectionInstance();
+        let modifiedContent = {
+            content: comment.content
+        }
+        console.log("Attempt to modify comment");
+        console.log(modifiedContent);
+
+        let condition = {
+            idComment: comment.idComment
+        }
+        console.log(condition);
+        db.query('UPDATE comment SET ? WHERE ?', [modifiedContent, condition], function (err) {
+            if (err) throw err;
+            return callback(null);
+        })
+    },
+
+    removeComment: function (comment, callback) {
+        console.log('Attempt to remove comment');
+        SQLconnection.connectToServer();
+        db = SQLconnection.getConnectionInstance();
+        let condition = {
+            idComment: comment.idComment
+        }
+        db.query('DELETE FROM comment WHERE ?', [condition], function (err) {
+            if (err) throw err;
+            return callback(null);
+        })
+
+    },
+
+
     postComment: function (comment, callback) {
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
@@ -202,6 +237,8 @@ module.exports = {
             return callback(null);
         });
     },
+
+
 
     // testing
     getUpvoterListInArticle: function (articleID, callback) {
