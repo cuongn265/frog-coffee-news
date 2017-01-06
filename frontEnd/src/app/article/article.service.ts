@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Article } from './article';
+import { Comment } from '../comment';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
@@ -36,6 +37,7 @@ export class ArticleService {
     }
   }
 
+
   postArticle(article: Article) {
     let body = JSON.stringify(article);
     let header = new Headers({ 'Content-Type': 'application/json' });
@@ -61,6 +63,14 @@ export class ArticleService {
     })).toPromise().then(response => response).catch(this.handleError);
   }
 
+  postComment(comment: Comment) {
+    let body = JSON.stringify(comment);
+    console.log(body);
+    let header = new Headers({ 'Content-Type': 'application/json' });
+    return this.http.post(this.apiUrl + 'comment', body, { headers: header }).toPromise().then(response => {
+      console.log(response.status);
+    }).catch(this.handleError);
+  }
 
   // Time Converting Methods ---------------------------- //
   getTimeDistance(Post_TimeStamp: string): string {
@@ -80,7 +90,12 @@ export class ArticleService {
 
     if (distance_dates < 1) {
       if (distance_hours < 1) {
-        message = distance_minutes + ' minutes ago';
+        if (distance_minutes <= 1) {
+          message = 'just now';
+        }
+        else {
+          message = distance_minutes + ' minutes ago';
+        }
       }
       else {
         message = distance_hours + ' hours ago';

@@ -232,29 +232,12 @@ router.get('/:category/:articleID/comments', function(req,res){
 });
 
 // POST request to save comment of user (specify by ID) to article (specify by ID)
-router.post('/article/:articleID/user/:userID/comment', function(req,res){
-
-    // get current time;
-    let date = new Date();
-    let year = date.getFullYear();
-    let month = date.getMonth() +1;
-    let day = date.getDate();
-    let hour = date.getHours();
-    let minutes = date.getMinutes();
-    let seconds = date.getSeconds();
-
-    let articleID = req.params.articleID;
-    let userID = req.params.userID;
-    let timeOfPost = year+'-'+month+'-'+day+' '+hour+':'+minutes+':'+seconds;
-    let content = req.body.content;
-
-    // call to save comment function in server
-    SQLquery.postComment(articleID, userID, content,timeOfPost, function(err){
-        if(err) return;
-        else
-            res.status(201).send('Comment submitted !');
-    });
-    
+router.post('/comment', function(req,res){
+    let commentJSON = req.body;
+    SQLquery.postComment(commentJSON, function(err){
+        if(err) throw err;
+        res.status(201).send('comment submitted');
+    })    
 });
 
 

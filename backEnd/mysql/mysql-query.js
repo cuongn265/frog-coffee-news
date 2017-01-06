@@ -128,7 +128,7 @@ module.exports = {
             articleEditor: article.articleEditor,
             date: article.date,
             headerImagePath: article.headerImagePath,
-            published: 1,
+            published: article.published,
             articleContent: article.articleContent,
             articleKeyword: article.articleKeyword,
             author: article.author,
@@ -152,7 +152,7 @@ module.exports = {
             articleEditor: article.articleEditor,
             date: article.date,
             headerImagePath: article.headerImagePath,
-            published: 1,
+            published: article.published,
             articleContent: article.articleContent,
             articleKeyword: article.articleKeyword,
             author: article.author,
@@ -181,16 +181,23 @@ module.exports = {
     getComments: function (articleID, callback) {
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
-        db.query('SELECT comment.idComment, comment.idArticle, useraccount.idUser ,useraccount.firstName, useraccount.lastName, useraccount.email ,comment.content, comment.time FROM comment,useraccount WHERE comment.idArticle = ? AND comment.idUser = useraccount.idUser', [articleID], function (err, rows) {
+        db.query('SELECT comment.idComment, comment.idArticle, useraccount.idUser ,useraccount.firstName, useraccount.lastName, useraccount.email ,comment.content, comment.time FROM comment,useraccount WHERE comment.idArticle = ? AND comment.idUser = useraccount.idUser ORDER BY time DESC', [articleID], function (err, rows) {
             if (err) throw err;
             return callback(null, rows);
         });
     },
 
-    postComment: function (articleId, userId, content, time, callback) {
+    postComment: function (comment, callback) {
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
-        db.query('INSERT INTO comment(idArticle,idUser,content,time) VALUES(?,?,?,?)', [articleId, userId, content, time], function (err) {
+        let submitTime = getCurrentDay();
+        let newComment = {
+            idArticle: comment.idArticle,
+            idUser: comment.idUser,
+            content: comment.content,
+            time: submitTime
+        }
+        db.query('INSERT INTO comment SET ?', newComment, function (err) {
             if (err) throw err;
             return callback(null);
         });
