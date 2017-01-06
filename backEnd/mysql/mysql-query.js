@@ -126,13 +126,13 @@ module.exports = {
             articleHeaderDescription: article.articleHeaderDescription,
             category: article.category,
             articleEditor: article.articleEditor,
-            date: article.date,
             headerImagePath: article.headerImagePath,
-            published: 1,
+            published: article.published,
             articleContent: article.articleContent,
             articleKeyword: article.articleKeyword,
             author: article.author,
-            source: article.source
+            source: article.source,
+            date: getCurrentDay()
         };
         db.query('INSERT INTO article SET ?', newArticle, function (err) {
             if (err) throw err;
@@ -150,13 +150,13 @@ module.exports = {
             articleHeaderDescription: article.articleHeaderDescription,
             category: article.category,
             articleEditor: article.articleEditor,
-            date: article.date,
             headerImagePath: article.headerImagePath,
-            published: 1,
+            published: article.published,
             articleContent: article.articleContent,
             articleKeyword: article.articleKeyword,
             author: article.author,
-            source: article.source
+            source: article.source,
+            date: getCurrentDay()
         };
         db.query('UPDATE article SET ? WHERE ?', [modifiedArticle, condition], function (err) {
             if (err) throw err;

@@ -25,7 +25,7 @@ export class ArticlesListComponent implements OnInit {
     this.articlesService.getArticles('all').then(
       (response) => {
         this.articlesList = response;
-        console.log(this.articlesList.length);
+        console.log(this.articlesList);
       }
     );
   }
@@ -53,7 +53,7 @@ export class ArticlesListComponent implements OnInit {
         self.articlesService.getArticles('all').then(
           (response) => {
             self.articlesList = response;
-            console.log(self.articlesList.length);
+            console.log(self.articlesList);
           }
         );
       }, 1);

@@ -18,6 +18,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   articlesList: Article[];
   categoryName: string;
+  publishedArticles: Article[];
   private sub: any;
   constructor(private articleService: ArticleService, private route: ActivatedRoute) {
   }
@@ -26,9 +27,15 @@ export class ArticleComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.categoryName = params['categoryName']; // (+) converts string 'id' to a number 
+      this.publishedArticles = [];
       this.articleService.getArticles(this.categoryName).then(
         (response) => {
           this.articlesList = response;
+          this.articlesList.forEach(article => {
+            if (article.published) {
+              this.publishedArticles.push(article);
+            }
+          }, this);
         }
       );
     });
