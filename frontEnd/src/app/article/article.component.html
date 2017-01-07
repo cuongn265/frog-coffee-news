@@ -1,14 +1,8 @@
-<md-grid-list cols="10" *ngIf="publishedArticles && publishedArticles.length > 2" class="header-grid">
-  <md-grid-tile class="header" *ngFor="let article of publishedArticles.reverse() | slice:0:3; let i = index" [colspan]="i == 0 ? 4 : 3" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.85)), url(' + article.headerImagePath + ')'}"
-    [rowspan]=1 [routerLink]="[article.idArticle]">
-    <div class="content">
-      <h3>{{article.articleHeaderTitle}}</h3>
-      <p class="description" *ngIf="i == 0">{{article.articleHeaderDescription}}</p>
-      <p>by <b>{{article.author}}</b></p>
-    </div>
-  </md-grid-tile>
-</md-grid-list>
+<app-slide-2></app-slide-2>
 <div class="container articles-container" *ngIf="publishedArticles && publishedArticles.length > 0">
+  <div class="row">
+
+  </div>
   <div class="row">
     <div class="heading-line col-md-12 col-sm-12">
       <h4>top <b>stories</b></h4>
