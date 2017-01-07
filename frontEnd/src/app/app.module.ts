@@ -20,12 +20,15 @@ import { AuthGuard } from './auth-guard.service';
 import { UsersListComponent } from './users-list/users-list.component';
 import { ArticlesListComponent } from './articles-list/articles-list.component';
 
-import { DataTableModule, ButtonModule, InputTextModule, DialogModule,
-         DataGridModule, MenuModule, ContextMenuModule, PanelModule, ChartModule } from 'primeng/primeng';
+import {
+  DataTableModule, ButtonModule, InputTextModule, DialogModule,
+  DataGridModule, MenuModule, ContextMenuModule, PanelModule, ChartModule
+} from 'primeng/primeng';
 import { PizzaDialogComponent } from './pizza-dialog/pizza-dialog.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { Ng2SelectModule } from 'ng2-material-select';
 import { CKEditorModule } from 'ng2-ckeditor';
+import { Slide2Component } from './slide-2/slide-2.component';
 import { ModifyCommentDialogComponent } from './comment-dialog/modify-comment-dialog/modify-comment-dialog.component';
 import { RemoveCommentDialogComponent } from './comment-dialog/remove-comment-dialog/remove-comment-dialog.component';
 
@@ -45,6 +48,8 @@ import { RemoveCommentDialogComponent } from './comment-dialog/remove-comment-di
     DashboardComponent,
     ModifyCommentDialogComponent,
     RemoveCommentDialogComponent
+    DashboardComponent,
+    Slide2Component
   ],
   imports: [
     BrowserModule,
