@@ -181,20 +181,64 @@ module.exports = {
     getComments: function (articleID, callback) {
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
-        db.query('SELECT comment.idComment, comment.idArticle, useraccount.idUser ,useraccount.firstName, useraccount.lastName, useraccount.email ,comment.content, comment.time FROM comment,useraccount WHERE comment.idArticle = ? AND comment.idUser = useraccount.idUser', [articleID], function (err, rows) {
+        db.query('SELECT comment.idComment, comment.idArticle, useraccount.idUser ,useraccount.firstName, useraccount.lastName, useraccount.email ,comment.content, comment.time FROM comment,useraccount WHERE comment.idArticle = ? AND comment.idUser = useraccount.idUser ORDER BY time DESC', [articleID], function (err, rows) {
             if (err) throw err;
             return callback(null, rows);
         });
     },
 
-    postComment: function (articleId, userId, content, time, callback) {
+
+    modifyComment: function (comment, callback) {
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
-        db.query('INSERT INTO comment(idArticle,idUser,content,time) VALUES(?,?,?,?)', [articleId, userId, content, time], function (err) {
+        let modifiedContent = {
+            content: comment.content
+        }
+        console.log("Attempt to modify comment");
+        console.log(modifiedContent);
+
+        let condition = {
+            idComment: comment.idComment
+        }
+        console.log(condition);
+        db.query('UPDATE comment SET ? WHERE ?', [modifiedContent, condition], function (err) {
+            if (err) throw err;
+            return callback(null);
+        })
+    },
+
+    removeComment: function (comment, callback) {
+        console.log('Attempt to remove comment');
+        SQLconnection.connectToServer();
+        db = SQLconnection.getConnectionInstance();
+        let condition = {
+            idComment: comment.idComment
+        }
+        db.query('DELETE FROM comment WHERE ?', [condition], function (err) {
+            if (err) throw err;
+            return callback(null);
+        })
+
+    },
+
+
+    postComment: function (comment, callback) {
+        SQLconnection.connectToServer();
+        db = SQLconnection.getConnectionInstance();
+        let submitTime = getCurrentDay();
+        let newComment = {
+            idArticle: comment.idArticle,
+            idUser: comment.idUser,
+            content: comment.content,
+            time: submitTime
+        }
+        db.query('INSERT INTO comment SET ?', newComment, function (err) {
             if (err) throw err;
             return callback(null);
         });
     },
+
+
 
     // testing
     getUpvoterListInArticle: function (articleID, callback) {

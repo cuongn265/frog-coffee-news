@@ -26,6 +26,8 @@ import { PizzaDialogComponent } from './pizza-dialog/pizza-dialog.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { Ng2SelectModule } from 'ng2-material-select';
 import { CKEditorModule } from 'ng2-ckeditor';
+import { ModifyCommentDialogComponent } from './comment-dialog/modify-comment-dialog/modify-comment-dialog.component';
+import { RemoveCommentDialogComponent } from './comment-dialog/remove-comment-dialog/remove-comment-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { CKEditorModule } from 'ng2-ckeditor';
     ArticlesListComponent,
     PizzaDialogComponent,
     PizzaDialogComponent,
-    DashboardComponent
+    DashboardComponent,
+    ModifyCommentDialogComponent,
+    RemoveCommentDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +68,9 @@ import { CKEditorModule } from 'ng2-ckeditor';
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],
   entryComponents: [
-    PizzaDialogComponent
+    PizzaDialogComponent,
+    RemoveCommentDialogComponent,
+    ModifyCommentDialogComponent
   ],
 })
 export class AppModule { }

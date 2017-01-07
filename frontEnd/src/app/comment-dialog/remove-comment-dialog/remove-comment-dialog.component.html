@@ -1,0 +1,8 @@
+<h3 md-dialog-title class="dialog-header"> Remove Post Confirm</h3>
+<p>Do you really wish to remove this comment from the bulletin board ?</p>
+<small class="dialog-note">Other user won't be able to see this comment in the future</small>
+<br>
+<div class="pull-right confirm-button">
+  <button class="btn btn-danger" (click)="dialogRef.close('yes')"><span class="glyphicon glyphicon-ok" style="margin-right: 15px;"></span>Yes</button>
+  <button class="btn btn-primary" (click)="dialogRef.close('no')"><span class="glyphicon glyphicon-remove" style="margin-right: 15px;"></span>No</button>
+  <div>
