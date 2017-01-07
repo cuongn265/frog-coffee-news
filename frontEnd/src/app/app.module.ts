@@ -47,7 +47,7 @@ import { RemoveCommentDialogComponent } from './comment-dialog/remove-comment-di
     PizzaDialogComponent,
     DashboardComponent,
     ModifyCommentDialogComponent,
-    RemoveCommentDialogComponent
+    RemoveCommentDialogComponent,
     DashboardComponent,
     Slide2Component
   ],
