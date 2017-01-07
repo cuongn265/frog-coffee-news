@@ -1,3 +1,5 @@
+@import '~@angular/material/core/theming/prebuilt/deeppurple-amber';
+@include md-core(); // include all mixins
 .article-detail {
   header {
     padding: 0 !important;
@@ -41,7 +43,7 @@
       .related-article-row {
         &:hover {
           cursor: pointer;
-          color: red;
+          color: md-color($primary);
         }
       }
     }
