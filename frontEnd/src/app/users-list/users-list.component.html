@@ -8,8 +8,8 @@
           style="margin-bottom:10px" label="Mobile" 
           icon="fa-mobile" *ngIf="stacked">
   </button>
-  <input #gb type="text" placeholder="Global search" pInputText>
-  <button type="button" pButton icon="fa-plus" style="float:right" (click)="openDialog()" label="Add">
+  <input #gb type="text" placeholder="Global search" pInputText style="margin-bottom:10px">
+  <button class="btn-add-big-size" type="button" pButton icon="fa-plus" style="float:right; margin-bottom: 10px" (click)="openDialog()" label="Add">
   </button>
   <p-dataTable  [value]="users" 
               [rows]="9" 
@@ -42,6 +42,12 @@
             </md-slide-toggle>
         </template>
     </p-column>
+    <footer>
+        <div class="ui-helper-clearfix" style="width:100%">
+            <button type="button" pButton icon="fa-plus" style="float:left" (click)="openDialog()" label="Add">
+            </button>
+        </div>
+    </footer>
   </p-dataTable>
 
   <p-contextMenu #cm [model]="items" *ngIf="Property" ></p-contextMenu>

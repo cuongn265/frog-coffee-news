@@ -20,7 +20,7 @@
   </md-toolbar>
   <md-sidenav class="md-sidenav-left" #start mode="over">
     <md-card class="user-card">
-      <md-card-header *ngIf="auth.userProfile" >
+      <md-card-header *ngIf="auth.userProfile">
         <img md-card-avatar [src]="auth.userProfile.picture">
         <md-card-title class="username-text">{{auth.userProfile.firstName}} {{auth.userProfile.lastName}}</md-card-title>
         <md-card-subtitle class="email-text">{{auth.userProfile.email}}</md-card-subtitle>
