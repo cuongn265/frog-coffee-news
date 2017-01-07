@@ -29,7 +29,7 @@ export class UsersListComponent implements OnInit {
 
   ngOnInit() {
     // TODO: Fix undefined response when get data via service
-    this.http.get('http://localhost:3000/api/all/users')
+    this.http.get('https://heroku-node-angular2.herokuapp.com/api/all/users')
       .toPromise().then((response) => {
         this.users = response.json();
         console.log(this.users);

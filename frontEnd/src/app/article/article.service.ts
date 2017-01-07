@@ -6,7 +6,7 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class ArticleService {
 
-  private apiUrl: string = 'http://localhost:3000/api/';
+  private apiUrl: string = 'https://heroku-node-angular2.herokuapp.com/api/';
 
   constructor(private http: Http) { }
 
