@@ -9,9 +9,9 @@
     </md-toolbar>
     <md-card class="user-card">
       <md-card-header *ngIf="checkProfile()" >
-        <img md-card-avatar [src]="user.picture">
-        <md-card-title class="username-text">{{user.firstName}} {{user.lastName}}</md-card-title>
-        <md-card-subtitle class="email-text">{{user.email}}</md-card-subtitle>
+        <img md-card-avatar [src]="auth.userProfile.picture">
+        <md-card-title class="username-text">{{auth.userProfile.firstName}} {{auth.userProfile.lastName}}</md-card-title>
+        <md-card-subtitle class="email-text">{{auth.userProfile.email}}</md-card-subtitle>
       </md-card-header>
       <md-card-header *ngIf="!checkProfile()" >
         <img md-card-avatar src="assets/images/logo.png">
