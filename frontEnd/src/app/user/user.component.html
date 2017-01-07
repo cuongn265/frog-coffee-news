@@ -20,24 +20,18 @@
   </md-toolbar>
   <md-sidenav class="md-sidenav-left" #start mode="over">
     <md-card class="user-card">
-      <md-card-header *ngIf="checkProfile()" >
-        <img md-card-avatar [src]="user.picture">
-        <md-card-title class="username-text">{{user.firstName}} {{user.lastName}}</md-card-title>
-        <md-card-subtitle class="email-text">{{user.email}}</md-card-subtitle>
+      <md-card-header *ngIf="auth.userProfile" >
+        <img md-card-avatar [src]="auth.userProfile.picture">
+        <md-card-title class="username-text">{{auth.userProfile.firstName}} {{auth.userProfile.lastName}}</md-card-title>
+        <md-card-subtitle class="email-text">{{auth.userProfile.email}}</md-card-subtitle>
       </md-card-header>
-      <md-card-header *ngIf="!checkProfile()" >
+      <md-card-header *ngIf="!auth.userProfile">
         <img md-card-avatar src="assets/images/logo.png">
         <md-card-title class="username-text">anonymous</md-card-title>
         <md-card-subtitle class="email-text">anonymous@gmail.com</md-card-subtitle>
       </md-card-header>
     </md-card>
     <md-nav-list>
-      <!--<md-list-item>
-        <a md-line href="#">Bookmarks</a>
-        <button md-icon-button>
-          <md-icon>bookmark</md-icon>
-        </button>
-      </md-list-item>-->
       <md-list-item>
         <a md-line href="#">Favorites</a>
         <button md-icon-button>
@@ -79,6 +73,5 @@
     </md-nav-list>
   </md-sidenav>
   <router-outlet></router-outlet>
-  <!--<div class="fb-comments" data-href="http://localhost:4200/home" data-width="600px" data-numposts="5"></div> -->
 </md-sidenav-layout>
 
