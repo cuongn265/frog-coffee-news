@@ -2,7 +2,8 @@
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div [ngClass]="i === 0 ? 'item active' : 'item'" *ngFor="let article of publishedArticles | slice:0:3; let i = index">
-                <div class="header" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.85)), url(' + article.headerImagePath + ')'}">
+                <div class="header" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.85)), url(' + article.headerImagePath + ')'}"
+                [routerLink]="[article.idArticle]">
                     <div class="carousel-caption content">
                         <h3>{{article.articleHeaderTitle}}</h3>
                         <p class="description">{{article.articleHeaderDescription}}</p>

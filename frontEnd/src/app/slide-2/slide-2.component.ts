@@ -25,7 +25,7 @@ export class Slide2Component implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     $(this.el.nativeElement).ready(function () {
       $('#myCarousel').carousel({
-        interval: 30000
+        interval: 2000
       });
 
       let clickEvent = false;
