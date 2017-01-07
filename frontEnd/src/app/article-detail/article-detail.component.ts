@@ -134,11 +134,11 @@ export class ArticleDetailComponent implements OnInit {
     });
     this.storedComment = comment;
     this.dialogModifyRef.componentInstance.selectedComment = comment;
-
     this.dialogModifyRef.afterClosed().subscribe(result => {
-      if(result === undefined){
-        //
-      }
+        this.articleService.getArticleDetail(this.categoryName, this.articleId).then(article => {
+          this.article = article[0];
+          this.commentList = this.article['comments'];
+        })
     });
   }
 

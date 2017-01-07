@@ -21,8 +21,8 @@ export class ModifyCommentDialogComponent implements OnInit {
     console.log(this.selectedComment);
   }
 
-  submit(comment: Comment){
-    this.articleService.putComment(comment).then(response => {
+  onSubmit(){
+    this.articleService.putComment(this.selectedComment).then(response => {
       console.log(response);
     });
   }

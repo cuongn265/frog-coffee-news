@@ -1,14 +1,21 @@
-  <h3 md-dialog-title class="dialog-header"> Modify comment</h3>
-  <div class="modify-comment-container">
-    <md-input-container style="width: 100%;">
-      <textarea md-input placeholder="Type to modify your comment below" maxlength="300" #characterCountComment rows="4" name="content" [(ngModel)]="selectedComment.content"
-        value="{{selectedComment.content}}"></textarea>
-      <md-hint align="end">{{characterCountComment.value.length}} / 300</md-hint>
-    </md-input-container>
-  </div>
-  <br>
-  <div class="pull-right confirm-button">
-    <button class="btn btn-primary" (click)="submit(selectedComment); dialogRef.close('yes');"  style="width: 105px; margin-right: 15px"><span class="glyphicon glyphicon-ok" type="submit"></span>Save</button>
-    <button class="btn btn-danger" (click)="dialogRef.close('yes');" md-dialog-close style="width: 105px;"><span class="glyphicon glyphicon-remove" style="margin-right: 15px;" type="button"></span>Dismiss</button> 
+<form (ngSubmit)="onSubmit(); dialogRef.close('yes')" #commentForm="ngForm">
+  <md-dialog-content>
+    <h3 md-dialog-title class="dialog-header"> Modify comment</h3>
+    <div class="modify-comment-container">
+      <md-input-container style="width: 100%;">
+        <textarea md-input placeholder="Type to modify your comment below" maxlength="300" #characterCountComment rows="4" name="content"
+          [(ngModel)]="selectedComment.content" value="{{selectedComment.content}}"></textarea>
+          <md-hint align="end">{{characterCountComment.value.length}} / 300</md-hint>
+      </md-input-container>
     </div>
+    <br>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <div class="pull-right confirm-button">
+      <button class="btn btn-primary" style=" width: 105px;"><span class="glyphicon glyphicon-ok" type="submit" style="margin-right: 15px "></span>Save</button>
+      <button class="btn btn-danger"  (click) = "commentForm.reset(); dialogRef.close('no');"style="width: 105px;" type="button"><span class="glyphicon glyphicon-remove" style="margin-right: 15px;"></span>Dismiss</button>
+    </div>
+  </md-dialog-actions>
+</form>
 
+<!-- (click)="dialogRef.close('no');" -->
