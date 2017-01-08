@@ -3,9 +3,80 @@ var router = express.Router();
 var SQLquery = require('../mysql/mysql-query');
 var bodyParser = require('body-parser');
 
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: false }));
+const JSONStream = require('JSONStream');
+const chalk = require('chalk');
+const request = require('request');
+const tc = require('term-cluster');
 
+// for searching...
+let articleJSON;
+const Readable = require('stream').Readable
+const s = new Readable({
+    objectMode: true
+})
+let q = new Object;
+//
+
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({
+    extended: false
+}));
+
+
+const allArticlesRequestURL = 'https://heroku-node-angular2.herokuapp.com/api/mobiles/articles';
+
+const ops = {
+    indexPath: 'IndexStorage',
+    logLevel: 'error'
+}
+
+let index;
+const indexData = function (err, newIndex) {
+    if (!err) {
+        index = newIndex
+        request(allArticlesRequestURL, function (error, response, body) {
+            if (!error) {
+                let articleJSON = JSON.parse(body);
+                for (let key in articleJSON) {
+                    if (articleJSON.hasOwnProperty(key)) {
+                        s.push(articleJSON[key]);
+                    }
+                }
+                s.push(null)
+                articleJSON = JSONStream.parse(response.body);
+                s.pipe(index.defaultPipeline())
+                    .pipe(index.add())
+                    .on('data', function (data) {})
+                    .on('end', function () {
+
+                    })
+
+            }
+        })
+    }
+}
+
+
+require('search-index')(ops, indexData)
+
+router.get('/search', function (req, res) {
+    q.query = {
+        AND: {
+            '*': ['this']
+        }
+    }
+    
+    index.search(q).on('data', function (doc) {
+        
+        
+        
+        res.status(200).send(doc);
+    })
+
+    // .on('end', function () {
+    //     res.status(404).send(index);
+    // })
+})
 
 router.get('/all/users', function (req, res) {
     SQLquery.getUserAccounts(function (err, data) {
@@ -25,20 +96,20 @@ router.get('/role/:role/users', function (req, res) {
     });
 });
 
-router.get('/users/:userId', function(req,res){
+router.get('/users/:userId', function (req, res) {
     let userId = req.params.userId;
-    SQLquery.getUserAccount(userId, function(err,data){
-        if(err) return;
+    SQLquery.getUserAccount(userId, function (err, data) {
+        if (err) return;
         else
             res.status(200).send(data);
     });
 });
 
 // lock useraccount
-router.put('/users/:userId/lock', function(req,res){
+router.put('/users/:userId/lock', function (req, res) {
     let userId = req.params.userId;
-    SQLquery.lockUserAccount(userId, function(err){
-        if(err) return;
+    SQLquery.lockUserAccount(userId, function (err) {
+        if (err) return;
         else
             res.status(202).send('Lock user successfully');
     });
@@ -46,10 +117,10 @@ router.put('/users/:userId/lock', function(req,res){
 
 
 // unlock useraccount
-router.put('/users/:userId/unlock', function(req,res){
+router.put('/users/:userId/unlock', function (req, res) {
     let userId = req.params.userId;
-    SQLquery.unlockUserAccount(userId, function(err){
-        if(err) return;
+    SQLquery.unlockUserAccount(userId, function (err) {
+        if (err) return;
         else
             res.status(202).send('Lock user successfully');
     });
@@ -76,46 +147,44 @@ router.get('/:category/articles', function (req, res) {
 });
 
 // post article
-router.post('/:category/articles/post', function(req,res){
+router.post('/:category/articles/post', function (req, res) {
     let articleJSON = req.body;
-    SQLquery.postArticle(articleJSON, function(err){
-        if(err) return err;
+    SQLquery.postArticle(articleJSON, function (err) {
+        if (err) return err;
         else
             res.status(201).send('Article created successfully');
     });
 });
 
-router.put('/:category/articles/modify', function(req,res){
+router.put('/:category/articles/modify', function (req, res) {
     let articleJSON = req.body;
-    SQLquery.modifyArticle(articleJSON, function(err){
-        if(err) return err;
+    SQLquery.modifyArticle(articleJSON, function (err) {
+        if (err) return err;
         else
             res.status(202).send('Article modified successfully');
     })
 });
 
-router.delete('/:category/articles/remove', function(req,res){
+router.delete('/:category/articles/remove', function (req, res) {
     let articleJSON = req.body;
-    SQLquery.removeArticle(articleJSON, function(err){
-        if(err) throw err;
+    SQLquery.removeArticle(articleJSON, function (err) {
+        if (err) throw err;
         else
             res.status(202).send('Article removed successfully');
     })
 });
 // get article detail 
-router.get('/:category/:articleID', function(req,res){
+router.get('/:category/:articleID', function (req, res) {
     let articleID = req.params.articleID;
-    SQLquery.getArticleDetail(articleID, function(err, article){
-        if(err)
+    SQLquery.getArticleDetail(articleID, function (err, article) {
+        if (err)
             res.status(404).send("Not found");
-        else
-        {
+        else {
             let articleJSON = article;
-            SQLquery.getComments(articleID, function(err, comments){
-                if(err) 
+            SQLquery.getComments(articleID, function (err, comments) {
+                if (err)
                     res.status(404).send('Not Found');
-                else
-                {
+                else {
                     articleJSON[0].comments = comments;
                     return res.status(200).send(articleJSON);
                 }
@@ -210,7 +279,7 @@ router.get('/voting', function (req, res) {
                         res.status(202).send({
                             "Message": "Downvoting Accepted !"
                         });
-                    }       
+                    }
                 });
                 break;
             default:
@@ -223,47 +292,45 @@ router.get('/voting', function (req, res) {
 });
 
 
-router.get('/:category/:articleID/comments', function(req,res){
+router.get('/:category/:articleID/comments', function (req, res) {
     let articleID = req.params.articleID;
-    SQLquery.getComments(articleID, function(err,data){
-        if(err) throw err;
+    SQLquery.getComments(articleID, function (err, data) {
+        if (err) throw err;
         res.status(200).send(data);
     })
 });
 
 // POST request to save comment of user (specify by ID) to article (specify by ID)
-router.post('/comment', function(req,res){
+router.post('/comment', function (req, res) {
     let commentJSON = req.body;
-    SQLquery.postComment(commentJSON, function(err){
-        if(err) throw err;
+    SQLquery.postComment(commentJSON, function (err) {
+        if (err) throw err;
         res.status(201).send('comment submitted');
-    })    
+    })
 });
 
 // PUT request to modify comment
-router.put('/comment', function(req,res){
+router.put('/comment', function (req, res) {
     let commentJSON = req.body;
-    SQLquery.modifyComment(commentJSON, function(err){
-        if(err) {
+    SQLquery.modifyComment(commentJSON, function (err) {
+        if (err) {
             console.log(err);
             res.status(500).send('Server Error');
 
-        }
-        else{
+        } else {
             res.status(202).send('Comment modified successfully');
         }
     })
 });
 
-router.delete('/comment', function(req,res){
+router.delete('/comment', function (req, res) {
     let commentJSON = req.body;
     console.log(commentJSON);
-    SQLquery.removeComment(commentJSON, function(err){
-        if(err){
+    SQLquery.removeComment(commentJSON, function (err) {
+        if (err) {
             console.log(err);
             res.status(500).send('Server Error');
-        }
-        else{
+        } else {
             res.status(202).send('Comment removed successfully');
         }
     })
