@@ -22,7 +22,7 @@
   margin-bottom: 2px;
 }
 
-.md-sidenav-left {
+.md-sidenav {
   width: 300px;
   md-nav-list {
     md-list-item {
@@ -40,8 +40,18 @@
   }
 }
 
+@media screen and (min-width: 801px) {
+  .cat-btn {
+    visibility: hidden;
+  }
+}
+
+
 @media screen and (max-width: 800px) {
   .category-button {
     display: none;
+  }
+  .cat-btn {
+    visibility: visible;
   }
 }

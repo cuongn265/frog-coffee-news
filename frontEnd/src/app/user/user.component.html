@@ -17,8 +17,11 @@
     > 
       {{category.categoryName}} 
     </button>
+    <button md-icon-button (click)="end.toggle()" class="cat-btn">
+      <md-icon class="md-24">more_vert</md-icon>
+    </button>
   </md-toolbar>
-  <md-sidenav class="md-sidenav-left" #start mode="over">
+  <md-sidenav class="md-sidenav" align="start" #start mode="over">
     <md-card class="user-card">
       <md-card-header *ngIf="auth.authenticated() && auth.userProfile">
         <img md-card-avatar [src]="auth.userProfile.picture">
@@ -69,6 +72,19 @@
           <md-icon>vpn_key</md-icon>
         </button>
         <a md-line (click)="auth.logout()">Log Out</a>
+      </md-list-item>
+    </md-nav-list>
+  </md-sidenav>
+
+  <md-sidenav class="md-sidenav" align="end" #end mode="over">
+    <md-toolbar color="primary" style="height: 10vh;">
+    </md-toolbar>
+    <md-nav-list>
+      <md-list-item *ngFor="let category of categoryList">
+        <a md-line [routerLink]="['/news', category.categoryName | lowercase]">{{category.categoryName}} </a>
+        <button md-icon-button>
+          <md-icon>loyalty</md-icon>
+        </button>
       </md-list-item>
     </md-nav-list>
   </md-sidenav>
