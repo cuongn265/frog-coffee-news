@@ -1,8 +1,8 @@
+import { AuthService } from './../auth.service';
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../category.service';
 import { Category } from '../category';
 import { User } from './user';
-import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-user',
@@ -14,7 +14,7 @@ export class UserComponent implements OnInit {
   categoryList: Category[];
   user: User;
 
-  constructor(private categoryService: CategoryService) { }
+  constructor(private categoryService: CategoryService, private auth: AuthService) { }
 
   ngOnInit() {
     this.categoryService.getCategories().then(
