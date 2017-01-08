@@ -3,12 +3,12 @@ import { ArticleService } from './../article/article.service';
 import { Article } from './../article/article';
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef, MdDialog } from '@angular/material';
-
+import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-articles-list',
   templateUrl: './articles-list.component.html',
   styleUrls: ['./articles-list.component.scss'],
-  providers: [ArticleService]
+  providers: [ArticleService, AuthService]
 })
 export class ArticlesListComponent implements OnInit {
 
@@ -18,7 +18,7 @@ export class ArticlesListComponent implements OnInit {
   dialogRef: MdDialogRef<PizzaDialogComponent>;
   ckeditorContent: string;
 
-  constructor(private articlesService: ArticleService, public dialog: MdDialog) { }
+  constructor(private articlesService: ArticleService, public dialog: MdDialog, private auth: AuthService) { }
 
   ngOnInit() {
     this.ckeditorContent = `<p>My HTML</p>`;

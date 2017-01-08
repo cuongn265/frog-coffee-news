@@ -1,3 +1,4 @@
+import { AuthService } from './../auth.service';
 import { Http } from '@angular/http';
 import { ArticleService } from './../article/article.service';
 import { UserService } from './../user/user.service';
@@ -12,7 +13,7 @@ import { MenuItem, DataTable } from 'primeng/primeng';
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.scss'],
-  providers: [UserService, ArticleService]
+  providers: [UserService, AuthService]
 })
 export class UsersListComponent implements OnInit {
 
@@ -25,7 +26,7 @@ export class UsersListComponent implements OnInit {
   icon: string;
   visible: boolean = true;
 
-  constructor(private http: Http, private userService: UserService) { }
+  constructor(private http: Http, private userService: UserService, private auth: AuthService) { }
 
   ngOnInit() {
     // TODO: Fix undefined response when get data via service
