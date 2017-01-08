@@ -17,6 +17,7 @@ export class UserComponent implements OnInit {
   constructor(private categoryService: CategoryService, private auth: AuthService) { }
 
   ngOnInit() {
+    console.log(this.auth.userProfile);
     this.categoryService.getCategories().then(
       (response) => {
         this.categoryList = response;
