@@ -54,7 +54,7 @@
           <md-icon>comment</md-icon>
         </button>
       </md-list-item>
-      <md-list-item>
+      <md-list-item *ngIf="auth.authenticated() && auth.userProfile && auth.userProfile.role == 1">
         <button md-icon-button>
           <md-icon>settings</md-icon>
         </button>
