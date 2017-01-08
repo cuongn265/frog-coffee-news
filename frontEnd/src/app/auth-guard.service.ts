@@ -8,7 +8,7 @@ import { User } from './user/user';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  user: User;
+  private user: User;
 
   constructor(private auth: AuthService, private router: Router) { }
 
@@ -18,10 +18,8 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['/news/all']);
       return false;
     } else {
-      let profile = localStorage.getItem('profile');
-      this.user = JSON.parse(profile);
-      console.log(this.user.role);
-      if (this.user.role !== 1) {
+      console.log(this.auth.userProfile.role);
+      if (this.auth.userProfile.role !== 1) {
         this.router.navigate(['/news/all']);
         return false;
       } else {

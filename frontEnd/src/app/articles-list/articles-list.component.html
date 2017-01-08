@@ -20,14 +20,14 @@
               [globalFilter]="gb"
               selectionMode="single" [(selection)]="selectedArticle" (onRowSelect)="onRowSelect($event)">
     <header>Articles List</header>
-    <p-column field="articleHeaderTitle" header="Title"></p-column>
-    <p-column field="date" header="Date">
+    <p-column field="articleHeaderTitle" header="Title" [sortable]="true"></p-column>
+    <p-column field="date" header="Date" [sortable]="true">
       <template let-article="rowData" let-i="rowIndex" pTemplate="body">
         <span>{{article.date | date:'medium'}}</span>
       </template>
     </p-column>
-    <p-column field="author" header="Author"></p-column>
-    <p-column field="source" header="Source"></p-column>
+    <p-column field="author" header="Author" [sortable]="true"></p-column>
+    <p-column field="source" header="Source" [sortable]="true"></p-column>
     <footer>
         <div class="ui-helper-clearfix" style="width:100%">
                 <button type="button" pButton icon="fa-plus" style="float:left" (click)="openDialog()" label="Add">

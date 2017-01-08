@@ -23,12 +23,12 @@
               #dt
               *ngIf="visible" >
     <header>Users List</header>
-    <p-column field="firstName" header="First name"></p-column>
-    <p-column field="lastName" header="Last name"></p-column>
-    <p-column field="email" header="Email"></p-column>
-    <p-column field="phone" header="Phone"></p-column>
-    <p-column field="role" header="Role"></p-column>
-    <p-column [style]="!stacked ? {'text-align':'center'} : {}">
+    <p-column field="firstName" header="First name" [sortable]="true"></p-column>
+    <p-column field="lastName" header="Last name" [sortable]="true"></p-column>
+    <p-column field="email" header="Email" [sortable]="true"></p-column>
+    <p-column field="phone" header="Phone" [sortable]="true"></p-column>
+    <p-column field="role" header="Role" [sortable]="true"></p-column>
+    <p-column [style]="!stacked ? {'text-align':'center'} : {}" [sortable]="true">
         <template pTemplate="header">
             Lock
         </template>
@@ -37,7 +37,7 @@
                             (change)="changeState($event, user)"
                             style="display: inline-block"
                             color="primary"
-                            *ngIf="user.idUser != auth.userProfile.idUser" >
+                            *ngIf="user.idUser != auth.userProfile.idUser && user.role != 1">
             </md-slide-toggle>
         </template>
     </p-column>

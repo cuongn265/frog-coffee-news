@@ -1,3 +1,4 @@
+import { User } from './user/user';
 import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Router } from '@angular/router';
@@ -7,9 +8,17 @@ declare var Auth0Lock: any;
 
 @Injectable()
 export class AuthService {
-  options = { };
+  options = {
+    theme: {
+      logo: 'https://cdn.auth0.com/blog/angular2-series/angular2-logo.png',
+      primaryColor: '#673ab7'
+    },
+    languageDictionary: {
+      title: 'Frog Coffee News'
+    }
+  };
   lock = new Auth0Lock('8VZeo0lbIPEz3OCGSVuC4AdWvKZBD0k9', 'cuongnm265.au.auth0.com', this.options);
-  userProfile: Object;
+  userProfile: User;
 
   constructor(private router: Router) {
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
