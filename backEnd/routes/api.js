@@ -60,22 +60,24 @@ const indexData = function (err, newIndex) {
 require('search-index')(ops, indexData)
 
 router.get('/search', function (req, res) {
+    let titleRequest = (req.query.title).split(" ");
+    console.log(titleRequest);
+
+    let result = [];
     q.query = {
         AND: {
-            '*': ['this']
+            'articleHeaderDescription': ['you']
         }
     }
     
     index.search(q).on('data', function (doc) {
-        
-        
-        
-        res.status(200).send(doc);
+        result.push(doc);
+        //res.status(200).send(doc);
     })
 
-    // .on('end', function () {
-    //     res.status(404).send(index);
-    // })
+    .on('end', function () {
+         res.send(result);
+    })
 })
 
 router.get('/all/users', function (req, res) {
