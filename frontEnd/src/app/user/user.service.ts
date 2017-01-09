@@ -6,7 +6,7 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class UserService {
-    private apiUrl: string = 'https://heroku-node-angular2.herokuapp.com/api/';
+    private apiUrl: string = process.env.apiUrl;
     constructor(private http: Http) { }
 
     getUserAccounts(): Promise<User[]> {

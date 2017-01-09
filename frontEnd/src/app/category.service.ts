@@ -6,7 +6,7 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class CategoryService {
 
-  private categoryUrl: string = 'https://heroku-node-angular2.herokuapp.com/api/categories';
+  private categoryUrl: string = process.env.apiUrl + 'categories';
 
   constructor(private http: Http) { }
 
