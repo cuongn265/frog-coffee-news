@@ -22,6 +22,9 @@ export class AppComponent implements OnInit {
         this.categoryList = response;
       }
     );
+    console.log("DEV ENV OR DEV PROD:");
+    console.log(process.env.localApi);
+    console.log(process.env.anotherVariable);
   }
 
   checkProfile() {

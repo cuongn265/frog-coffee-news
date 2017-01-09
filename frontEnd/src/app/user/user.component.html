@@ -81,7 +81,7 @@
     </md-toolbar>
     <md-nav-list>
       <md-list-item *ngFor="let category of categoryList">
-        <a md-line [routerLink]="['/news', category.categoryName | lowercase]">{{category.categoryName}} </a>
+        <a md-line (click)="end.close()" [routerLink]="['/news', category.categoryName | lowercase]">{{category.categoryName}} </a>
         <button md-icon-button>
           <md-icon>loyalty</md-icon>
         </button>
