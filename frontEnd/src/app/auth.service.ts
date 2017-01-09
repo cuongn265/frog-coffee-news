@@ -17,10 +17,8 @@ export class AuthService {
       title: 'Frog Coffee News',
       error: {
         login: {
-          'lock.invalid_email_password': 'Custom message about invalid credentials',
-          'lock.network': 'Custom message indicating a network error and suggesting the user check connection',
-          'lock.unauthorized': 'Custom message about a failure of permissions',
-          'too_many_attempts': 'Custom message indicating the user has failed to login too many times.'
+          'lock.invalid_email_password': 'Your username or password is invalid',
+          'lock.unauthorized': 'Your account has been blocked'
         },
         signUp: {
           'invalid_password': 'Password is invalid.',
