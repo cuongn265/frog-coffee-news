@@ -93,7 +93,7 @@ module.exports = {
     getArticle: function (callback) {
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
-        db.query('SELECT * FROM article WHERE article.deletedAt IS NULL', function (err, rows) {
+        db.query('SELECT * FROM article WHERE article.deletedAt IS NULL ORDER BY date DESC', function (err, rows) {
             if (err) throw err;
             return callback(null, rows);
         });
@@ -101,7 +101,7 @@ module.exports = {
     getArticleInCategory: function (category, callback) {
         SQLconnection.connectToServer();
         db = SQLconnection.getConnectionInstance();
-        db.query('SELECT * FROM article,category WHERE category.categoryName = ? AND article.Category = category.idCategory AND article.deletedAt IS NULL', [category], function (err, rows) {
+        db.query('SELECT * FROM article,category WHERE category.categoryName = ? AND article.Category = category.idCategory AND article.deletedAt IS NULL ORDER BY date DESC', [category], function (err, rows) {
             if (err) throw err;
             //return rows
             return callback(null, rows);
