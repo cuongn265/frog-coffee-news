@@ -31,6 +31,7 @@
     "ng2-bootstrap": "^1.1.16",
     "ng2-ckeditor": "^1.1.5",
     "ng2-material-select": "^0.1.4",
+    "ng2-pagination": "^1.0.1",
     "ng2-sharebuttons": "^1.1.1",
     "primeng": "^1.1.4",
     "ts-helpers": "^1.1.1",

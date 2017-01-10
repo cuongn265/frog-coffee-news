@@ -31,6 +31,8 @@ import { CKEditorModule } from 'ng2-ckeditor';
 import { Slide2Component } from './slide-2/slide-2.component';
 import { ModifyCommentDialogComponent } from './comment-dialog/modify-comment-dialog/modify-comment-dialog.component';
 import { RemoveCommentDialogComponent } from './comment-dialog/remove-comment-dialog/remove-comment-dialog.component';
+import {Ng2PaginationModule} from 'ng2-pagination';
+import { ReversePipe } from './reverse.pipe';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import { RemoveCommentDialogComponent } from './comment-dialog/remove-comment-di
     ModifyCommentDialogComponent,
     RemoveCommentDialogComponent,
     DashboardComponent,
-    Slide2Component
+    Slide2Component,
+    ReversePipe
   ],
   imports: [
     BrowserModule,
@@ -68,7 +71,8 @@ import { RemoveCommentDialogComponent } from './comment-dialog/remove-comment-di
     PanelModule,
     ChartModule,
     Ng2SelectModule,
-    CKEditorModule
+    CKEditorModule,
+    Ng2PaginationModule
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],

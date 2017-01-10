@@ -11,7 +11,7 @@
   </div>
   <!-- Thing to fix ...-->
   <div class="row">
-    <div class="col-md-4 col-sm-6" *ngFor="let article of publishedArticles | slice:3" [routerLink]="[article.idArticle]">
+    <div class="col-md-4 col-sm-6" *ngFor="let article of publishedArticles | slice:3 | paginate: { itemsPerPage: 9, currentPage: p }" [routerLink]="[article.idArticle]">
       <md-card>
         <img md-card-image src={{article.headerImagePath}} class="articles-img">
         <md-card-content>
@@ -34,6 +34,7 @@
   </div>
   <!-- End here-->
 </div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
 <div class="container-notfound" *ngIf="!publishedArticles || publishedArticles.length == 0">
   <div class="wrapper">
     <img class="notfound-img" src="assets/images/not-found.png" />
