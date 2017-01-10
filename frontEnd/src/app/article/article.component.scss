@@ -83,3 +83,19 @@
 md-grid-tile figure {
   align-items: flex-end !important;
 }
+
+pagination-controls {
+  text-align: center;
+}
+
+pagination-controls /deep/ .ng2-pagination li.current {
+  background: md-color($primary) !important;
+}
+
+pagination-controls /deep/ .ng2-pagination li {
+  font-size: 14px !important;
+  cursor: pointer;
+  a:hover {
+    text-decoration: none;
+  }
+}
