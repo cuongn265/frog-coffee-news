@@ -17,7 +17,7 @@
     "@angular/core": "~2.4.0",
     "@angular/forms": "~2.4.0",
     "@angular/http": "~2.4.0",
-    "@angular/material": "^2.0.0-alpha.11-3",
+    "@angular/material": "^2.0.0-beta.2",
     "@angular/platform-browser": "~2.4.0",
     "@angular/platform-browser-dynamic": "~2.4.0",
     "@angular/router": "~3.4.0",
@@ -38,10 +38,10 @@
     "zone.js": "^0.6.26"
   },
   "devDependencies": {
+    "@angular/cli": "^1.0.0-rc.1",
     "@types/jasmine": "^2.2.30",
     "@types/jquery": "^2.0.34",
     "@types/node": "^6.0.42",
-    "angular-cli": "^1.0.0-beta.24",
     "codelyzer": "1.0.0-beta.1",
     "jasmine-core": "2.4.1",
     "jasmine-spec-reporter": "2.5.0",

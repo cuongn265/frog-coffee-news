@@ -1,7 +1,7 @@
 /*@import '~@angular/material/core/theming/prebuilt/pink-bluegrey';*/
 // @import '~@angular/material/core/theming/prebuilt/pink-bluegrey';
 @import '~@angular/material/core/theming/prebuilt/deeppurple-amber';
-@include md-core(); // include all mixins
+@include mat-core(); // include all mixins
 
 .user-card {
     background-color: md-color($primary);
