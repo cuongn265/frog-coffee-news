@@ -8,14 +8,21 @@ var cors = require('cors');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var api = require('./routes/api');
-
+var mongooseConnector = require('./mongoose/mongoose-connection');
 var app = express();
+
+
+/* Specify router */
+let categoryRouter = require('./routes/category-router');
+let userRouter = require('./routes/user-router');
+let articleRouter = require('./routes/article-router');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(cors());
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -25,11 +32,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+mongooseConnector.connectToMongo();
+
 
 //configure path link
 app.use('/', index);
 app.use('/users', users);
-app.use('/api',api);
+app.use('/api/v1',api);
+
+app.use('/api/v2/categories', categoryRouter);
+app.use('/api/v2/articles', articleRouter);
+app.use('/api/v2/users', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
