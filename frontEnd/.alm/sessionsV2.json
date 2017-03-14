@@ -1,0 +1,66 @@
+{
+  "sessions": [
+    {
+      "id": "9bbea227-5ac1-4988-a884-f13e8ea0cb1e",
+      "tabLayout": {
+        "type": "stack",
+        "width": 100,
+        "height": 100,
+        "tabs": [
+          {
+            "id": "f03ae80c-6223-4377-846f-b393858b5028",
+            "relativeUrl": "file://./src/app/article/article.service.ts",
+            "additionalData": null
+          },
+          {
+            "id": "b026aaf2-94b4-48f4-8a67-eb38e50e3161",
+            "relativeUrl": "file://./src/app/admin/admin.component.ts",
+            "additionalData": null
+          },
+          {
+            "id": "31f00147-25b9-4bac-8942-f325289a6c52",
+            "relativeUrl": "uml://./src/app/admin/admin.component.ts",
+            "additionalData": null
+          },
+          {
+            "id": "b3d839aa-41be-4070-86a4-43097e71cbe2",
+            "relativeUrl": "uml://./src/app/admin/admin.component.ts",
+            "additionalData": null
+          },
+          {
+            "id": "adfa2ee7-9dfe-4fa5-a438-d8d804cd3831",
+            "relativeUrl": "file://./src/app/article/article.component.ts",
+            "additionalData": null
+          },
+          {
+            "id": "b4669cd9-ed5c-41a2-937c-7ba1bf4dbae3",
+            "relativeUrl": "uml://./src/app/article/article.component.ts",
+            "additionalData": null
+          },
+          {
+            "id": "76d9c2a0-0347-433a-893f-24b8aedc976f",
+            "relativeUrl": "file://./src/app/user/user.ts",
+            "additionalData": null
+          },
+          {
+            "id": "82673b9f-b295-4df7-b2a1-7e31506dd1c8",
+            "relativeUrl": "file://./src/app/category.ts",
+            "additionalData": null
+          },
+          {
+            "id": "3199bbf0-52de-419b-9f31-b0bf84cf251d",
+            "relativeUrl": "file://./src/app/article/article.ts",
+            "additionalData": null
+          }
+        ],
+        "subItems": [],
+        "activeItemIndex": 0
+      },
+      "lastUsed": 1483957112886,
+      "selectedTabId": "82673b9f-b295-4df7-b2a1-7e31506dd1c8",
+      "fileTreeExpanded": true,
+      "fileTreeWidth": 275
+    }
+  ],
+  "relativePathToTsconfig": "./src/tsconfig.json"
+}
