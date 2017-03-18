@@ -7,11 +7,10 @@ let articleService = require('../mongoose/services/article-service');
 
 
 /** GET: Get all articles */
-
 router.get('/', function (req, res) {
     let searchQuery = req.query.search;
+    
     /** If no search query is specified , find all documents */
-
     if (searchQuery === undefined || searchQuery === '') {
         articleService.findAll(function (err, docs) {
             if (err) {
@@ -64,7 +63,7 @@ router.put('/:articleId', function (req, res) {
         if (err) {
             res.send(404).send(err);
         } else {
-            res.send(202).send();
+            res.status(202).send();
         }
     });
 });
