@@ -55,8 +55,8 @@
                     md-input
                     style="width: 80%">
                 <option *ngFor="let category of categories; let i = index;" 
-                        [value]="category.idCategory">
-                  {{category.categoryName}}
+                        [value]="category._id">
+                  {{category.name}}
                 </option>
             </select>
           </div>

@@ -12,14 +12,16 @@ export class ArticleService {
   constructor(private http: Http) { }
 
   // get articles of selected category
-  getArticles(categoryName: string): Promise<Article[]> {
+  getArticles(name: string): Promise<Article[]> {
     let articleUrl: string;
-    if (categoryName === undefined) {
-      articleUrl = this.apiUrl + 'all/articles';
+    console.log('cat name' + name)
+    if (name === undefined || name == 'all') {
+      articleUrl = this.apiUrl + 'articles';
     } else {
-      articleUrl = this.apiUrl + categoryName + '/articles';
+      articleUrl = this.apiUrl + name + '/articles';
     }
-
+    console.log(articleUrl);
+    
     return this.http.get(articleUrl)
       .toPromise()
       .then(response => response.json())
@@ -27,12 +29,13 @@ export class ArticleService {
   }
 
   // get article detail by articleID
-  getArticleDetail(categoryName: string, articleID: number): Promise<Article> {
+  getArticleDetail(id: number): Promise<Article> {
 
-    if (articleID === undefined) {
+    if (id === undefined) {
       return null;
     } else {
-      let requestURL = this.apiUrl + categoryName + '/' + articleID;
+      let requestURL = this.apiUrl + 'articles' + '/' + id;
+      console.log(requestURL);
       return this.http.get(requestURL).toPromise().then(response => response.json()).catch(this.handleError);
     }
   }
@@ -41,7 +44,7 @@ export class ArticleService {
   postArticle(article: Article) {
     let body = JSON.stringify(article);
     let header = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.post(this.apiUrl + 'all/articles/post', body, { headers: header })
+    return this.http.post(this.apiUrl + 'articles/post', body, { headers: header })
       .toPromise().then(response => response).catch(this.handleError);
   }
 
@@ -49,7 +52,7 @@ export class ArticleService {
   putArticle(article: Article) {
     let body = JSON.stringify(article);
     let header = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.put(this.apiUrl + 'all/articles/modify', body, { headers: header })
+    return this.http.put(this.apiUrl + 'articles/modify', body, { headers: header })
       .toPromise().then(response => response).catch(this.handleError);
   }
 
@@ -57,7 +60,7 @@ export class ArticleService {
     let article = { 'idArticle': articleId };
     let body = JSON.stringify(article);
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.delete(this.apiUrl + 'all/articles/remove', new RequestOptions({
+    return this.http.delete(this.apiUrl + 'articles/remove', new RequestOptions({
       headers: headers,
       body: body
     })).toPromise().then(response => response).catch(this.handleError);

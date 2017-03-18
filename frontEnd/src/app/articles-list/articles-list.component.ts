@@ -22,7 +22,7 @@ export class ArticlesListComponent implements OnInit {
 
   ngOnInit() {
     this.ckeditorContent = `<p>My HTML</p>`;
-    this.articlesService.getArticles('all').then(
+    this.articlesService.getArticles('').then(
       (response) => {
         this.articlesList = response;
         console.log(this.articlesList);
@@ -50,7 +50,7 @@ export class ArticlesListComponent implements OnInit {
 
   refresh(self: any) {
     setTimeout(function () {
-        self.articlesService.getArticles('all').then(
+        self.articlesService.getArticles('').then(
           (response) => {
             self.articlesList = response;
             console.log(self.articlesList);

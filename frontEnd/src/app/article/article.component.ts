@@ -32,19 +32,16 @@ export class ArticleComponent implements OnInit, OnDestroy {
         (response) => {
           this.articlesList = response;
           this.articlesList.forEach(article => {
-            if (article.published) {
+            if (article.date) {
               this.publishedArticles.push(article);
             }
           }, this);
+          console.log(this.publishedArticles);
         }
       );
     });
-
-    // this.articleService.getArticles(this.name).then(
-    //   (response) => {
-    //     this.articlesList = response;
-    //   }
-    // );
+    console.log();
+    
   }
 
   ngOnDestroy() {
