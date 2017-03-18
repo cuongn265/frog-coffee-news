@@ -32,11 +32,11 @@ export class AuthService {
     auth: { redirect: false },
     socialButtonStyle: 'small',
     additionalSignUpFields: [{
-      name: 'firstName',
+      name: 'first_name',
       placeholder: 'Enter your first name'
     },
     {
-      name: 'lastName',
+      name: 'last_name',
       placeholder: 'Enter your last name'
     },
     {

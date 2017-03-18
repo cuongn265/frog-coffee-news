@@ -20,7 +20,7 @@
               [globalFilter]="gb"
               selectionMode="single" [(selection)]="selectedArticle" (onRowSelect)="onRowSelect($event)">
     <header>Articles List</header>
-    <p-column field="articleHeaderTitle" header="Title" [sortable]="true"></p-column>
+    <p-column field="title" header="Title" [sortable]="true"></p-column>
     <p-column field="date" header="Date" [sortable]="true">
       <template let-article="rowData" let-i="rowIndex" pTemplate="body">
         <span>{{article.date | date:'medium'}}</span>

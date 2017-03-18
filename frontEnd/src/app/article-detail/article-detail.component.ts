@@ -52,10 +52,10 @@ export class ArticleDetailComponent implements OnInit {
       let profileJSON = JSON.parse(localStorage.getItem('profile'));
       this.user.email = profileJSON.email;
       this.user.username = profileJSON.nickname;
-      this.user.firstName = profileJSON.firstName;
-      this.user.lastName = profileJSON.lastName;
+      this.user.first_name = profileJSON.first_name;
+      this.user.last_name = profileJSON.last_name;
       this.user.phone = profileJSON.telephoneNumber;
-      this.user.idUser = profileJSON.idUser;
+      this.user._id = profileJSON._id;
     }
 
     this.sub = this.route.params.subscribe(params => {
@@ -87,10 +87,10 @@ export class ArticleDetailComponent implements OnInit {
   comment() {
     this.submittingComment = true;
     this.newComment.content = this.commentContent;
-    this.newComment.firstName = this.user.firstName;
-    this.newComment.lastName = this.user.lastName;
+    this.newComment.first_name = this.user.first_name;
+    this.newComment.last_name = this.user.last_name;
     this.newComment.idArticle = this.articleId;
-    this.newComment.idUser = this.user.idUser;
+    this.newComment._id = this.user._id;
 
     if (this.commentContent == null) {
       this.submittingComment = false;

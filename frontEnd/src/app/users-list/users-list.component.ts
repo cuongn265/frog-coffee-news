@@ -50,13 +50,13 @@ export class UsersListComponent implements OnInit {
     console.log(user.email);
   }
 
-  lock(userId: number) {
+  lock(userId: string) {
     this.userService.lockUser(userId).then((res) => {
       console.log(res);
     });
   }
 
-  unlock(userId: number) {
+  unlock(userId: string) {
     this.userService.unlockUser(userId).then((res) => {
       console.log(res);
     });
@@ -65,10 +65,10 @@ export class UsersListComponent implements OnInit {
   changeState(event: any, user: User) {
     if (event.checked) {
       console.log('checked');
-      this.lock(user.idUser);
+      this.lock(user._id);
     } else {
       console.log('unchecked');
-      this.unlock(user.idUser);
+      this.unlock(user._id);
     }
     return true;
   }

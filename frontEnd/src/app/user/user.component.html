@@ -25,7 +25,7 @@
     <md-card class="user-card">
       <md-card-header *ngIf="auth.authenticated() && auth.userProfile">
         <img md-card-avatar [src]="auth.userProfile.picture">
-        <md-card-title class="username-text">{{auth.userProfile.firstName || auth.userProfile.name}} {{auth.userProfile.lastName}}</md-card-title>
+        <md-card-title class="username-text">{{auth.userProfile.first_name || auth.userProfile.name}} {{auth.userProfile.last_name}}</md-card-title>
         <md-card-subtitle class="email-text">{{auth.userProfile.email || auth.userProfile.gender}}</md-card-subtitle>
       </md-card-header>
       <md-card-header *ngIf="!auth.authenticated()">

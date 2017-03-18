@@ -43,7 +43,7 @@
       .related-article-row {
         &:hover {
           cursor: pointer;
-          color: md-color($primary);
+          color: mat-color($primary);
         }
       }
     }

@@ -61,7 +61,7 @@
     .line {
       position: relative;
       height: 5px;
-      background-color: md-color($primary);
+      background-color: mat-color($primary);
       flex: 2;
     }
   }
@@ -89,7 +89,7 @@ pagination-controls {
 }
 
 pagination-controls /deep/ .ng2-pagination li.current {
-  background: md-color($primary) !important;
+  background: mat-color($primary) !important;
 }
 
 pagination-controls /deep/ .ng2-pagination li {

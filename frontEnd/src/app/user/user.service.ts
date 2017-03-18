@@ -17,12 +17,12 @@ export class UserService {
         return this.http.get(this.apiUrl + 'all/users/' + userId).toPromise().then(response => response.json()).catch(this.handleError);
     }
 
-    lockUser(userId: number) {
+    lockUser(userId: string) {
         let putUrl = this.apiUrl + 'users/' + userId + '/lock';
         return this.http.put(putUrl, {}).toPromise().then(response => response).catch(this.handleError);
     }
 
-    unlockUser(userId: number) {
+    unlockUser(userId: string) {
         let putUrl = this.apiUrl + 'users/' + userId + '/unlock';
         return this.http.put(putUrl, {}).toPromise().then(response => response).catch(this.handleError);
     }

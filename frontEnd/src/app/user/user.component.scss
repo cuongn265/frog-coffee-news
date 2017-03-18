@@ -1,16 +1,20 @@
 /*@import '~@angular/material/core/theming/prebuilt/pink-bluegrey';*/
 // @import '~@angular/material/core/theming/prebuilt/pink-bluegrey';
 @import '~@angular/material/core/theming/prebuilt/deeppurple-amber';
-@include mat-core(); // include all mixins
+@include mat-core();
 
 .user-card {
-    background-color: md-color($primary);
+    background-color: mat-color($primary);
     .username-text {
       color: white;
     }
 
     .email-text {
       color: white;
+    }
+    img {
+      width: 50px;
+      height: 50px;
     }
 }
 
@@ -34,7 +38,7 @@
         text-decoration: none
       }
       button {
-        color: md-color($primary);
+        color: mat-color($primary);
       }
     }
   }

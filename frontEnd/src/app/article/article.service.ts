@@ -15,13 +15,13 @@ export class ArticleService {
   getArticles(name: string): Promise<Article[]> {
     let articleUrl: string;
     console.log('cat name' + name)
-    if (name === undefined || name == 'all') {
+    if (name === undefined || name == 'all' || name == '') {
       articleUrl = this.apiUrl + 'articles';
     } else {
       articleUrl = this.apiUrl + name + '/articles';
     }
     console.log(articleUrl);
-    
+
     return this.http.get(articleUrl)
       .toPromise()
       .then(response => response.json())
@@ -70,21 +70,21 @@ export class ArticleService {
     let body = JSON.stringify(comment);
     console.log(body);
     let header = new Headers({ 'Content-Type': 'application/json' });
-    return this.http. post(this.apiUrl + 'comment', body, { headers: header }).toPromise().then(response => {
+    return this.http.post(this.apiUrl + 'comment', body, { headers: header }).toPromise().then(response => {
       console.log(response.status);
     }).catch(this.handleError);
   }
 
-  putComment(comment: Comment){
+  putComment(comment: Comment) {
     let body = JSON.stringify(comment);
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.put(this.apiUrl + 'comment', body, {headers: headers}).toPromise().then(response => response);
+    return this.http.put(this.apiUrl + 'comment', body, { headers: headers }).toPromise().then(response => response);
   }
 
-  removeComment(comment: Comment){
-    let selectedComment = {'idComment': comment.idComment}
+  removeComment(comment: Comment) {
+    let selectedComment = { 'idComment': comment.idComment }
     let body = JSON.stringify(selectedComment);
-    let headers = new Headers({ 'Content-Type': 'application/json '});
+    let headers = new Headers({ 'Content-Type': 'application/json ' });
     return this.http.delete(this.apiUrl + 'comment', new RequestOptions({
       headers: headers,
       body: body
