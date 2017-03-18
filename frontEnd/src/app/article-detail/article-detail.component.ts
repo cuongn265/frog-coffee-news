@@ -60,9 +60,12 @@ export class ArticleDetailComponent implements OnInit {
 
     this.sub = this.route.params.subscribe(params => {
       this.categoryName = params['categoryName'];
-      this.articleId = +params['articleId'];
-      this.articleService.getArticleDetail(this.categoryName, this.articleId).then(article => {
-        this.article = article[0];
+      this.articleId = params['articleId'];
+      this.articleService.getArticleDetail(this.articleId).then(article => {
+        this.article = article;
+        console.log(article);
+        console.log("+++++++++++++++++++++++++++++++++++++");
+        console.log(article[0]);
         this.commentList = this.article['comments'];
       });
 
@@ -97,7 +100,7 @@ export class ArticleDetailComponent implements OnInit {
       this.articleService.postComment(this.newComment).then(response => {
         this.submittingComment = false;
         this.commentContent = null;
-        this.articleService.getArticleDetail(this.categoryName, this.articleId).then(article => {
+        this.articleService.getArticleDetail(this.articleId).then(article => {
           this.article = article[0];
           this.commentList = this.article['comments'];
         });
@@ -114,7 +117,7 @@ export class ArticleDetailComponent implements OnInit {
       this.dialogRemoveRef = null;
       if (result === 'yes') {
         this.articleService.removeComment(comment).then(response => {
-          this.articleService.getArticleDetail(this.categoryName, this.articleId).then(article => {
+          this.articleService.getArticleDetail(this.articleId).then(article => {
             this.article = article[0];
             this.commentList = this.article['comments'];
           });
@@ -135,8 +138,9 @@ export class ArticleDetailComponent implements OnInit {
     this.storedComment = comment;
     this.dialogModifyRef.componentInstance.selectedComment = comment;
     this.dialogModifyRef.afterClosed().subscribe(result => {
-        this.articleService.getArticleDetail(this.categoryName, this.articleId).then(article => {
-          this.article = article[0];
+        this.articleService.getArticleDetail(this.articleId).then(article => {
+          console.log(article)
+          this.article = article;
           this.commentList = this.article['comments'];
         })
     });

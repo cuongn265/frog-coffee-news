@@ -38,10 +38,12 @@ export class Slide2Component implements OnInit, AfterViewInit {
         (response) => {
           this.articlesList = response;
           this.articlesList.forEach(article => {
-            if (article.published) {
+            if (article.date) {
               this.publishedArticles.push(article);
             }
           }, this);
+          console.log("+++++ slider");
+          console.log(this.publishedArticles)
           $(this.el.nativeElement).ready(function () {
             $('#myCarousel').carousel({
               interval: 3000

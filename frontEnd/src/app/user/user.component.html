@@ -13,9 +13,9 @@
     <button class="category-button" 
       md-button 
       *ngFor="let category of categoryList" 
-      [routerLink]="['/news', category.categoryName | lowercase]"  
+      [routerLink]="['/news', category.name | lowercase]"  
     > 
-      {{category.categoryName}} 
+      {{category.name}} 
     </button>
     <button md-icon-button (click)="end.toggle()" class="cat-btn">
       <md-icon class="md-24">more_vert</md-icon>
@@ -81,7 +81,7 @@
     </md-toolbar>
     <md-nav-list>
       <md-list-item *ngFor="let category of categoryList">
-        <a md-line (click)="end.close()" [routerLink]="['/news', category.categoryName | lowercase]">{{category.categoryName}} </a>
+        <a md-line (click)="end.close()" [routerLink]="['/news', category.name | lowercase]">{{category.name}} </a>
         <button md-icon-button>
           <md-icon>loyalty</md-icon>
         </button>
