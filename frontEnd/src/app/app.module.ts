@@ -32,6 +32,7 @@ import { ModifyCommentDialogComponent } from './comment-dialog/modify-comment-di
 import { RemoveCommentDialogComponent } from './comment-dialog/remove-comment-dialog/remove-comment-dialog.component';
 import {Ng2PaginationModule} from 'ng2-pagination';
 import { ReversePipe } from './reverse.pipe';
+import { ArticleEditorComponent } from './articles-list/article-editor/article-editor.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { ReversePipe } from './reverse.pipe';
     RemoveCommentDialogComponent,
     DashboardComponent,
     Slide2Component,
-    ReversePipe
+    ReversePipe,
+    ArticleEditorComponent
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,7 @@
     <h3 md-dialog-title class="dialog-header"> Modify comment</h3>
     <div class="modify-comment-container">
       <md-input-container style="width: 100%;">
-        <textarea md-input placeholder="Type to modify your comment below" maxlength="300" #characterCountComment rows="4" name="content"
+        <textarea mdInput placeholder="Type to modify your comment below" maxlength="300" #characterCountComment rows="4" name="content"
           [(ngModel)]="selectedComment.content" value="{{selectedComment.content}}"></textarea>
           <md-hint align="end">{{characterCountComment.value.length}} / 300</md-hint>
       </md-input-container>

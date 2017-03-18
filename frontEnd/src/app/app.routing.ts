@@ -6,9 +6,10 @@ import { AdminComponent } from './admin/admin.component';
 import { Routes } from '@angular/router';
 import { ArticleComponent } from './article/article.component';
 import { LoginComponent } from './login/login.component';
-import { AppComponent } from './app.component';
+// import { AppComponent } from './app.component';
 import { ArticleDetailComponent } from './article-detail/article-detail.component';
 import { AuthGuard } from './auth-guard.service';
+import { ArticleEditorComponent } from './articles-list/article-editor/article-editor.component';
 
 export const AppRoutes: Routes = [
   {
@@ -38,6 +39,7 @@ export const AppRoutes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'users-list', component: UsersListComponent },
       { path: 'articles-list', component: ArticlesListComponent },
+      { path: 'articles-list/new', component: ArticleEditorComponent },
     ]
   }
 ];

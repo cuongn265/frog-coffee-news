@@ -9,7 +9,7 @@
           icon="fa-mobile" *ngIf="stacked">
   </button>
   <input #gb type="text" placeholder="Global search" pInputText style="margin-bottom:10px">
-  <button class="btn-add-big-size" type="button" pButton icon="fa-plus" style="float:right; margin-bottom: 10px" (click)="openDialog()" label="Add">
+  <button [routerLink]="new" class="btn-add-big-size" type="button" pButton icon="fa-plus" style="float:right; margin-bottom: 10px" label="Add">
   </button>
   <p-dataTable  [value]="users" 
               [rows]="9" 

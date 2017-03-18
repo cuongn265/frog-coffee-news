@@ -3,7 +3,7 @@
   <md-dialog-content>
       <input type="hidden" id="id" [(ngModel)]="articleDetail.idArticle" name="idArticle">
       <md-input-container style="width: 100%">
-        <input md-input 
+        <input mdInput 
                maxlength="100"
                id="title"
                required
@@ -16,7 +16,7 @@
       </md-input-container>
 
       <md-input-container style="width: 100%">
-        <textarea md-input maxlength="200" placeholder="Desciption" 
+        <textarea mdInput maxlength="200" placeholder="Desciption" 
                   required
                   [(ngModel)]="articleDetail.articleHeaderDescription"         
                   id="description"
@@ -28,7 +28,7 @@
       </md-input-container>
 
       <md-input-container style="width: 100%">
-        <input md-input placeholder="Author" required
+        <input mdInput placeholder="Author" required
             [(ngModel)]="articleDetail.author"         
             id="author"
             name="author"
@@ -38,7 +38,7 @@
       <div class="row">
         <div class="col-md-8 col-sm-8">
           <md-input-container style="width: 100%">
-                  <input md-input 
+                  <input mdInput 
                         id="imageUrl"
                         required
                         [(ngModel)]="articleDetail.headerImagePath" 
@@ -52,7 +52,7 @@
                     id="category"
                     [(ngModel)]="articleDetail.Category"
                     required
-                    md-input
+                    mdInput
                     style="width: 80%">
                 <option *ngFor="let category of categories; let i = index;" 
                         [value]="category._id">

@@ -64,7 +64,7 @@
         <md-list-item>
           <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar">
           <md-input-container style=" width: 100%; padding-left: 16px;">
-            <textarea md-input placeholder="Leave a comment as {{user.first_name}} {{user.last_name}}" maxlength="300" required #characterCountComment
+            <textarea mdInput placeholder="Leave a comment as {{user.first_name}} {{user.last_name}}" maxlength="300" required #characterCountComment
               rows="3" [(ngModel)]="commentContent"></textarea>
             <md-hint align="end">{{characterCountComment.value.length}} / 300</md-hint>
           </md-input-container>
