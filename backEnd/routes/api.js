@@ -195,16 +195,6 @@ router.get('/:category/:articleID', function (req, res) {
     });
 });
 
-router.get('/figures/:articleid', function (req, res) {
-    let articleID = req.params.articleid;
-    SQLquery.getArticleFigures(articleID, function (err, data) {
-        if (err) return err;
-        else
-            res.status(200).send(data);
-    })
-});
-
-
 // get all category
 router.get('/categories', function (req, res) {
     SQLquery.getCategoryList(function (err, data) {
