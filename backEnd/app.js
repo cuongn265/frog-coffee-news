@@ -10,7 +10,7 @@ var users = require('./routes/users');
 var api = require('./routes/api');
 var mongooseConnector = require('./mongoose/mongoose-connection');
 var app = express();
-
+let Role = require('./mongoose/models/role-model');
 
 /* Specify router */
 let categoryRouter = require('./routes/category-router');

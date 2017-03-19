@@ -12,7 +12,7 @@ let UserSchema = new Schema({
    twitter: String,
    googleplus: String,
    enable: Boolean,
-   role: [{type: ObjectId, ref: 'roles'}]
+   role: [{type:ObjectId, ref: 'roles'}],
 });
 
 //role: [{type: ObjectId, ref: 'roles'}]

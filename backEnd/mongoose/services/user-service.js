@@ -27,7 +27,20 @@ module.exports = {
 
     /** Save new User document */
     save: function (doc, callback) {
-        let user = new User(doc);
+        //let user = new User(doc);
+        let user = new User({
+            "first_name": "Nhan dm",
+            "last_name": "Ngo Manh",
+            "password": "$2a$06$e6SZPEAl2tHgUPn6hfbEMu.sO5nAvXZ2sjcAXuDrwL6if.dUpIktu",
+            "email": "cuongnm265@gmail.com",
+            "phone": "+84964303602",
+            "facebook": "https://www.facebook.com/eugene.1726",
+            "twitter": "",
+            "googleplus": "",
+            "enable": true,
+            "role": "58cd47b2879f9e00c88747c0"
+        });
+
         user.save(function (err) {
             if (err) return callback(err);
             else
@@ -36,7 +49,7 @@ module.exports = {
     },
 
     /** Update User document */
-    update: function (id,document, callback) {
+    update: function (id, document, callback) {
         let documentId = id;
         console.log(documentId);
         if (ObjectId.isValid(documentId)) {
@@ -65,17 +78,20 @@ module.exports = {
 
     /** get all comments */
 
-    getComments: function(userId, callback){
-        if(ObjectId.isValid(userId)){
-            
-        }
-        else{
+    getComments: function (userId, callback) {
+        if (ObjectId.isValid(userId)) {
+
+        } else {
             return callback('Invalid ObjectId');
         }
+    },
+
+    /** Populate role name */
+    getRolename: function (userId, callback) {
+        User.findById(userId).populate('role').exec(function (err, doc) {
+            if (err) return callback(err);
+            console.log(doc.role);
+            return callback(null, doc.role[0].name);
+        });
     }
-
-
-
-
-    
 }

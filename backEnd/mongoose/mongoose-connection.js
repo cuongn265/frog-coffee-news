@@ -1,8 +1,5 @@
 var mongoose = require('mongoose');
 
-
-
-
 module.exports = {
     connectToMongo: function(){
         mongoose.connect("mongodb://localhost/frogcoffeedb");
