@@ -1,6 +1,7 @@
 /** User Service: provide methods on User Model */
-var User = require('../models/user-model');
-var ObjectId = require('mongoose').Types.ObjectId;
+let User = require('../models/user-model');
+let Comment = require('../models/comment-model');
+let ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = {
 
@@ -59,7 +60,22 @@ module.exports = {
         } else {
             return callback('Invalid ObjectId');
         }
+    },
+
+
+    /** get all comments */
+
+    getComments: function(userId, callback){
+        if(ObjectId.isValid(userId)){
+            
+        }
+        else{
+            return callback('Invalid ObjectId');
+        }
     }
+
+
+
 
     
 }
