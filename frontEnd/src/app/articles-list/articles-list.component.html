@@ -9,7 +9,7 @@
           icon="fa-mobile" *ngIf="stacked">
   </button>
   <input #gb type="text" placeholder="Global search" pInputText style="margin-bottom:10px">
-  <button class="btn-add-big-size" type="button" pButton icon="fa-plus" style="float:right" (click)="openDialog()" label="Add">
+  <button [routerLink]="['new']" class="btn-add-big-size" type="button" pButton icon="fa-plus" style="float:right" label="Add">
   </button>
   <p-dataTable  [value]="articlesList" 
               [rows]="4" 
@@ -20,7 +20,7 @@
               [globalFilter]="gb"
               selectionMode="single" [(selection)]="selectedArticle" (onRowSelect)="onRowSelect($event)">
     <header>Articles List</header>
-    <p-column field="articleHeaderTitle" header="Title" [sortable]="true"></p-column>
+    <p-column field="title" header="Title" [sortable]="true"></p-column>
     <p-column field="date" header="Date" [sortable]="true">
       <template let-article="rowData" let-i="rowIndex" pTemplate="body">
         <span>{{article.date | date:'medium'}}</span>

@@ -1,9 +1,9 @@
 export class User {
-  public idUser: number;
+  public _id: string;
   public username: string;
   public picture: string ;
-  public firstName: string;
-  public lastName: string;
+  public first_name: string;
+  public last_name: string;
   public phone: string;
   public email: string;
   public role: number;

@@ -1,9 +1,6 @@
 <app-slide-2></app-slide-2>
 <div class="container articles-container" *ngIf="publishedArticles && publishedArticles.length > 0">
   <div class="row">
-
-  </div>
-  <div class="row">
     <div class="heading-line col-md-12 col-sm-12">
       <h4>top <b>stories</b></h4>
       <div class="line"></div>
@@ -11,21 +8,22 @@
   </div>
   <!-- Thing to fix ...-->
   <div class="row">
-    <div class="col-md-4 col-sm-6" *ngFor="let article of publishedArticles | slice:3 | paginate: { itemsPerPage: 9, currentPage: p }" [routerLink]="[article.idArticle]">
+    <h1>Test</h1>
+    <div class="col-md-4 col-sm-6" *ngFor="let article of publishedArticles | paginate: { itemsPerPage: 9, currentPage: p }" [routerLink]="[article._id]">
       <md-card>
-        <img md-card-image src={{article.headerImagePath}} class="articles-img">
+        <img md-card-image src={{article.header_image}} class="articles-img">
         <md-card-content>
           <div class="article-title-container">
-            <h4 class="article-title">{{article.articleHeaderTitle}}</h4>
+            <h4 class="article-title">{{article.title}}</h4>
           </div>
           <div class="article-description-container">
           <p class="article-description">
-            {{article.articleHeaderDescription}}
+            {{article.description}}
           </p>
           </div>
         </md-card-content>
         <md-card-actions>
-          <button md-button color="primary" [routerLink]="['/news',categoryName | lowercase, article.idArticle]">
+          <button md-button color="primary" [routerLink]="['/news',categoryName | lowercase, article._id]">
             LEARN MORE</button>
         </md-card-actions>
       </md-card>

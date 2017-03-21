@@ -22,7 +22,7 @@ export class ArticleDetailComponent implements OnInit {
 
   private sub: any;
   private categoryName: string;
-  private articleId: number;
+  private articleId: string;
   private article: Article;
   private commentList: Object;
   private relatedArticleList: Article[];
@@ -52,17 +52,20 @@ export class ArticleDetailComponent implements OnInit {
       let profileJSON = JSON.parse(localStorage.getItem('profile'));
       this.user.email = profileJSON.email;
       this.user.username = profileJSON.nickname;
-      this.user.firstName = profileJSON.firstName;
-      this.user.lastName = profileJSON.lastName;
+      this.user.first_name = profileJSON.first_name;
+      this.user.last_name = profileJSON.last_name;
       this.user.phone = profileJSON.telephoneNumber;
-      this.user.idUser = profileJSON.idUser;
+      this.user._id = profileJSON._id;
     }
 
     this.sub = this.route.params.subscribe(params => {
       this.categoryName = params['categoryName'];
-      this.articleId = +params['articleId'];
-      this.articleService.getArticleDetail(this.categoryName, this.articleId).then(article => {
-        this.article = article[0];
+      this.articleId = params['articleId'];
+      this.articleService.getArticleDetail(this.articleId).then(article => {
+        this.article = article;
+        console.log(article);
+        console.log("+++++++++++++++++++++++++++++++++++++");
+        console.log(article[0]);
         this.commentList = this.article['comments'];
       });
 
@@ -84,10 +87,10 @@ export class ArticleDetailComponent implements OnInit {
   comment() {
     this.submittingComment = true;
     this.newComment.content = this.commentContent;
-    this.newComment.firstName = this.user.firstName;
-    this.newComment.lastName = this.user.lastName;
-    this.newComment.idArticle = this.articleId;
-    this.newComment.idUser = this.user.idUser;
+    this.newComment.first_name = this.user.first_name;
+    this.newComment.last_name = this.user.last_name;
+    this.newComment.article_id = this.articleId;
+    this.newComment.article_id = this.user._id;
 
     if (this.commentContent == null) {
       this.submittingComment = false;
@@ -97,7 +100,7 @@ export class ArticleDetailComponent implements OnInit {
       this.articleService.postComment(this.newComment).then(response => {
         this.submittingComment = false;
         this.commentContent = null;
-        this.articleService.getArticleDetail(this.categoryName, this.articleId).then(article => {
+        this.articleService.getArticleDetail(this.articleId).then(article => {
           this.article = article[0];
           this.commentList = this.article['comments'];
         });
@@ -114,7 +117,7 @@ export class ArticleDetailComponent implements OnInit {
       this.dialogRemoveRef = null;
       if (result === 'yes') {
         this.articleService.removeComment(comment).then(response => {
-          this.articleService.getArticleDetail(this.categoryName, this.articleId).then(article => {
+          this.articleService.getArticleDetail(this.articleId).then(article => {
             this.article = article[0];
             this.commentList = this.article['comments'];
           });
@@ -135,8 +138,9 @@ export class ArticleDetailComponent implements OnInit {
     this.storedComment = comment;
     this.dialogModifyRef.componentInstance.selectedComment = comment;
     this.dialogModifyRef.afterClosed().subscribe(result => {
-        this.articleService.getArticleDetail(this.categoryName, this.articleId).then(article => {
-          this.article = article[0];
+        this.articleService.getArticleDetail(this.articleId).then(article => {
+          console.log(article)
+          this.article = article;
           this.commentList = this.article['comments'];
         })
     });

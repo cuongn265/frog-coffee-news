@@ -23,8 +23,7 @@ export class AppComponent implements OnInit {
       }
     );
     console.log("DEV ENV OR DEV PROD:");
-    console.log(process.env.localApi);
-    console.log(process.env.anotherVariable);
+    console.log(process.env.apiUrl);
   }
 
   checkProfile() {

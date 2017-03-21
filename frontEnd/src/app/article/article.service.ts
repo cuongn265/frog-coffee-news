@@ -12,13 +12,15 @@ export class ArticleService {
   constructor(private http: Http) { }
 
   // get articles of selected category
-  getArticles(categoryName: string): Promise<Article[]> {
+  getArticles(name: string): Promise<Article[]> {
     let articleUrl: string;
-    if (categoryName === undefined) {
-      articleUrl = this.apiUrl + 'all/articles';
+    console.log('cat name' + name)
+    if (name === undefined || name == 'all' || name == '') {
+      articleUrl = this.apiUrl + 'articles';
     } else {
-      articleUrl = this.apiUrl + categoryName + '/articles';
+      articleUrl = this.apiUrl + name + '/articles';
     }
+    console.log(articleUrl);
 
     return this.http.get(articleUrl)
       .toPromise()
@@ -27,12 +29,13 @@ export class ArticleService {
   }
 
   // get article detail by articleID
-  getArticleDetail(categoryName: string, articleID: number): Promise<Article> {
+  getArticleDetail(id: string): Promise<Article> {
 
-    if (articleID === undefined) {
+    if (id === undefined) {
       return null;
     } else {
-      let requestURL = this.apiUrl + categoryName + '/' + articleID;
+      let requestURL = this.apiUrl + 'articles' + '/' + id;
+      console.log(requestURL);
       return this.http.get(requestURL).toPromise().then(response => response.json()).catch(this.handleError);
     }
   }
@@ -41,7 +44,7 @@ export class ArticleService {
   postArticle(article: Article) {
     let body = JSON.stringify(article);
     let header = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.post(this.apiUrl + 'all/articles/post', body, { headers: header })
+    return this.http.post(this.apiUrl + 'articles', body, { headers: header })
       .toPromise().then(response => response).catch(this.handleError);
   }
 
@@ -49,15 +52,15 @@ export class ArticleService {
   putArticle(article: Article) {
     let body = JSON.stringify(article);
     let header = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.put(this.apiUrl + 'all/articles/modify', body, { headers: header })
+    return this.http.put(this.apiUrl + 'articles/modify', body, { headers: header })
       .toPromise().then(response => response).catch(this.handleError);
   }
 
   deleteArticle(articleId: number) {
-    let article = { 'idArticle': articleId };
+    let article = { '_id': articleId };
     let body = JSON.stringify(article);
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.delete(this.apiUrl + 'all/articles/remove', new RequestOptions({
+    return this.http.delete(this.apiUrl + 'articles/remove', new RequestOptions({
       headers: headers,
       body: body
     })).toPromise().then(response => response).catch(this.handleError);
@@ -67,21 +70,21 @@ export class ArticleService {
     let body = JSON.stringify(comment);
     console.log(body);
     let header = new Headers({ 'Content-Type': 'application/json' });
-    return this.http. post(this.apiUrl + 'comment', body, { headers: header }).toPromise().then(response => {
+    return this.http.post(this.apiUrl + 'comment', body, { headers: header }).toPromise().then(response => {
       console.log(response.status);
     }).catch(this.handleError);
   }
 
-  putComment(comment: Comment){
+  putComment(comment: Comment) {
     let body = JSON.stringify(comment);
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.put(this.apiUrl + 'comment', body, {headers: headers}).toPromise().then(response => response);
+    return this.http.put(this.apiUrl + 'comment', body, { headers: headers }).toPromise().then(response => response);
   }
 
-  removeComment(comment: Comment){
-    let selectedComment = {'idComment': comment.idComment}
+  removeComment(comment: Comment) {
+    let selectedComment = { '_id': comment._id }
     let body = JSON.stringify(selectedComment);
-    let headers = new Headers({ 'Content-Type': 'application/json '});
+    let headers = new Headers({ 'Content-Type': 'application/json ' });
     return this.http.delete(this.apiUrl + 'comment', new RequestOptions({
       headers: headers,
       body: body
