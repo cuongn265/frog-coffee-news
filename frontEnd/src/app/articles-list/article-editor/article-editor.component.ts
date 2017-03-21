@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { Article } from "../../article/article";
 import { Category } from "../../category";
 import { ArticleService } from "../../article/article.service";
@@ -21,7 +22,8 @@ export class ArticleEditorComponent implements OnInit {
   selectedCategory: Category;
 
   constructor(private articleService: ArticleService,
-    private categoryService: CategoryService) {
+    private categoryService: CategoryService,
+    private _location: Location) {
   }
 
   ngOnInit() {
@@ -35,7 +37,7 @@ export class ArticleEditorComponent implements OnInit {
 
   onSubmit(article: any): void {
     console.log('you submitted value:', article);
-    if (article.idArticle === undefined) {
+    if (article._id === undefined) {
       this.articleService.postArticle(article).then(res => console.log(res));
     } else {
       this.articleService.putArticle(article).then(res => console.log(res));
@@ -48,5 +50,7 @@ export class ArticleEditorComponent implements OnInit {
     this.articleService.deleteArticle(id).then(res => console.log(res));
   }
 
-
+  onCancel() {
+    this._location.back();
+  }
 }

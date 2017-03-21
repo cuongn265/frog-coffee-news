@@ -29,7 +29,7 @@ export class ArticleService {
   }
 
   // get article detail by articleID
-  getArticleDetail(id: number): Promise<Article> {
+  getArticleDetail(id: string): Promise<Article> {
 
     if (id === undefined) {
       return null;
@@ -44,7 +44,7 @@ export class ArticleService {
   postArticle(article: Article) {
     let body = JSON.stringify(article);
     let header = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.post(this.apiUrl + 'articles/post', body, { headers: header })
+    return this.http.post(this.apiUrl + 'articles', body, { headers: header })
       .toPromise().then(response => response).catch(this.handleError);
   }
 
@@ -57,7 +57,7 @@ export class ArticleService {
   }
 
   deleteArticle(articleId: number) {
-    let article = { 'idArticle': articleId };
+    let article = { '_id': articleId };
     let body = JSON.stringify(article);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     return this.http.delete(this.apiUrl + 'articles/remove', new RequestOptions({
@@ -82,7 +82,7 @@ export class ArticleService {
   }
 
   removeComment(comment: Comment) {
-    let selectedComment = { 'idComment': comment.idComment }
+    let selectedComment = { '_id': comment._id }
     let body = JSON.stringify(selectedComment);
     let headers = new Headers({ 'Content-Type': 'application/json ' });
     return this.http.delete(this.apiUrl + 'comment', new RequestOptions({

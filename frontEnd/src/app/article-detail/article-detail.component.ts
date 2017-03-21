@@ -22,7 +22,7 @@ export class ArticleDetailComponent implements OnInit {
 
   private sub: any;
   private categoryName: string;
-  private articleId: number;
+  private articleId: string;
   private article: Article;
   private commentList: Object;
   private relatedArticleList: Article[];
@@ -89,8 +89,8 @@ export class ArticleDetailComponent implements OnInit {
     this.newComment.content = this.commentContent;
     this.newComment.first_name = this.user.first_name;
     this.newComment.last_name = this.user.last_name;
-    this.newComment.idArticle = this.articleId;
-    this.newComment._id = this.user._id;
+    this.newComment.article_id = this.articleId;
+    this.newComment.article_id = this.user._id;
 
     if (this.commentContent == null) {
       this.submittingComment = false;

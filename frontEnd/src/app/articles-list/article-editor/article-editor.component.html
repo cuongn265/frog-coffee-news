@@ -1,63 +1,58 @@
-<md-card class="new-article-form">
-  <div>
-    <form (ngSubmit)="onSubmit(articleForm.value)" #articleForm="ngForm">
-      <md-card-header>
-        <h1>Article Details</h1>
-      </md-card-header>
-      <md-card-content>
-        <input type="hidden" id="id" [(ngModel)]="articleDetail.idArticle" name="idArticle">
-        <md-input-container style="width: 100%">
-          <input mdInput maxlength="100" id="title" required [(ngModel)]="articleDetail.title" name="title" placeholder="Title" #title>
-          <md-hint align="end">{{title.value.length}} / 100</md-hint>
-        </md-input-container>
+<form (ngSubmit)="onSubmit(articleForm.value)" #articleForm="ngForm">
+  <md-card class="new-article-form">
+    <h1>Article Detail</h1>
+    <md-card-content>
+      <input type="hidden" id="id" [(ngModel)]="articleDetail._id" name="_id">
+      <md-input-container style="width: 100%">
+        <input mdInput maxlength="100" id="title" required [(ngModel)]="articleDetail.title" name="title" placeholder="Title" #title>
+        <md-hint align="end">{{title.value.length}} / 100</md-hint>
+      </md-input-container>
 
-        <md-input-container style="width: 100%">
-          <textarea mdInput maxlength="200" placeholder="Desciption" required [(ngModel)]="articleDetail.articleHeaderDescription"
-            id="description" name="articleHeaderDescription" #description>
-          </textarea>
-          <md-hint align="end">{{description.value.length}} / 200</md-hint>
-        </md-input-container>
+      <md-input-container style="width: 100%">
+        <textarea mdInput maxlength="200" placeholder="Desciption" required [(ngModel)]="articleDetail.description"
+          id="description" name="description" #description>
+        </textarea>
+        <md-hint align="end">{{description.value.length}} / 200</md-hint>
+      </md-input-container>
 
-        <md-input-container style="width: 100%">
-          <input mdInput placeholder="Author" required [(ngModel)]="articleDetail.author" id="author" name="author">
-        </md-input-container>
+      <md-input-container style="width: 100%">
+        <input mdInput placeholder="Author" required [(ngModel)]="articleDetail.author" id="author" name="author">
+      </md-input-container>
 
-        <div class="row">
-          <div class="col-md-8 col-sm-8">
-            <md-input-container style="width: 100%">
-              <input mdInput id="imageUrl" required [(ngModel)]="articleDetail.headerImagePath" name="headerImagePath" placeholder="Image URL">
-            </md-input-container>
+      <div class="row">
+        <div class="col-md-8 col-sm-8">
+          <md-input-container style="width: 100%">
+            <input mdInput id="imageUrl" required [(ngModel)]="articleDetail.header_image" name="header_image" placeholder="Image URL">
+          </md-input-container>
 
-            <div style="width: 100%; margin-bottom: 10px">
-              <select name="category" id="category" [(ngModel)]="articleDetail.Category" required mdInput style="width: 80%">
-                  <option *ngFor="let category of categories; let i = index;" 
-                          [value]="category._id">
-                    {{category.name}}
-                  </option>
-              </select>
-            </div>
-            <div style="margin-bottom: 20px">
-              <md-checkbox [(ngModel)]="articleDetail.published" name="published">
-                Publish
-              </md-checkbox>
-            </div>
+          <div style="width: 100%; margin-bottom: 10px">
+            <select name="category" id="category" [(ngModel)]="articleDetail.category" required mdInput style="width: 80%">
+                <option *ngFor="let category of categories; let i = index;" 
+                        [value]="category._id">
+                  {{category.name}}
+                </option>
+            </select>
           </div>
-
-          <div class="col-md-4 col-sm-4">
-            <img id="image" name="headerImage" style="width: 100%; height: 100%;" [src]="articleDetail.headerImagePath == null || articleDetail.headerImagePath == '' ? 'http://www.doitacaav.vn/bitrix/components/vportal/news.list/templates/tinmoinhat/images/no_images.png' : articleDetail.headerImagePath"
-            />
+          <div style="margin-bottom: 20px">
+            <md-checkbox [(ngModel)]="articleDetail.published" name="published">
+              Publish
+            </md-checkbox>
           </div>
         </div>
 
-        <ckeditor required name="articleContent" [(ngModel)]="articleDetail.articleContent" [config]="{extraPlugins: 'divarea'}"
-          debounce="500">
-        </ckeditor>
+        <div class="col-md-4 col-sm-4">
+          <img id="image" name="headerImage" style="width: 100%; height: 100%;" [src]="articleDetail.header_image == null || articleDetail.header_image == '' ? 'http://www.doitacaav.vn/bitrix/components/vportal/news.list/templates/tinmoinhat/images/no_images.png' : articleDetail.header_image"
+          />
+        </div>
+      </div>
 
-      <!--<md-card-actions>-->
-        <button md-button color="primary" type="button" style="float: right" md-button (click)="onRemove(articleDetail.idArticle)">Remove</button>
-        <button md-button type="submit" style="float: right" md-button>Submit</button>
-      <!--</md-card-actions>-->
-      </md-card-content>      
-    </form>
-  </div>
-</md-card>
+      <ckeditor required name="content" [(ngModel)]="articleDetail.content" [config]="{extraPlugins: 'divarea'}"
+        debounce="500">
+      </ckeditor>
+    </md-card-content>      
+    <md-card-actions>
+      <button md-button type="button" (click)="onCancel()">Cancel</button>
+      <button md-button type="submit">Create</button>
+    </md-card-actions>
+  </md-card>
+</form>

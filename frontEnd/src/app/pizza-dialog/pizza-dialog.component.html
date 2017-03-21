@@ -1,7 +1,7 @@
 <form (ngSubmit)="onSubmit(articleForm.value)" #articleForm="ngForm">
   <h1 md-dialog-title>Article Details</h1>
   <md-dialog-content>
-      <input type="hidden" id="id" [(ngModel)]="articleDetail.idArticle" name="idArticle">
+      <input type="hidden" id="id" [(ngModel)]="articleDetail._id" name="_id">
       <md-input-container style="width: 100%">
         <input mdInput 
                maxlength="100"
@@ -18,9 +18,9 @@
       <md-input-container style="width: 100%">
         <textarea mdInput maxlength="200" placeholder="Desciption" 
                   required
-                  [(ngModel)]="articleDetail.articleHeaderDescription"         
+                  [(ngModel)]="articleDetail.description"         
                   id="description"
-                  name="articleHeaderDescription"
+                  name="description"
                   #description
                   >
         </textarea>
@@ -41,8 +41,8 @@
                   <input mdInput 
                         id="imageUrl"
                         required
-                        [(ngModel)]="articleDetail.headerImagePath" 
-                        name="headerImagePath"
+                        [(ngModel)]="articleDetail.header_image" 
+                        name="header_image"
                         placeholder="Image URL" 
                         >
           </md-input-container>
@@ -71,7 +71,7 @@
           <img    id="image"
                   name="headerImage"
                   style="width: 100%; height: 100%;"
-                  [src]="articleDetail.headerImagePath == null || articleDetail.headerImagePath == '' ? 'http://www.doitacaav.vn/bitrix/components/vportal/news.list/templates/tinmoinhat/images/no_images.png' : articleDetail.headerImagePath"
+                  [src]="articleDetail.header_image == null || articleDetail.header_image == '' ? 'http://www.doitacaav.vn/bitrix/components/vportal/news.list/templates/tinmoinhat/images/no_images.png' : articleDetail.header_image"
           />
         </div>
       </div>
@@ -79,8 +79,8 @@
       
       <ckeditor
           required
-          name="articleContent"
-          [(ngModel)]="articleDetail.articleContent"
+          name="content"
+          [(ngModel)]="articleDetail.content"
           [config]="{extraPlugins: 'divarea'}"
           debounce="500">
       </ckeditor>
@@ -88,7 +88,7 @@
   </md-dialog-content>
   <md-dialog-actions>
     <button type="button" style="float: right" md-button md-dialog-close (click)="dialogRef.close('yes')">Cancel</button>  
-    <button type="button" style="float: right" md-button md-dialog-close (click)="onRemove(articleDetail.idArticle);dialogRef.close('yes')">Remove</button>  
+    <button type="button" style="float: right" md-button md-dialog-close (click)="onRemove(articleDetail._id);dialogRef.close('yes')">Remove</button>  
     <button type="submit" style="float: right" md-button>Submit</button>
   </md-dialog-actions>
 </form>

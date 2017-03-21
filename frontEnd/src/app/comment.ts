@@ -1,7 +1,7 @@
 export class Comment{
-    idComment: number;
-    idArticle: number;
     _id: string;
+    user_id: string;
+    article_id: string;
     first_name: string;
     last_name: string;
     email: string;
