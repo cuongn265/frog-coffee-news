@@ -1,0 +1,8 @@
+{
+    "auth0Strategy": {
+        "DOMAIN": "",
+        "CLIENT_ID": "",
+        "CLIENT_SECRET": "",
+        "CALLBACK_URL": ""
+    }
+}

@@ -12,6 +12,14 @@ var mongooseConnector = require('./mongoose/mongoose-connection');
 var app = express();
 let Role = require('./mongoose/models/role-model');
 
+
+/**
+ *  import authentication modules
+ */
+
+let passport = require('passport');
+let Auth0Strategy = require('passport-auth0');
+
 /* Specify router */
 let categoryRouter = require('./routes/category-router');
 let userRouter = require('./routes/user-router');
