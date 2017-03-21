@@ -1,8 +1,10 @@
 /** User Service: provide methods on User Model */
-var User = require('../models/user-model');
-var ObjectId = require('mongoose').Types.ObjectId;
+let User = require('../models/user-model');
+let Comment = require('../models/comment-model');
+let ObjectId = require('mongoose').Types.ObjectId;
+let Q = require('q');
 
-module.exports = {
+let self = module.exports = {
 
     /**Find one user */
     findOne: function (userId, callback) {
@@ -16,6 +18,16 @@ module.exports = {
         }
     },
 
+
+    /** Find one with promise */
+    findOne_promise: function (userId) {
+        let deffer = Q.defer();
+        User.findById(userId, function (err, doc) {
+            if (err) return deffer.reject(err);
+            return deffer.resolve(doc);
+        });
+        return deffer.promise;
+    },
     /** Find all users */
     findAll: function (callback) {
         User.find(function (err, docs) {
@@ -35,7 +47,7 @@ module.exports = {
     },
 
     /** Update User document */
-    update: function (id,document, callback) {
+    update: function (id, document, callback) {
         let documentId = id;
         console.log(documentId);
         if (ObjectId.isValid(documentId)) {
@@ -59,7 +71,51 @@ module.exports = {
         } else {
             return callback('Invalid ObjectId');
         }
-    }
+    },
 
-    
+    /** toggle user lock status  */
+
+    toggleEnable: function (userId, callback) {
+        /**
+         * Async shit go here: get query to retrieve 'enabled' status of user first,
+         * second query to update it to !
+         */
+        if (ObjectId.isValid(userId)) {
+            self.findOne_promise(userId).then(function (doc) {
+                let currentStatus = doc.enable;
+                self.setAccountStatus(userId, currentStatus).then(function () {
+                    return callback(null);
+                }, function (err) {
+                    return callback(err);
+                });
+            }, function (err) {
+                return callback(err);
+            });
+
+        } else {
+            return callback('Invalid ObjectId');
+        }
+    },
+
+    /** Set lock/unlock */
+    setAccountStatus: function (userId, currentStatus) {
+        let deffer = Q.defer();
+        let newStatus = !currentStatus;
+        User.findByIdAndUpdate(userId, {
+            enable: newStatus
+        }, function (err) {
+            if (err) return deffer.reject(err);
+            return deffer.resolve(null);
+        });
+        return deffer.promise;
+    },
+
+
+    /** Populate role name */
+    getRolename: function (userId, callback) {
+        User.findById(userId).populate('role').exec(function (err, doc) {
+            if (err) return callback(err);
+            return callback(null, doc.role.name);
+        });
+    }
 }

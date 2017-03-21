@@ -5,7 +5,7 @@ let ObjectId = Schema.ObjectId;
 let ArticleSchema = new Schema({
     title: {type: String, required: true},
     description: String,
-    created_by: ObjectId,
+    created_by: {type: ObjectId, ref: 'users'}, 
     date: Date,
     header_image: String,
     content: String,
@@ -15,7 +15,7 @@ let ArticleSchema = new Schema({
     downvoters: [],
     published: Boolean,
     deleted_at: Date,
-    category: {type: ObjectId, required: true}
+    category: {type: ObjectId, required: true, ref: 'categories'}
 });
 
 let Article = mongoose.model('articles', ArticleSchema);
