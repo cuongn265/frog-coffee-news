@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var SQLquery = require('../mysql/mysql-query');
+// var SQLquery = require('../mysql/mysql-query');
 var bodyParser = require('body-parser');
 
 const JSONStream = require('JSONStream');
@@ -104,7 +104,7 @@ router.delete('/:category/articles/remove', function (req, res) {
             res.status(202).send('Article removed successfully');
     })
 });
-// get article detail 
+// get article detail
 router.get('/:category/:articleID', function (req, res) {
     let articleID = req.params.articleID;
     SQLquery.getArticleDetail(articleID, function (err, article) {
