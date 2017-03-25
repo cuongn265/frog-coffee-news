@@ -72,16 +72,17 @@ router.route('/:categoryId')
         })
     });
 
-/**GET: get articles of category */
-router.get('/:categoryId/articles', function (req, res) {
-    let categoryId = req.params.categoryId;
-    articleService.findByCategory(categoryId, function (err, docs) {
-        if (err) {
-            res.status(404).send(err);
-        } else {
-            res.status(200).send(docs);
-        }
-    });
-});
+
+router.route('/:category/articles')
+    .get(function (req, res) {
+        let category = req.params.category;
+        articleService.findByCategory(category, function (err, docs) {
+            if (err) {
+                res.status(404).send(err);
+            } else {
+                res.status(200).send(docs);
+            }
+        });
+    })
 
 module.exports = router;

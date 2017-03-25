@@ -1,7 +1,9 @@
 /** Article  Service*/
 let Article = require('../models/article-model');
 let ObjectId = require('mongoose').Types.ObjectId;
-
+let DateService = require('../technical/current-date-service');
+let categoryService = require('./category-service');
+let Q = require('q');
 module.exports = {
     /**Find one document */
     findOne: function (documentId, callback) {
@@ -39,16 +41,46 @@ module.exports = {
     },
 
     /** Find by category */
-    findByCategory: function (categoryId, callback) {
-        if (ObjectId.isValid(categoryId)) {
+    findByCategory: function (category, callback) {
+        let deffer = Q.defer();
+        let categoryId = category;
+        /** if category paramater is not object ID ? - may be it's a name ? **/
+        if (!ObjectId.isValid(category)) {
+            categoryService.getIdByName(category).then(function (category) {
+                    categoryId = category._id;
+                }, function (err) {
+                    console.log('Rejected !');
+                    return deffer.reject(err);
+                })
+                .then(function (err) {
+                    console.log('Still attempt to find');
+                    console.log(err);
+                    Article.find({
+                        category: categoryId
+                    }, function (err, docs) {
+                        if (err) return callback(err);
+                        return callback(null, docs);
+                    })
+                }, function (err) {
+                    console.log(err);
+                    return callback(err);
+                }).catch(function(err){
+                    console.log(err+'from catch');
+                });
+        } 
+        
+        
+        
+        else {
             Article.find({
                 category: categoryId
             }, function (err, docs) {
-                if (err) throw err;
-                else return callback(null, docs);
-            });
-        } else {
-            return callback('Invalid ObjectId');
+                if (err) return callback(err);
+                console.log('your doc');
+                console.log(docs);
+                if(docs[0] == null) return callback('Invalid Category');
+                return callback(null, docs);
+            })
         }
     },
 
@@ -70,6 +102,7 @@ module.exports = {
     /** Save new Article */
     save: function (document, callback) {
         let article = new Article(document);
+        article.date = DateService.getCurrentDay();
         article.save(function (err) {
             if (err) return callback(err);
             else {
