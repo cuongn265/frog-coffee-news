@@ -56,11 +56,11 @@ export class ArticleService {
       .toPromise().then(response => response).catch(this.handleError);
   }
 
-  deleteArticle(articleId: number) {
+  deleteArticle(articleId: String) {
     let article = { '_id': articleId };
     let body = JSON.stringify(article);
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.delete(this.apiUrl + 'articles/remove', new RequestOptions({
+    return this.http.delete(this.apiUrl + 'articles/' + articleId , new RequestOptions({
       headers: headers,
       body: body
     })).toPromise().then(response => response).catch(this.handleError);

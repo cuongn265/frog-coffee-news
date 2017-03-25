@@ -4,6 +4,8 @@ import { Article } from './../article/article';
 import { Component, OnInit } from '@angular/core';
 import { MdDialogRef, MdDialog } from '@angular/material';
 import { AuthService } from '../auth.service';
+import { MenuItem } from 'primeng/primeng';
+
 @Component({
   selector: 'app-articles-list',
   templateUrl: './articles-list.component.html',
@@ -17,10 +19,16 @@ export class ArticlesListComponent implements OnInit {
   stacked: boolean;
   dialogRef: MdDialogRef<PizzaDialogComponent>;
   ckeditorContent: string;
+  menuItems: MenuItem[];
+  selectedArticle: Article;
 
   constructor(private articlesService: ArticleService, public dialog: MdDialog, private auth: AuthService) { }
 
   ngOnInit() {
+    this.menuItems = [
+            {label: 'Update', icon: 'fa-pencil', command: (event) => this.onUpdate(this.selectedArticle)},
+            {label: 'Delete', icon: 'fa-close', command: (event) => this.onDelete(this.selectedArticle)}
+        ];
     this.ckeditorContent = `<p>My HTML</p>`;
     this.articlesService.getArticles('').then(
       (response) => {
@@ -73,5 +81,18 @@ export class ArticlesListComponent implements OnInit {
       let self = this;
       this.refresh(self);
     });
+  }
+
+  onDelete(article: Article) {
+    this.articlesService.deleteArticle(article._id).then((res) => {
+        console.log(res);
+        let self = this;
+        this.refresh(self);
+      }
+    )
+  }
+
+  onUpdate(article: Article) {
+    console.log('navigate to update page')
   }
 }

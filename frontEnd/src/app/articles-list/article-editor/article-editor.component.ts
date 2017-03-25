@@ -42,12 +42,6 @@ export class ArticleEditorComponent implements OnInit {
     } else {
       this.articleService.putArticle(article).then(res => console.log(res));
     }
-    // this.dialogRef.close('yes');
-  }
-
-  onRemove(id: number) {
-    console.log('on remove');
-    this.articleService.deleteArticle(id).then(res => console.log(res));
   }
 
   onCancel() {
