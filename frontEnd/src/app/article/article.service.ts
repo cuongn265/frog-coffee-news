@@ -18,7 +18,7 @@ export class ArticleService {
     if (name === undefined || name == 'all' || name == '') {
       articleUrl = this.apiUrl + 'articles';
     } else {
-      articleUrl = this.apiUrl + name + '/articles';
+      articleUrl = this.apiUrl + 'categories/' +name + '/articles';
     }
     console.log(articleUrl);
 
