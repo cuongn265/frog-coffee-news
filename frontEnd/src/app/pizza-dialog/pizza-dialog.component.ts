@@ -42,7 +42,7 @@ export class PizzaDialogComponent implements OnInit {
     this.dialogRef.close('yes');
   }
 
-  onRemove(id: number) {
+  onRemove(id: string) {
     console.log('on remove');
     this.articleService.deleteArticle(id).then(res => console.log(res));
   }

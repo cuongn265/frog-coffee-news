@@ -40,6 +40,7 @@ export const AppRoutes: Routes = [
       { path: 'users-list', component: UsersListComponent },
       { path: 'articles-list', component: ArticlesListComponent },
       { path: 'articles-list/new', component: ArticleEditorComponent },
+      { path: 'articles-list/:id/edit', component: ArticleEditorComponent },
     ]
   }
 ];

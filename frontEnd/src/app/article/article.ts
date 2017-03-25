@@ -1,8 +1,8 @@
 import { Comment } from '../comment';
-
+import { Category } from '../category'
 export class Article {
     public _id: String;
-    public category: number;
+    public category: Category;
     public title: Text;
     public description: Text;
     public content: Text;

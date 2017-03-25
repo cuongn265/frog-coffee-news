@@ -52,15 +52,15 @@ export class ArticleService {
   putArticle(article: Article) {
     let body = JSON.stringify(article);
     let header = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.put(this.apiUrl + 'articles/modify', body, { headers: header })
+    return this.http.put(this.apiUrl + 'articles/' + article._id, body, { headers: header })
       .toPromise().then(response => response).catch(this.handleError);
   }
 
-  deleteArticle(articleId: number) {
+  deleteArticle(articleId: String) {
     let article = { '_id': articleId };
     let body = JSON.stringify(article);
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.delete(this.apiUrl + 'articles/remove', new RequestOptions({
+    return this.http.delete(this.apiUrl + 'articles/' + articleId , new RequestOptions({
       headers: headers,
       body: body
     })).toPromise().then(response => response).catch(this.handleError);
