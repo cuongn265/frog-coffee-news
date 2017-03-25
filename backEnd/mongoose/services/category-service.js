@@ -1,7 +1,7 @@
 /** Category Service: provide methods on Category Model */
 var Category = require('../models/category-model');
 var ObjectId = require('mongoose').Types.ObjectId;
-
+let Q = require('q');
 module.exports = {
 
     /**Find one document  */
@@ -36,7 +36,7 @@ module.exports = {
     },
 
     /** update category document */
-    update: function (documentId,document, callback) {
+    update: function (documentId, document, callback) {
         if (ObjectId.isValid(documentId)) {
             Category.findByIdAndUpdate(documentId, document, function (err) {
                 if (err) return callback(err);
@@ -59,5 +59,21 @@ module.exports = {
         } else {
             return callback('Invalid ObjectId');
         }
+    },
+
+
+    /** get category by category name */
+    getIdByName: function (name) {
+        let deffer = Q.defer();
+        let categoryName = name;
+        Category.findOne({
+            name: new RegExp('^'+name+'$', "i")
+        }, function (err, doc) {
+            if (err) return deffer.reject(err);
+            if(doc == null) return deffer.reject('Invalid Category');
+            return deffer.resolve(doc);
+        });
+        return deffer.promise;
+
     }
 }
