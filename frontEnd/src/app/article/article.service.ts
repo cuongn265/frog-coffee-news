@@ -52,7 +52,7 @@ export class ArticleService {
   putArticle(article: Article) {
     let body = JSON.stringify(article);
     let header = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.put(this.apiUrl + 'articles/modify', body, { headers: header })
+    return this.http.put(this.apiUrl + 'articles/' + article._id, body, { headers: header })
       .toPromise().then(response => response).catch(this.handleError);
   }
 

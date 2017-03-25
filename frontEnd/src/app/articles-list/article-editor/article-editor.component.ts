@@ -6,6 +6,9 @@ import { ArticleService } from "../../article/article.service";
 import { CategoryService } from "../../category.service";
 import { MdDialogRef } from "@angular/material";
 import { PizzaDialogComponent } from "../../pizza-dialog/pizza-dialog.component";
+import { ActivatedRoute } from '@angular/router';
+import { MdSnackBar } from '@angular/material';
+
 
 @Component({
   selector: 'app-article-editor',
@@ -16,32 +19,52 @@ import { PizzaDialogComponent } from "../../pizza-dialog/pizza-dialog.component"
 export class ArticleEditorComponent implements OnInit {
 
   articleDetail: Article = new Article();
-  // dialogRef: MdDialogRef<PizzaDialogComponent>;
   data: Object;
   categories: Category[];
   selectedCategory: Category;
+  sub: any;
+  isCreate: boolean = true;
 
   constructor(private articleService: ArticleService,
     private categoryService: CategoryService,
-    private _location: Location) {
+    private _location: Location,
+    private route: ActivatedRoute,
+    private snackBar: MdSnackBar) {
   }
 
   ngOnInit() {
-    // this.data = this.dialogRef.componentInstance;
-    // this.articleDetail = this.dialogRef.componentInstance.articleDetail;
-    this.categoryService.getCategories().then((res) => {
-      this.categories = res;
-      this.selectedCategory = this.categories[0];
+    this.sub = this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.articleService.getArticleDetail(params['id']).then(res => this.articleDetail = res);
+        this.isCreate = false;
+      }
+      this.categoryService.getCategories().then((res) => {
+        this.categories = res;
+      });
     });
   }
 
   onSubmit(article: any): void {
     console.log('you submitted value:', article);
     if (article._id === undefined) {
-      this.articleService.postArticle(article).then(res => console.log(res));
+      this.articleService.postArticle(article).then((res) => {
+        this.openSnackBar('Article is created successfully', null);
+      }).catch(res => {
+        this.openSnackBar('An error occurred', null);
+      });
     } else {
-      this.articleService.putArticle(article).then(res => console.log(res));
+      this.articleService.putArticle(article).then((res) => {
+        this.openSnackBar('Article is updated successfully', null);
+      }).catch(res => {
+        this.openSnackBar('An error occurred', null);
+      });
     }
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
   onCancel() {

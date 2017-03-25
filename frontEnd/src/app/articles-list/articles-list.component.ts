@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { MdDialogRef, MdDialog } from '@angular/material';
 import { AuthService } from '../auth.service';
 import { MenuItem } from 'primeng/primeng';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-articles-list',
@@ -22,7 +23,7 @@ export class ArticlesListComponent implements OnInit {
   menuItems: MenuItem[];
   selectedArticle: Article;
 
-  constructor(private articlesService: ArticleService, public dialog: MdDialog, private auth: AuthService) { }
+  constructor(private articlesService: ArticleService, private router: Router, private auth: AuthService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.menuItems = [
@@ -38,19 +39,19 @@ export class ArticlesListComponent implements OnInit {
     );
   }
 
-  openDialog() {
-    this.dialogRef = this.dialog.open(PizzaDialogComponent, {
-      disableClose: false,
-      width: '700px'
-    });
-
-    this.dialogRef.afterClosed().subscribe(result => {
-      console.log('result: ' + result);
-      this.dialogRef = null;
-      let self = this;
-      this.refresh(self);
-    });
-  }
+  // openDialog() {
+  //   this.dialogRef = this.dialog.open(PizzaDialogComponent, {
+  //     disableClose: false,
+  //     width: '700px'
+  //   });
+  //
+  //   this.dialogRef.afterClosed().subscribe(result => {
+  //     console.log('result: ' + result);
+  //     this.dialogRef = null;
+  //     let self = this;
+  //     this.refresh(self);
+  //   });
+  // }
 
   toggle() {
     this.stacked = !this.stacked;
@@ -67,21 +68,21 @@ export class ArticlesListComponent implements OnInit {
       }, 1);
   }
 
-  onRowSelect(event) {
-    console.log(event);
-    this.dialogRef = this.dialog.open(PizzaDialogComponent, {
-      disableClose: false,
-      width: '700px'
-    });
-    this.dialogRef.componentInstance.articleDetail = event.data;
-
-    this.dialogRef.afterClosed().subscribe(result => {
-      console.log('result: ' + result);
-      this.dialogRef = null;
-      let self = this;
-      this.refresh(self);
-    });
-  }
+  // onRowSelect(event) {
+  //   console.log(event);
+  //   this.dialogRef = this.dialog.open(PizzaDialogComponent, {
+  //     disableClose: false,
+  //     width: '700px'
+  //   });
+  //   this.dialogRef.componentInstance.articleDetail = event.data;
+  //
+  //   this.dialogRef.afterClosed().subscribe(result => {
+  //     console.log('result: ' + result);
+  //     this.dialogRef = null;
+  //     let self = this;
+  //     this.refresh(self);
+  //   });
+  // }
 
   onDelete(article: Article) {
     this.articlesService.deleteArticle(article._id).then((res) => {
@@ -94,5 +95,6 @@ export class ArticlesListComponent implements OnInit {
 
   onUpdate(article: Article) {
     console.log('navigate to update page')
+    this.router.navigate([article._id, 'edit'], {relativeTo: this.route})
   }
 }
