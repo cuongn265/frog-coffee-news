@@ -5,7 +5,6 @@ import { UserService } from './../user/user.service';
 import { User } from './../user/user';
 import { Article } from './../article/article';
 import { Component, OnInit } from '@angular/core';
-import { PizzaDialogComponent } from './../pizza-dialog/pizza-dialog.component';
 import { MdDialogRef, MdDialog } from '@angular/material';
 import { MenuItem, DataTable } from 'primeng/primeng';
 
@@ -21,7 +20,6 @@ export class UsersListComponent implements OnInit {
   selectedUser: User[];
   articlesList: Article[];
   stacked: boolean;
-  dialogRef: MdDialogRef<PizzaDialogComponent>;
   items: MenuItem[];
   icon: string;
   visible: boolean = true;
@@ -73,6 +71,3 @@ export class UsersListComponent implements OnInit {
     return true;
   }
 }
-
-
-
