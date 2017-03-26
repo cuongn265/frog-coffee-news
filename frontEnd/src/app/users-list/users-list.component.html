@@ -17,10 +17,8 @@
               [stacked]="stacked"
               [globalFilter]="gb"
               [(selection)]="selectedUser"
-              selectionMode="single" [contextMenu]="cm"
               #dt
               *ngIf="visible" >
-    <header>Users List</header>
     <p-column field="first_name" header="First name" [sortable]="true"></p-column>
     <p-column field="last_name" header="Last name" [sortable]="true"></p-column>
     <p-column field="email" header="Email" [sortable]="true"></p-column>
@@ -40,6 +38,4 @@
         </template>
     </p-column>
   </p-dataTable>
-
-  <p-contextMenu #cm [model]="items" *ngIf="Property" ></p-contextMenu>
 </div>
