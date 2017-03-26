@@ -5,7 +5,6 @@ import { Category } from "../../category";
 import { ArticleService } from "../../article/article.service";
 import { CategoryService } from "../../category.service";
 import { MdDialogRef } from "@angular/material";
-import { PizzaDialogComponent } from "../../pizza-dialog/pizza-dialog.component";
 import { ActivatedRoute } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 

@@ -24,7 +24,6 @@ import {
   DataTableModule, ButtonModule, InputTextModule, DialogModule,
   DataGridModule, MenuModule, ContextMenuModule, PanelModule, ChartModule
 } from 'primeng/primeng';
-import { PizzaDialogComponent } from './pizza-dialog/pizza-dialog.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { Slide2Component } from './slide-2/slide-2.component';
@@ -46,8 +45,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     UserComponent,
     UsersListComponent,
     ArticlesListComponent,
-    PizzaDialogComponent,
-    PizzaDialogComponent,
     DashboardComponent,
     ModifyCommentDialogComponent,
     RemoveCommentDialogComponent,
@@ -79,7 +76,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],
   entryComponents: [
-    PizzaDialogComponent,
     RemoveCommentDialogComponent,
     ModifyCommentDialogComponent
   ],
