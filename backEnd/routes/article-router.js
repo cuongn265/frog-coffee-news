@@ -2,7 +2,7 @@ let express = require('express');
 let router = express.Router();
 
 let articleService = require('../mongoose/services/article-service');
-
+let tagService = require('../mongoose/services/tag-service');
 /** Article Router */
 
 router.route('/')
@@ -39,6 +39,66 @@ router.route('/')
             }
         });
     });
+
+/**
+ * --------Begin of TAG Request -----------------------------------------------------
+ */
+
+router.route('/tags')
+    .get(function (req, res) {
+        tagService.findAll(function (err, docs) {
+            if (err) {
+                res.status(404).send(err);
+            } else {
+                res.status(200).send(docs);
+            }
+        })
+    })
+    .post(function (req, res) {
+        let tag = req.body;
+        tagService.save(tag, function (err) {
+            if (err) res.status(400).send(err);
+            else {
+                res.status(201).send();
+            }
+        })
+    });
+
+router.route('/tags/:tagId')
+    .get(function (req, res) {
+        let tagId = req.params.tagId;
+        tagService.findOne(tagId, function (err, doc) {
+            if (err) res.status(400).send(err);
+            else {
+                res.status(200).send(doc);
+            }
+        });
+    })
+    .put(function (req, res) {
+        let tagId = req.params.tagId;
+        let body = req.body;
+        tagService.update(tagId, body, function (err) {
+            if (err) res.status(400).send();
+            else {
+                res.status(202).send();
+            }
+        });
+    })
+    .delete(function (req, res) {
+        let tagId = req.params.tagId;
+        tagService.remove(tagId, function (err) {
+            if (err) res.status(400).send(err);
+            else {
+                res.status(202).send();
+            }
+        });
+    });
+
+/**
+ * ----End of TAG Request-----------------------------------------------------
+ */
+
+
 
 
 /**

@@ -64,21 +64,17 @@ module.exports = {
                 }, function (err) {
                     console.log(err);
                     return callback(err);
-                }).catch(function(err){
-                    console.log(err+'from catch');
+                }).catch(function (err) {
+                    console.log(err + 'from catch');
                 });
-        } 
-        
-        
-        
-        else {
+        } else {
             Article.find({
                 category: categoryId
             }, function (err, docs) {
                 if (err) return callback(err);
                 console.log('your doc');
                 console.log(docs);
-                if(docs[0] == null) return callback('Invalid Category');
+                if (docs[0] == null) return callback('Invalid Category');
                 return callback(null, docs);
             })
         }

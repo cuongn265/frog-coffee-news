@@ -10,8 +10,8 @@ var users = require('./routes/users');
 var api = require('./routes/api');
 var mongooseConnector = require('./mongoose/mongoose-connection');
 var app = express();
-let Role = require('./mongoose/models/role-model');
 
+let config = require('config');
 
 /**
  *  import authentication modules
@@ -40,8 +40,29 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongooseConnector.connectToMongo();
 
+
+/**
+ * Connect to Mongo Database
+ * Choose local or mlab host is your choice, lol !
+ */
+
+
+let host = config.get('database.mlab-host');
+
+/** Localhost goes here.... */
+let localhost = config.get('database.localhost');
+
+/** Mlab Host goes here */
+let mlabHost = config.get('database.mlab-host');
+let option = config.get('database.mlab-auth');
+
+
+mongooseConnector.connectToMongo(mlabHost, option);
+
+/**
+ * ------   End of database connection configuration ---------------------------------------
+ */
 
 //configure path link
 app.use('/', index);
