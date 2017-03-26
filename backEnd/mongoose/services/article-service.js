@@ -49,12 +49,9 @@ module.exports = {
             categoryService.getIdByName(category).then(function (category) {
                     categoryId = category._id;
                 }, function (err) {
-                    console.log('Rejected !');
                     return deffer.reject(err);
                 })
                 .then(function (err) {
-                    console.log('Still attempt to find');
-                    console.log(err);
                     Article.find({
                         category: categoryId
                     }, function (err, docs) {
@@ -62,18 +59,14 @@ module.exports = {
                         return callback(null, docs);
                     })
                 }, function (err) {
-                    console.log(err);
                     return callback(err);
                 }).catch(function (err) {
-                    console.log(err + 'from catch');
                 });
         } else {
             Article.find({
                 category: categoryId
             }, function (err, docs) {
                 if (err) return callback(err);
-                console.log('your doc');
-                console.log(docs);
                 if (docs[0] == null) return callback('Invalid Category');
                 return callback(null, docs);
             })
