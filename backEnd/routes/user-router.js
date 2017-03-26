@@ -145,8 +145,8 @@ router.route('/:userId')
 router.route('/:userId/togglestatus')
     .put(function (req, res) {
         let userId = req.params.userId;
-        userService.toggleEnable(userId, function(err){
-            if(err) res.status(404).send(err);
+        userService.toggleEnable(userId, function (err) {
+            if (err) res.status(404).send(err);
             res.status(202).send();
         });
     });

@@ -67,10 +67,10 @@ module.exports = {
         let deffer = Q.defer();
         let categoryName = name;
         Category.findOne({
-            name: new RegExp('^'+name+'$', "i")
+            name: new RegExp('^' + name + '$', "i")
         }, function (err, doc) {
             if (err) return deffer.reject(err);
-            if(doc == null) return deffer.reject('Invalid Category');
+            if (doc == null) return deffer.reject('Invalid Category');
             return deffer.resolve(doc);
         });
         return deffer.promise;

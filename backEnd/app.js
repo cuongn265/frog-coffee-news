@@ -10,8 +10,8 @@ var users = require('./routes/users');
 var api = require('./routes/api');
 var mongooseConnector = require('./mongoose/mongoose-connection');
 var app = express();
-let Role = require('./mongoose/models/role-model');
 
+let config = require('config');
 
 /**
  *  import authentication modules
@@ -36,31 +36,54 @@ app.use(cors());
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongooseConnector.connectToMongo();
 
+
+/**
+ * Connect to Mongo Database
+ * Choose local or mlab host is your choice, lol !
+ */
+
+
+let host = config.get('database.mlab-host');
+
+/** Localhost goes here.... */
+let localhost = config.get('database.localhost');
+
+/** Mlab Host goes here */
+let mlabHost = config.get('database.mlab-host');
+let option = config.get('database.mlab-auth');
+
+
+mongooseConnector.connectToMongo(mlabHost, option);
+
+/**
+ * ------   End of database connection configuration ---------------------------------------
+ */
 
 //configure path link
 app.use('/', index);
 app.use('/users', users);
-app.use('/api/v1',api);
+app.use('/api/v1', api);
 
 app.use('/api/v2/categories', categoryRouter);
 app.use('/api/v2/articles', articleRouter);
 app.use('/api/v2/users', userRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
