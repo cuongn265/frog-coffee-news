@@ -9,7 +9,7 @@ let CommentSchema = new Schema({
     content: String,
 });
 
-let Comment = mongoose.model('comments',CommentSchema);
+let Comment = mongoose.model('comments', CommentSchema);
 
 /** Comment model */
 module.exports = Comment;
