@@ -17,8 +17,8 @@ export class UserService {
         return this.http.get(this.apiUrl + 'all/users/' + userId).toPromise().then(response => response.json()).catch(this.handleError);
     }
 
-    lockUser(userId: string) {
-        let putUrl = this.apiUrl + 'users/' + userId + '/lock';
+    toggleStatus(userId: string) {
+        let putUrl = this.apiUrl + 'users/' + userId + '/toggleStatus';
         return this.http.put(putUrl, {}).toPromise().then(response => response).catch(this.handleError);
     }
 
