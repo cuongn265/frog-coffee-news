@@ -33,6 +33,7 @@ import {Ng2PaginationModule} from 'ng2-pagination';
 import { ReversePipe } from './reverse.pipe';
 import { ArticleEditorComponent } from './articles-list/article-editor/article-editor.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     DashboardComponent,
     Slide2Component,
     ReversePipe,
-    ArticleEditorComponent
+    ArticleEditorComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -76,6 +78,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],
   entryComponents: [
+    ConfirmDialogComponent,
     RemoveCommentDialogComponent,
     ModifyCommentDialogComponent
   ],
