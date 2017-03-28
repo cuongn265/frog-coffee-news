@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+/// <reference types="aws-sdk" />
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { Article } from "../../article/article";
 import { Category } from "../../category";
@@ -7,7 +8,8 @@ import { CategoryService } from "../../category.service";
 import { MdDialogRef } from "@angular/material";
 import { ActivatedRoute } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
-
+import {ImageCropperComponent, CropperSettings, Bounds} from 'ng2-img-cropper';
+import * as AWS from 'aws-sdk';
 
 @Component({
   selector: 'app-article-editor',
@@ -18,18 +20,77 @@ import { MdSnackBar } from '@angular/material';
 export class ArticleEditorComponent implements OnInit {
 
   articleDetail: Article = new Article();
-  data: Object;
   categories: Category[];
   selectedCategory: Category;
   sub: any;
   isCreate: boolean = true;
+  data: any;
+  cropperSettings: CropperSettings;
+  @ViewChild('cropper', undefined) cropper:ImageCropperComponent;
 
   constructor(private articleService: ArticleService,
     private categoryService: CategoryService,
     private _location: Location,
     private route: ActivatedRoute,
     private snackBar: MdSnackBar) {
+      this.cropperSettings = new CropperSettings();
+      this.cropperSettings.noFileInput = true;
+      this.cropperSettings.width = 1600;
+      this.cropperSettings.height = 900;
+      this.cropperSettings.dynamicSizing = true;
+      this.data = {};
   }
+
+  fileChangeListener($event) {
+    var image:any = new Image();
+    var file:File = $event.target.files[0];
+    var myReader:FileReader = new FileReader();
+    var that = this;
+    myReader.onloadend = function (loadEvent:any) {
+      image.src = loadEvent.target.result;
+      that.cropper.setImage(image);
+    };
+    this.articleDetail.header_image_name = file.name;
+    myReader.readAsDataURL(file);
+  }
+
+  cropped(bounds:Bounds, article: any) {
+    console.log('on cropped');
+
+  }
+
+  onApplyCrop(article: any) {
+    console.log(article);
+    AWS.config.credentials = {
+      accessKeyId: 'AKIAIQWG7KK27PFQXEBA',
+      secretAccessKey: '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'
+    }
+    let _id = this.articleDetail.header_image_name + (+new Date).toString();
+
+    let s3Bucket = new AWS.S3( {
+      params: {Bucket: 'cuongngo-news', Key: _id, ACL: 'public-read'},
+    })
+
+    let buf = new Buffer(article.image.replace(/^data:image\/\w+;base64,/, ""),'base64')
+    console.log('buffer');
+    console.log(buf);
+    let xdata: any = {
+      Key: _id,
+      Body: buf,
+      ContentEncoding: 'base64',
+      ContentType: 'image/jpeg'
+    };
+    s3Bucket.putObject(xdata, function(err, data){
+        if (err) {
+          console.log(err);
+          console.log('Error uploading data: ', data);
+        } else {
+          console.log('succesfully uploaded the image!');
+        }
+    });
+    this.articleDetail.header_image = 'https://s3-ap-southeast-1.amazonaws.com/cuongngo-news/' + _id
+  }
+
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -45,6 +106,7 @@ export class ArticleEditorComponent implements OnInit {
 
   onSubmit(article: any): void {
     console.log('you submitted value:', article);
+    article.header_image = this.articleDetail.header_image;
     if (article._id === undefined) {
       this.articleService.postArticle(article).then((res) => {
         this.openSnackBar('Article is created successfully', null);

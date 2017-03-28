@@ -29,11 +29,13 @@ import { CKEditorModule } from 'ng2-ckeditor';
 import { Slide2Component } from './slide-2/slide-2.component';
 import { ModifyCommentDialogComponent } from './comment-dialog/modify-comment-dialog/modify-comment-dialog.component';
 import { RemoveCommentDialogComponent } from './comment-dialog/remove-comment-dialog/remove-comment-dialog.component';
-import {Ng2PaginationModule} from 'ng2-pagination';
+import { Ng2PaginationModule} from 'ng2-pagination';
 import { ReversePipe } from './reverse.pipe';
 import { ArticleEditorComponent } from './articles-list/article-editor/article-editor.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { ImageCropperComponent } from 'ng2-img-cropper';
+
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     Slide2Component,
     ReversePipe,
     ArticleEditorComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ImageCropperComponent
   ],
   imports: [
     BrowserModule,
