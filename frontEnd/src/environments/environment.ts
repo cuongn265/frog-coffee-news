@@ -3,6 +3,8 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `angular-cli.json`.
 process.env.apiUrl = 'http://localhost:3000/api/v2/';
+process.env.accessKeyId = 'AKIAIQWG7KK27PFQXEBA'
+process.env.secretAccessKey = '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'
 export const environment = {
   production: false
 };

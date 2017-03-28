@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 import {ImageCropperComponent, CropperSettings, Bounds} from 'ng2-img-cropper';
 import * as AWS from 'aws-sdk';
+require('dotenv').config()
 
 @Component({
   selector: 'app-article-editor',
@@ -60,10 +61,9 @@ export class ArticleEditorComponent implements OnInit {
   }
 
   onApplyCrop(article: any) {
-    console.log(article);
     AWS.config.credentials = {
-      accessKeyId: 'AKIAIQWG7KK27PFQXEBA',
-      secretAccessKey: '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'
+      accessKeyId: process.env.accessKeyId,
+      secretAccessKey: process.env.secretAccessKey
     }
     let _id = this.articleDetail.header_image_name + (+new Date).toString();
 
