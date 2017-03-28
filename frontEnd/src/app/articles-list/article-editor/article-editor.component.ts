@@ -28,6 +28,7 @@ export class ArticleEditorComponent implements OnInit {
   data: any;
   cropperSettings: CropperSettings;
   @ViewChild('cropper', undefined) cropper:ImageCropperComponent;
+  isLoading = false;
 
   constructor(private articleService: ArticleService,
     private categoryService: CategoryService,
@@ -38,7 +39,9 @@ export class ArticleEditorComponent implements OnInit {
       this.cropperSettings.noFileInput = true;
       this.cropperSettings.width = 1600;
       this.cropperSettings.height = 900;
-      this.cropperSettings.dynamicSizing = true;
+      this.cropperSettings.croppedWidth =1600;
+      this.cropperSettings.croppedHeight = 900;
+
       this.data = {};
   }
 
@@ -49,7 +52,11 @@ export class ArticleEditorComponent implements OnInit {
     var that = this;
     myReader.onloadend = function (loadEvent:any) {
       image.src = loadEvent.target.result;
+      console.log('=====');
+      console.log(loadEvent.target);
       that.cropper.setImage(image);
+      console.log(image)
+      console.log(that.cropper);
     };
     this.articleDetail.header_image_name = file.name;
     myReader.readAsDataURL(file);
@@ -61,41 +68,52 @@ export class ArticleEditorComponent implements OnInit {
   }
 
   onApplyCrop(article: any) {
+    this.isLoading = true;
     AWS.config.credentials = {
       accessKeyId: process.env.accessKeyId,
       secretAccessKey: process.env.secretAccessKey
     }
-    let _id = this.articleDetail.header_image_name + (+new Date).toString();
+    let _id = (+new Date).toString().concat('_') + this.articleDetail.header_image_name;
 
     let s3Bucket = new AWS.S3( {
       params: {Bucket: 'cuongngo-news', Key: _id, ACL: 'public-read'},
     })
 
     let buf = new Buffer(article.image.replace(/^data:image\/\w+;base64,/, ""),'base64')
-    console.log('buffer');
-    console.log(buf);
     let xdata: any = {
       Key: _id,
       Body: buf,
       ContentEncoding: 'base64',
       ContentType: 'image/jpeg'
     };
-    s3Bucket.putObject(xdata, function(err, data){
+    let self = this;
+    s3Bucket.putObject(xdata, function(err, data) {
         if (err) {
           console.log(err);
           console.log('Error uploading data: ', data);
         } else {
           console.log('succesfully uploaded the image!');
+          self.articleDetail.header_image = 'https://s3-ap-southeast-1.amazonaws.com/cuongngo-news/' + _id
+          self.isLoading = false;
         }
     });
-    this.articleDetail.header_image = 'https://s3-ap-southeast-1.amazonaws.com/cuongngo-news/' + _id
   }
 
+  // TODO: Convert image from url to base 64
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       if (params['id']) {
-        this.articleService.getArticleDetail(params['id']).then(res => this.articleDetail = res);
+        this.articleService.getArticleDetail(params['id']).then(res => {
+          this.articleDetail = res;
+          this.data.image = res.header_image;
+          var image:any = new Image();
+          image.src = res.header_image;
+          this.cropper.setImage(btoa(image));
+          console.log('++++');
+          console.log(image)
+          console.log(this.cropper);
+        });
         this.isCreate = false;
       }
       this.categoryService.getCategories().then((res) => {

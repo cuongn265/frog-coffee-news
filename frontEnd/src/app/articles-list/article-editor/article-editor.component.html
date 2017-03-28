@@ -27,15 +27,26 @@
       <div class="row">
         <div class="col-md-6">
           <div class="file-upload">
-              <input id="custom-input" type="file" (change)="fileChangeListener($event)">
+            <input md-button id="custom-input" name='header_image' type="file" (change)="fileChangeListener($event)">
           </div>
-          <img-cropper #cropper [image]="articleDetail" [settings]="cropperSettings" (onCrop)="cropped($event, articleDetail)"></img-cropper>
+          <div>
+            <br>
+            <img-cropper #cropper [image]="data"
+              [settings]="cropperSettings" (onCrop)="cropped($event, articleDetail)"
+              [style.display]="data.image ? 'block' : 'hidden'"
+              >
+            </img-cropper>
+          </div>
         </div>
         <div class="col-md-6">
-          <button md-button type="button" (click)="onApplyCrop(articleDetail)">Apply crop</button>
-          <span class="result rounded" *ngIf="articleDetail.image" >
-              <img [src]="articleDetail.image" class="img-responsive">
-          </span>
+          <button md-raised-button color="primary" type="button" (click)="onApplyCrop(data)"
+                  [disabled]="isLoading" *ngIf="data.image">
+            <md-spinner color="accent" *ngIf="isLoading"></md-spinner>Apply crop &nbsp;&nbsp;
+          </button>
+          <div class="result rounded" *ngIf="data.image">
+            <br>
+            <img [src]="data.image" class="img-responsive">
+          </div>
         </div>
       </div>
 
