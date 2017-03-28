@@ -20,6 +20,18 @@ import { AuthGuard } from './auth-guard.service';
 import { UsersListComponent } from './users-list/users-list.component';
 import { ArticlesListComponent } from './articles-list/articles-list.component';
 
+/**
+ * Import Socket IO Service Globally
+ */
+import { SocketIOService } from './socket.io/socket-io.service';
+
+
+
+
+
+
+
+
 import {
   DataTableModule, ButtonModule, InputTextModule, DialogModule,
   DataGridModule, MenuModule, ContextMenuModule, PanelModule, ChartModule
@@ -76,7 +88,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     Ng2PaginationModule,
     BrowserAnimationsModule
   ],
-  providers: [AuthGuard, AuthService],
+  providers: [AuthGuard, AuthService, SocketIOService],
   bootstrap: [AppComponent],
   entryComponents: [
     PizzaDialogComponent,

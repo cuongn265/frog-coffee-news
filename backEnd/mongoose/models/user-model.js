@@ -29,6 +29,17 @@ let UserSchema = new Schema({
         type: ObjectId,
         ref: 'roles'
     },
+    last_seen: Date,
+    categories_track: [{
+        category: {
+            type: ObjectId,
+            ref: 'categories'
+        },
+        visit_time: Number,
+        last_visit: Date,
+        comment_count: Number,
+        bookmark_count: Number
+    }]
 });
 
 let User = mongoose.model('users', UserSchema);
