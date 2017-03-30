@@ -52,11 +52,7 @@ export class ArticleEditorComponent implements OnInit {
     var that = this;
     myReader.onloadend = function (loadEvent:any) {
       image.src = loadEvent.target.result;
-      console.log('=====');
-      console.log(loadEvent.target);
       that.cropper.setImage(image);
-      console.log(image)
-      console.log(that.cropper);
     };
     this.articleDetail.header_image_name = file.name;
     myReader.readAsDataURL(file);
@@ -109,10 +105,7 @@ export class ArticleEditorComponent implements OnInit {
           this.data.image = res.header_image;
           var image:any = new Image();
           image.src = res.header_image;
-          this.cropper.setImage(btoa(image));
-          console.log('++++');
-          console.log(image)
-          console.log(this.cropper);
+          this.cropper.setImage(image);
         });
         this.isCreate = false;
       }
