@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../category.service';
 import { Category } from '../category';
 import { User } from './user';
-import { SocketIOService } from '../socket.io/socket-io.service';
+
 
 @Component({
   selector: 'app-user',
@@ -15,7 +15,7 @@ export class UserComponent implements OnInit {
   categoryList: Category[];
   user: User;
 
-  constructor(private categoryService: CategoryService, private auth: AuthService, private socketService: SocketIOService) { }
+  constructor(private categoryService: CategoryService, private auth: AuthService) { }
 
   ngOnInit() {
     this.categoryService.getCategories().then(
@@ -32,10 +32,5 @@ export class UserComponent implements OnInit {
       return true;
     }
     return false;
-  }
-
-  linkClick(categoryName: String){
-    console.log('Click triggered !');
-    console.log('Hit '+categoryName);
   }
 }

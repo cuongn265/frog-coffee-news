@@ -13,7 +13,7 @@
     <button class="category-button" 
       md-button 
       *ngFor="let category of categoryList" 
-      [routerLink]="['/news', category.name | lowercase]"  (click)="linkClick(category.name)"
+      [routerLink]="['/news', category.name | lowercase]"  
     > 
       {{category.name}} 
     </button>

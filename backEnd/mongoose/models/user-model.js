@@ -32,7 +32,7 @@ let UserSchema = new Schema({
     last_seen: Date,
     categories_track: [{
         category: {
-            type: ObjectId,
+            type: String,
             ref: 'categories'
         },
         visit_time: Number,

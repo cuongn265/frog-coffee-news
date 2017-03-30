@@ -1,6 +1,7 @@
 /** User Connection Handler
  * Use to receive event that which user connect to server - disconnect
  */
+let trackerService = require('../../mongoose/services/tracker-service');
 
 module.exports = function (socket) {
     socket.on('send message', function (message) {
@@ -13,7 +14,7 @@ module.exports = function (socket) {
     });
 
 
-    socket.on('browse category', function (userId, username, categoryId) {
-        console.log('User '+ username+' with id '+userId+' is browsing category '+categoryId);
+    socket.on('category browsing', function (data) {
+        trackerService.trackUserCategory(data);
     });
 }

@@ -3,6 +3,7 @@ let User = require('../models/user-model');
 let Comment = require('../models/comment-model');
 let ObjectId = require('mongoose').Types.ObjectId;
 let Q = require('q');
+const chalk = require('chalk');
 
 let self = module.exports = {
 
@@ -117,5 +118,72 @@ let self = module.exports = {
             if (err) return callback(err);
             return callback(null, doc.role.name);
         });
+    },
+
+    findInTrackingCategory: function (userId, categoryName) {
+        // find - if not push new
+        let deffer = Q.defer();
+        let option = {
+            upsert: true,
+            new: true
+        };
+
+        User.findOne({
+            "_id": userId,
+            "categories_track.category": categoryName
+        }, function (err, doc) {
+            if (err) {
+                console.log(err)
+            };
+            if (doc == null) {
+                console.log('Not found, try to push new category for tracking');
+                User.findByIdAndUpdate(userId, {
+                    $push: {
+                        "categories_track": {
+                            "category": categoryName
+                        }
+                    }
+                }, function (err) {
+                    if (err) deffer.reject(err);
+                    deffer.resolve(true);
+                });
+            } else {
+                deffer.resolve(true);
+            }
+        });
+        return deffer.promise;
+    },
+
+
+
+
+    /** User tracking stuff */
+    updateCategoryVisitCount: function (userId, categoryName) {
+        console.log('user Id: ' + chalk.blue(userId));
+        let option = {
+            upsert: true,
+            new: true,
+            setDefaultsOnInsert: true
+        }
+        self.findInTrackingCategory(userId, categoryName).then(function () {
+            User.findOneAndUpdate({
+                "_id": userId,
+                "categories_track.category": categoryName
+            }, {
+                $inc: {
+                    "categories_track.$.visit_time": 1
+                }
+            }, option, function (err) {
+                if (err) console.log(err);
+            });
+        }, function (err) {
+            console.log(err);
+        })
+
+
+
+
+
+
     }
 }

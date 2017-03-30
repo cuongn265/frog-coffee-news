@@ -25,7 +25,10 @@ import { ArticlesListComponent } from './articles-list/articles-list.component';
  */
 import { SocketIOService } from './socket.io/socket-io.service';
 
-
+/**
+ * Import Localstorage Service Globally
+ */
+import { LocalStorageService } from './technical/local-storage.service';
 
 
 
@@ -88,7 +91,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     Ng2PaginationModule,
     BrowserAnimationsModule
   ],
-  providers: [AuthGuard, AuthService, SocketIOService],
+  providers: [AuthGuard, AuthService, SocketIOService, LocalStorageService],
   bootstrap: [AppComponent],
   entryComponents: [
     PizzaDialogComponent,
