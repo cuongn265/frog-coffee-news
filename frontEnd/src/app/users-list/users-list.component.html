@@ -1,28 +1,24 @@
 <div class="users-list-container">
-  <button pButton type="button" (click)="toggle()" 
-          style="margin-bottom:10px" label="Desktop" 
+  <button pButton type="button" (click)="toggle()"
+          style="margin-bottom:10px" label="Desktop"
           icon="fa-desktop"
           *ngIf="!stacked">
   </button>
-  <button pButton type="button" (click)="toggle()" 
-          style="margin-bottom:10px" label="Mobile" 
+  <button pButton type="button" (click)="toggle()"
+          style="margin-bottom:10px" label="Mobile"
           icon="fa-mobile" *ngIf="stacked">
   </button>
   <input #gb type="text" placeholder="Global search" pInputText style="margin-bottom:10px">
-  <button [routerLink]="new" class="btn-add-big-size" type="button" pButton icon="fa-plus" style="float:right; margin-bottom: 10px" label="Add">
-  </button>
-  <p-dataTable  [value]="users" 
-              [rows]="9" 
-              [paginator]="true" 
-              [pageLinks]="3" 
-              [responsive]="true" 
+  <p-dataTable  [value]="users"
+              [rows]="9"
+              [paginator]="true"
+              [pageLinks]="3"
+              [responsive]="true"
               [stacked]="stacked"
               [globalFilter]="gb"
               [(selection)]="selectedUser"
-              selectionMode="single" [contextMenu]="cm"
               #dt
               *ngIf="visible" >
-    <header>Users List</header>
     <p-column field="first_name" header="First name" [sortable]="true"></p-column>
     <p-column field="last_name" header="Last name" [sortable]="true"></p-column>
     <p-column field="email" header="Email" [sortable]="true"></p-column>
@@ -33,7 +29,7 @@
             Lock
         </template>
         <template let-user="rowData" pTemplate="body">
-            <md-slide-toggle [checked]="!user.enable" 
+            <md-slide-toggle [checked]="!user.enable"
                             (change)="changeState($event, user)"
                             style="display: inline-block"
                             color="primary"
@@ -41,13 +37,5 @@
             </md-slide-toggle>
         </template>
     </p-column>
-    <footer>
-        <div class="ui-helper-clearfix" style="width:100%">
-            <button type="button" pButton icon="fa-plus" style="float:left" (click)="openDialog()" label="Add">
-            </button>
-        </div>
-    </footer>
   </p-dataTable>
-
-  <p-contextMenu #cm [model]="items" *ngIf="Property" ></p-contextMenu>
 </div>

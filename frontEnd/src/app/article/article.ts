@@ -8,6 +8,7 @@ export class Article {
     public content: Text;
     public date: Date;
     public header_image: String;
+    public header_image_name: String;
     public author: String;
     public source: String;
     // public published: boolean;

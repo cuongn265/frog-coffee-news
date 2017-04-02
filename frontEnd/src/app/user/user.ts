@@ -6,6 +6,6 @@ export class User {
   public last_name: string;
   public phone: string;
   public email: string;
-  public role: number;
+  public role: string;
   public enable: boolean;
 }

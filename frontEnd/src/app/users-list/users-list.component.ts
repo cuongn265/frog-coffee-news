@@ -5,8 +5,7 @@ import { UserService } from './../user/user.service';
 import { User } from './../user/user';
 import { Article } from './../article/article';
 import { Component, OnInit } from '@angular/core';
-import { PizzaDialogComponent } from './../pizza-dialog/pizza-dialog.component';
-import { MdDialogRef, MdDialog } from '@angular/material';
+import { MdDialogRef, MdDialog, MdSnackBar } from '@angular/material';
 import { MenuItem, DataTable } from 'primeng/primeng';
 
 @Component({
@@ -21,7 +20,6 @@ export class UsersListComponent implements OnInit {
   selectedUser: User[];
   articlesList: Article[];
   stacked: boolean;
-  dialogRef: MdDialogRef<PizzaDialogComponent>;
   items: MenuItem[];
   icon: string;
   visible: boolean = true;
@@ -30,49 +28,34 @@ export class UsersListComponent implements OnInit {
 
   ngOnInit() {
     // TODO: Fix undefined response when get data via service
+    this.getUser();
+  }
+
+  getUser() {
     this.http.get(process.env.apiUrl + 'users')
       .toPromise().then((response) => {
         this.users = response.json();
-        console.log(this.users);
       }
-      );
-
-    this.items = [
-      { label: 'Enable', icon: 'fa-search', command: (event) => console.log(this.selectedUser) },
-    ];
+    );
   }
 
   toggle() {
     this.stacked = !this.stacked;
   }
 
-  selectUser(user: User) {
-    console.log(user.email);
-  }
-
-  lock(userId: string) {
-    this.userService.lockUser(userId).then((res) => {
-      console.log(res);
-    });
-  }
-
-  unlock(userId: string) {
-    this.userService.unlockUser(userId).then((res) => {
-      console.log(res);
-    });
-  }
-
   changeState(event: any, user: User) {
-    if (event.checked) {
-      console.log('checked');
-      this.lock(user._id);
-    } else {
-      console.log('unchecked');
-      this.unlock(user._id);
-    }
+    this.userService.toggleStatus(user._id).then((res) => {
+      this.refresh(this);
+    });
     return true;
   }
+
+  refresh(self: any) {
+    setTimeout(function () {
+      self.http.get(process.env.apiUrl + 'users')
+        .toPromise().then((response) => {
+          this.users = response.json();
+        }, 1);
+    });
+  };
 }
-
-
-

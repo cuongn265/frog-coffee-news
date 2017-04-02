@@ -39,16 +39,18 @@ import {
   DataTableModule, ButtonModule, InputTextModule, DialogModule,
   DataGridModule, MenuModule, ContextMenuModule, PanelModule, ChartModule
 } from 'primeng/primeng';
-import { PizzaDialogComponent } from './pizza-dialog/pizza-dialog.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { Slide2Component } from './slide-2/slide-2.component';
 import { ModifyCommentDialogComponent } from './comment-dialog/modify-comment-dialog/modify-comment-dialog.component';
 import { RemoveCommentDialogComponent } from './comment-dialog/remove-comment-dialog/remove-comment-dialog.component';
-import {Ng2PaginationModule} from 'ng2-pagination';
+import { Ng2PaginationModule} from 'ng2-pagination';
 import { ReversePipe } from './reverse.pipe';
 import { ArticleEditorComponent } from './articles-list/article-editor/article-editor.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { ImageCropperComponent } from 'ng2-img-cropper';
+
 
 @NgModule({
   declarations: [
@@ -61,15 +63,15 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     UserComponent,
     UsersListComponent,
     ArticlesListComponent,
-    PizzaDialogComponent,
-    PizzaDialogComponent,
     DashboardComponent,
     ModifyCommentDialogComponent,
     RemoveCommentDialogComponent,
     DashboardComponent,
     Slide2Component,
     ReversePipe,
-    ArticleEditorComponent
+    ArticleEditorComponent,
+    ConfirmDialogComponent,
+    ImageCropperComponent
   ],
   imports: [
     BrowserModule,
@@ -94,7 +96,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
   providers: [AuthGuard, AuthService, SocketIOService, LocalStorageService],
   bootstrap: [AppComponent],
   entryComponents: [
-    PizzaDialogComponent,
+    ConfirmDialogComponent,
     RemoveCommentDialogComponent,
     ModifyCommentDialogComponent
   ],
