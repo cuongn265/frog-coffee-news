@@ -10,12 +10,12 @@
         <md-icon class="md-24">menu</md-icon>
       </button>
     </span>-->
-    <button class="category-button" 
-      md-button 
-      *ngFor="let category of categoryList" 
-      [routerLink]="['/news', category.name | lowercase]"  
-    > 
-      {{category.name}} 
+    <button class="category-button"
+      md-button
+      *ngFor="let category of categoryList"
+      [routerLink]="['/news', category.name | lowercase]"
+    >
+      {{category.name}}
     </button>
     <button md-icon-button (click)="end.toggle()" class="cat-btn">
       <md-icon class="md-24">more_vert</md-icon>
@@ -54,7 +54,7 @@
           <md-icon>comment</md-icon>
         </button>
       </md-list-item>
-      <md-list-item *ngIf="auth.authenticated() && auth.userProfile && auth.userProfile.role == 1">
+      <md-list-item *ngIf="auth.authenticated() && auth.userProfile && auth.userProfile.role == '58cd45e0879f9e00c88747bf'">
         <button md-icon-button>
           <md-icon>settings</md-icon>
         </button>
@@ -90,4 +90,3 @@
   </md-sidenav>
   <router-outlet></router-outlet>
 </md-sidenav-container>
-
