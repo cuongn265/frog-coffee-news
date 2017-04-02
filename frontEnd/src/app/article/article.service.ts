@@ -14,13 +14,11 @@ export class ArticleService {
   // get articles of selected category
   getArticles(name: string): Promise<Article[]> {
     let articleUrl: string;
-    console.log('cat name' + name)
     if (name === undefined || name == 'all' || name == '') {
       articleUrl = this.apiUrl + 'articles';
     } else {
       articleUrl = this.apiUrl + 'categories/' +name + '/articles';
     }
-    console.log(articleUrl);
 
     return this.http.get(articleUrl)
       .toPromise()
@@ -35,7 +33,6 @@ export class ArticleService {
       return null;
     } else {
       let requestURL = this.apiUrl + 'articles' + '/' + id;
-      console.log(requestURL);
       return this.http.get(requestURL).toPromise().then(response => response.json()).catch(this.handleError);
     }
   }
@@ -68,7 +65,6 @@ export class ArticleService {
 
   postComment(comment: Comment) {
     let body = JSON.stringify(comment);
-    console.log(body);
     let header = new Headers({ 'Content-Type': 'application/json' });
     return this.http.post(this.apiUrl + 'comment', body, { headers: header }).toPromise().then(response => {
       console.log(response.status);

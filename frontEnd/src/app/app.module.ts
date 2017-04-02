@@ -20,6 +20,21 @@ import { AuthGuard } from './auth-guard.service';
 import { UsersListComponent } from './users-list/users-list.component';
 import { ArticlesListComponent } from './articles-list/articles-list.component';
 
+/**
+ * Import Socket IO Service Globally
+ */
+import { SocketIOService } from './socket.io/socket-io.service';
+
+/**
+ * Import Localstorage Service Globally
+ */
+import { LocalStorageService } from './technical/local-storage.service';
+
+
+
+
+
+
 import {
   DataTableModule, ButtonModule, InputTextModule, DialogModule,
   DataGridModule, MenuModule, ContextMenuModule, PanelModule, ChartModule
@@ -78,7 +93,7 @@ import { ImageCropperComponent } from 'ng2-img-cropper';
     Ng2PaginationModule,
     BrowserAnimationsModule
   ],
-  providers: [AuthGuard, AuthService],
+  providers: [AuthGuard, AuthService, SocketIOService, LocalStorageService],
   bootstrap: [AppComponent],
   entryComponents: [
     ConfirmDialogComponent,

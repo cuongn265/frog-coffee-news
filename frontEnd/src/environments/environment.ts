@@ -5,6 +5,7 @@
 process.env.apiUrl = 'http://localhost:3000/api/v2/';
 process.env.accessKeyId = ''
 process.env.secretAccessKey = ''
+process.env.hostUrl = 'http://localhost:3000';
 export const environment = {
   production: false
 };

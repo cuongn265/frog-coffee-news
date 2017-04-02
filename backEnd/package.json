@@ -25,6 +25,7 @@
     "request": "^2.79.0",
     "search-index": "^0.9.11",
     "serve-favicon": "~2.3.0",
+    "socket.io": "^1.7.3",
     "stream": "0.0.2",
     "term-cluster": "0.0.1"
   }

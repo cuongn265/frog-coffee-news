@@ -3,7 +3,7 @@ import { CategoryService } from './category.service';
 import { Category } from './category';
 import { User } from './user/user';
 import { AuthService } from './auth.service';
-
+import { SocketIOService } from './socket.io/socket-io.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,16 +14,15 @@ export class AppComponent implements OnInit {
   categoryList: Category[];
   user: User;
 
-  constructor(private categoryService: CategoryService, private auth: AuthService) { }
+  constructor(private categoryService: CategoryService, private auth: AuthService, private socketService: SocketIOService) { }
 
   ngOnInit() {
+    this.socketService.initializeSocketInstance();
     this.categoryService.getCategories().then(
       (response) => {
         this.categoryList = response;
       }
     );
-    console.log("DEV ENV OR DEV PROD:");
-    console.log(process.env.apiUrl);
   }
 
   checkProfile() {
