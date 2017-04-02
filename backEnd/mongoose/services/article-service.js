@@ -3,8 +3,9 @@ let Article = require('../models/article-model');
 let ObjectId = require('mongoose').Types.ObjectId;
 let DateService = require('../technical/current-date-service');
 let categoryService = require('./category-service');
+let DiscussionService = require('./discussion-service')
 let Q = require('q');
-module.exports = {
+let self = module.exports = {
     /**Find one document */
     findOne: function (documentId, callback) {
         if (ObjectId.isValid(documentId)) {
@@ -87,15 +88,33 @@ module.exports = {
         }
     },
 
+    //
+    initDiscussion: function(articleId) {
+      let defer = Q.defer();
+      DiscussionService.save(articleId, function(err) {
+        if (err) {
+          return defer.reject();
+        }
+        return defer.resolve();
+      });
+      return defer.promise;
+    },
+
 
     /** Save new Article */
     save: function (document, callback) {
         let article = new Article(document);
         article.date = DateService.getCurrentDay();
-        article.save(function (err) {
+        // let that = self;
+        article.save(function (err, article) {
             if (err) return callback(err);
             else {
-                return callback(null);
+                // return callback(null);
+                self.initDiscussion(article._id).then(function(){
+                  return callback(null)
+                }, function(err) {
+                  return callback(err);
+                });
             }
         });
     },
