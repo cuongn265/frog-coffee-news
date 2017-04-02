@@ -120,7 +120,7 @@ let self = module.exports = {
         });
     },
 
-    findInTrackingCategory: function (userId, categoryName) {
+    queryTrackingCategory: function (userId, categoryName) {
         // find - if not push new
         let deffer = Q.defer();
         let option = {
@@ -136,7 +136,6 @@ let self = module.exports = {
                 console.log(err)
             };
             if (doc == null) {
-                console.log('Not found, try to push new category for tracking');
                 User.findByIdAndUpdate(userId, {
                     $push: {
                         "categories_track": {
@@ -159,13 +158,12 @@ let self = module.exports = {
 
     /** User tracking stuff */
     updateCategoryVisitCount: function (userId, categoryName) {
-        console.log('user Id: ' + chalk.blue(userId));
         let option = {
             upsert: true,
             new: true,
             setDefaultsOnInsert: true
         }
-        self.findInTrackingCategory(userId, categoryName).then(function () {
+        self.queryTrackingCategory(userId, categoryName).then(function () {
             User.findOneAndUpdate({
                 "_id": userId,
                 "categories_track.category": categoryName
@@ -179,11 +177,5 @@ let self = module.exports = {
         }, function (err) {
             console.log(err);
         })
-
-
-
-
-
-
     }
 }

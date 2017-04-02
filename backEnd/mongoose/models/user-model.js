@@ -3,6 +3,11 @@ let Schema = mongoose.Schema;
 let ObjectId = Schema.ObjectId;
 
 let UserSchema = new Schema({
+    
+    
+    
+    
+    
     first_name: {
         type: String,
         required: true
@@ -24,7 +29,8 @@ let UserSchema = new Schema({
     facebook: String,
     twitter: String,
     googleplus: String,
-    enable: Boolean,
+    enabled: Boolean,
+    verified: Boolean,
     role: {
         type: ObjectId,
         ref: 'roles'
