@@ -4,6 +4,7 @@ import { CategoryService } from '../category.service';
 import { Category } from '../category';
 import { User } from './user';
 
+
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -17,7 +18,6 @@ export class UserComponent implements OnInit {
   constructor(private categoryService: CategoryService, private auth: AuthService) { }
 
   ngOnInit() {
-    console.log(this.auth.userProfile);
     this.categoryService.getCategories().then(
       (response) => {
         this.categoryList = response;

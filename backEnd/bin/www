@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('export-test:server');
 var http = require('http');
+const chalk = require('chalk');
 
 /**
  * Get port from environment and store in Express.
@@ -32,6 +33,30 @@ server.on('listening', onListening);
 /**
  * Normalize a port into a number, string, or false.
  */
+
+
+/**
+ * Configure Socket IO event
+ * 
+ */
+
+/**
+ * Import Socket.io
+ */
+let io = require('socket.io')(server);
+
+/**Import handler */
+let userConnectionHandler = require('./socket-handlers/user-connection.hander');
+
+io.on('connection', function(socket){
+  console.log('User connected with socket Id' + socket.id);
+  userConnectionHandler(socket);
+});
+
+
+
+
+
 
 function normalizePort(val) {
   var port = parseInt(val, 10);

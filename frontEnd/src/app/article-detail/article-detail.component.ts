@@ -6,6 +6,9 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 import { AuthService } from '../auth.service';
 import { User } from '../user/user';
 import { Comment } from '../comment';
+import { LocalStorageService } from '../technical/local-storage.service';
+import { SocketIOService } from '../socket.io/socket-io.service';
+
 
 import { MdMenuTrigger } from '@angular/material/menu/menu';
 import { MdDialogRef, MdDialog } from '@angular/material/dialog';
@@ -42,37 +45,31 @@ export class ArticleDetailComponent implements OnInit {
     private articleService: ArticleService,
     private location: Location,
     private authService: AuthService,
-    private dialog: MdDialog
+    private dialog: MdDialog,
+    private socketService: SocketIOService,
+    private localStorageService: LocalStorageService
 
   ) { }
 
   ngOnInit() {
     // get user profile from localStorage
-    if (localStorage.getItem('profile')) {
-      let profileJSON = JSON.parse(localStorage.getItem('profile'));
-      this.user.email = profileJSON.email;
-      this.user.username = profileJSON.nickname;
-      this.user.first_name = profileJSON.first_name;
-      this.user.last_name = profileJSON.last_name;
-      this.user.phone = profileJSON.telephoneNumber;
-      this.user._id = profileJSON._id;
-    }
+    let userId = this.localStorageService.getUserId();
+
+
 
     this.sub = this.route.params.subscribe(params => {
       this.categoryName = params['categoryName'];
       this.articleId = params['articleId'];
       this.articleService.getArticleDetail(this.articleId).then(article => {
+        /**Emit user category track */
+        this.socketService.sendUserCategoryBrowsingEvent(String(userId), String(article.category));
         this.article = article;
-        console.log(article);
-        console.log("+++++++++++++++++++++++++++++++++++++");
-        console.log(article[0]);
         this.commentList = this.article['comments'];
       });
 
       this.articleService.getArticles(this.categoryName).then(
         (response) => {
           this.relatedArticleList = response;
-          console.log(this.relatedArticleList.length);
         }
       );
     });
@@ -138,11 +135,11 @@ export class ArticleDetailComponent implements OnInit {
     this.storedComment = comment;
     this.dialogModifyRef.componentInstance.selectedComment = comment;
     this.dialogModifyRef.afterClosed().subscribe(result => {
-        this.articleService.getArticleDetail(this.articleId).then(article => {
-          console.log(article)
-          this.article = article;
-          this.commentList = this.article['comments'];
-        })
+      this.articleService.getArticleDetail(this.articleId).then(article => {
+        console.log(article)
+        this.article = article;
+        this.commentList = this.article['comments'];
+      })
     });
   }
 

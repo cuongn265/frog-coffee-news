@@ -36,6 +36,7 @@
     "ng2-pagination": "^1.0.1",
     "ng2-sharebuttons": "^1.1.1",
     "primeng": "^1.1.4",
+    "socket.io": "^1.7.3",
     "ts-helpers": "^1.1.1",
     "typescript": "^2.2.1",
     "zone.js": "^0.6.26"
