@@ -3,6 +3,7 @@ let router = express.Router();
 
 let articleService = require('../mongoose/services/article-service');
 let tagService = require('../mongoose/services/tag-service');
+let discussionService = require('../mongoose/services/discussion-service');
 /** Article Router */
 
 router.route('/')
@@ -139,6 +140,23 @@ router.route('/:articleId')
                 res.status(202).send();
             }
         });
+    });
+
+router.route('/:articleId/comments')
+    .get(function(req, res) {
+      let articleId = req.params.articleId;
+      discussionService.findOne(articleId, function(err, doc) {
+        if (err) res.status(404).send();
+        res.status(200).send(doc);
+      })
+    })
+    .post(function(req, res) {
+      let comment = req.body;
+      comment.article_id = req.params.articleId;
+      discussionService.addComment(comment, function(err) {
+        if (err) res.status(400).send();
+        res.status(201).send();
+      })
     });
 
 module.exports = router;
