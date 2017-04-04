@@ -77,7 +77,7 @@ let self = module.exports = {
   },
 
   removeComment: function (articleId, commentId, callback) {
-    Discussion.findOneAndRemove({
+    Discussion.findOneAndUpdate({
       "article_id": articleId
     }, {
       "$pull": {
