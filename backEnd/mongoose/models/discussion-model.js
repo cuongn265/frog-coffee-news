@@ -9,7 +9,7 @@ let DiscussionSchema = new Schema({
   },
   comments: [
     {
-      user: {
+      user_id: {
         type: ObjectId,
         ref: 'users'
       },
@@ -22,6 +22,6 @@ let DiscussionSchema = new Schema({
   ]
 })
 
-let Discussion = mongoose.model('discussion', DiscussionSchema);
+let Discussion = mongoose.model('discussions', DiscussionSchema);
 
 module.exports = Discussion;

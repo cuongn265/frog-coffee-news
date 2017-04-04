@@ -48,7 +48,7 @@
     "@angular/cli": "^1.0.0",
     "@types/jasmine": "^2.2.30",
     "@types/jquery": "^2.0.34",
-    "@types/node": "^6.0.66",
+    "@types/node": "^6.0.68",
     "codelyzer": "1.0.0-beta.1",
     "jasmine-core": "2.4.1",
     "jasmine-spec-reporter": "2.5.0",

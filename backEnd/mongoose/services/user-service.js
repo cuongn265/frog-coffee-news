@@ -1,6 +1,5 @@
 /** User Service: provide methods on User Model */
 let User = require('../models/user-model');
-let Comment = require('../models/comment-model');
 let ObjectId = require('mongoose').Types.ObjectId;
 let Q = require('q');
 const chalk = require('chalk');
