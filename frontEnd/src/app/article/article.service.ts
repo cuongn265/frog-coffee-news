@@ -63,6 +63,11 @@ export class ArticleService {
     })).toPromise().then(response => response).catch(this.handleError);
   }
 
+  getComments(id: string): Promise<any> {
+    let url = this.apiUrl + 'articles' + '/' + id + '/comments';
+    return this.http.get(url).toPromise().then(response => response.json()).catch(this.handleError);
+  }
+
   postComment(comment: Comment) {
     let body = JSON.stringify(comment);
     let header = new Headers({ 'Content-Type': 'application/json' });

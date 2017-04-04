@@ -50,6 +50,7 @@ import { ArticleEditorComponent } from './articles-list/article-editor/article-e
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { ImageCropperComponent } from 'ng2-img-cropper';
+import { CommentComponent } from './article-detail/comment/comment.component';
 
 
 @NgModule({
@@ -71,7 +72,8 @@ import { ImageCropperComponent } from 'ng2-img-cropper';
     ReversePipe,
     ArticleEditorComponent,
     ConfirmDialogComponent,
-    ImageCropperComponent
+    ImageCropperComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,
