@@ -82,14 +82,8 @@ export class ArticleService {
     return this.http.put(this.apiUrl + 'comment', body, { headers: headers }).toPromise().then(response => response);
   }
 
-  removeComment(comment: Comment) {
-    let selectedComment = { '_id': comment._id }
-    let body = JSON.stringify(selectedComment);
-    let headers = new Headers({ 'Content-Type': 'application/json ' });
-    return this.http.delete(this.apiUrl + 'comment', new RequestOptions({
-      headers: headers,
-      body: body
-    })).toPromise().then(response => response).catch(this.handleError);
+  removeComment(articleId: string, commentId: string) {
+    return this.http.delete(this.apiUrl + 'articles' + '/' + articleId + '/comments' + '/' + commentId).toPromise().then(response => response).catch(this.handleError);
   }
 
   // Time Converting Methods ---------------------------- //

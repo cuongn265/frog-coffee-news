@@ -1,3 +1,5 @@
+import { ConfirmDialogComponent } from './../../confirm-dialog/confirm-dialog.component';
+import { MdDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
 import { ArticleService } from './../../article/article.service';
@@ -18,10 +20,13 @@ export class CommentComponent implements OnInit {
   sub: any
   articleId: string;
 
-  constructor(private authService: AuthService, private articleService: ArticleService, private route: ActivatedRoute) { }
+  constructor(private authService: AuthService, 
+              private articleService: ArticleService, 
+              private route: ActivatedRoute,
+              private dialog: MdDialog) { }
 
   ngOnInit() {
-    this.comment = { _id: '', user_id: '', text: '', date: new Date()};
+    this.comment = { _id: '', user_id: this.authService.userProfile.identities[0].user_id, text: '', date: new Date() };
     this.sub = this.route.params.subscribe(params => {
       this.articleId = params['articleId']; // (+) converts string 'id' to a number
     });
@@ -32,32 +37,25 @@ export class CommentComponent implements OnInit {
   }
 
   onSubmit(comment: Comment) {
-    console.log(comment)
-    this.articleService.postComment(this.articleId, comment).then(res => console.log(res));
+    this.articleService.postComment(this.articleId, comment).then(res => {
+        this.articleService.getComments(this.articleId).then(res => this.comments = res.comments)
+        this.comment.text = ''
+      }
+    );
   }
 
-  onComment() {
-    // this.submittingComment = true;
-    // this.newComment.content = this.commentContent;
-    // this.newComment.first_name = this.user.first_name;
-    // this.newComment.last_name = this.user.last_name;
-    // this.newComment.article_id = this.articleId;
-    // this.newComment.article_id = this.user._id;
-    //
-    // if (this.commentContent == null) {
-    //   this.submittingComment = false;
-    //   return;
-    // }
-    // else {
-    //   this.articleService.postComment(this.newComment).then(response => {
-    //     this.submittingComment = false;
-    //     this.commentContent = null;
-    //     this.articleService.getArticleDetail(this.articleId).then(article => {
-    //       this.article = article[0];
-    //       this.commentList = this.article['comments'];
-    //     });
-    //   });
-    // }
+  onOpenConfirmDialog(commentId: string) {
+    let dialogRef = this.dialog.open(ConfirmDialogComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'Yes') {
+        console.log(commentId);
+        this.onDelete(this.articleId, commentId);
+      }
+    })
+  }
+
+  onDelete(articleId: string, commentId: string) {
+    this.articleService.removeComment(articleId, commentId);
   }
 
   removeComment(event, comment) {
