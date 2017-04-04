@@ -1,26 +1,38 @@
 <!-- User comment box -->
 <div *ngIf="authService.authenticated()">
-  <md-list>
-    <md-list-item>
-      <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar">
-      <md-input-container style=" width: 100%; padding-left: 16px;">
-        <textarea mdInput placeholder="Leave a comment as {{authService.userProfile.name}}" maxlength="300" required #characterCountComment
-          rows="3" [(ngModel)]="commentContent"></textarea>
-        <md-hint align="end">{{characterCountComment.value.length}} / 300</md-hint>
-      </md-input-container>
-      <div style="margin-left: 3px;" [hidden]="submittingComment">
-        <button md-icon-button (click)="comment()">
-          <md-icon color="primary"> send </md-icon>
-        </button>
-      </div>
-      <!-- Comment submit spinner -->
-      <div id="circleG" *ngIf="submittingComment">
-        <div id="circleG_1" class="circleG"></div>
-        <div id="circleG_2" class="circleG"></div>
-        <div id="circleG_3" class="circleG"></div>
-      </div>
-    </md-list-item>
-  </md-list>
+  <form (ngSubmit)="onSubmit(commentForm.value)" #commentForm="ngForm">
+    <md-list>
+      <md-list-item>
+        <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar">
+        <input type="hidden" name="user_id" 
+              [value]="authService.userProfile.identities[0].user_id"
+              [(ngModel)]="comment.user_id">
+        <md-input-container style=" width: 100%; padding-left: 16px;">
+          <textarea mdInput placeholder="Leave a comment as {{authService.userProfile.name}}" 
+                    maxlength="300" 
+                    required 
+                    #characterCountComment
+                    name="text"
+                    rows="3" 
+                    [(ngModel)]="comment.text">
+          </textarea>
+          <md-hint align="end">{{characterCountComment.value.length}} / 300</md-hint>
+        </md-input-container>
+
+        <div style="margin-left: 3px;" [hidden]="submittingComment">
+          <button md-icon-button type="submit">
+            <md-icon color="primary"> send </md-icon>
+          </button>
+        </div>
+        <!-- Comment submit spinner -->
+        <div id="circleG" *ngIf="submittingComment">
+          <div id="circleG_1" class="circleG"></div>
+          <div id="circleG_2" class="circleG"></div>
+          <div id="circleG_3" class="circleG"></div>
+        </div>
+      </md-list-item>
+    </md-list>
+  </form>
 </div>
 <!-- End of user comment box -->
 <md-list *ngIf="comments">

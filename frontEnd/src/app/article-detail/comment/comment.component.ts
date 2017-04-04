@@ -1,3 +1,7 @@
+import { ActivatedRoute } from '@angular/router';
+import { Http } from '@angular/http';
+import { ArticleService } from './../../article/article.service';
+import { Comment } from './../../comment';
 import { AuthService } from './../../auth.service';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -10,17 +14,29 @@ export class CommentComponent implements OnInit {
 
   @Input()
   comments: Comment[];
+  comment: Comment;
+  sub: any
+  articleId: string;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private articleService: ArticleService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.comment = { _id: '', user_id: '', text: '', date: new Date()};
+    this.sub = this.route.params.subscribe(params => {
+      this.articleId = params['articleId']; // (+) converts string 'id' to a number
+    });
   }
 
   getCommentPeriod(timeStamp: string) {
     // return this.articleService.getTimeDistance(timeStamp);
   }
 
-  comment() {
+  onSubmit(comment: Comment) {
+    console.log(comment)
+    this.articleService.postComment(this.articleId, comment).then(res => console.log(res));
+  }
+
+  onComment() {
     // this.submittingComment = true;
     // this.newComment.content = this.commentContent;
     // this.newComment.first_name = this.user.first_name;
