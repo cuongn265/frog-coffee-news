@@ -7,7 +7,7 @@ let discussionService = require('../mongoose/services/discussion-service');
 
 const chalk = require('chalk');
 
-router.route('/initdiscussion')
+router.route('/initDiscussion')
     .post(function (req, res) {
         console.log(chalk.cyan("ready to init"));
         discussionService.initDiscussion(function(err){
@@ -153,6 +153,9 @@ router.route('/:articleId')
         });
     });
 
+/**
+ * Route request for comment
+ */
 router.route('/:articleId/comments')
     .get(function (req, res) {
         let articleId = req.params.articleId;
@@ -168,12 +171,6 @@ router.route('/:articleId/comments')
             if (err) res.status(400).send();
             res.status(201).send();
         })
-    })
-    .put(function (req, res) {
-
-    })
-    .delete(function (req, res) {
-
     });
 
 router.route('/:articleId/comments/:commentId')
@@ -186,8 +183,9 @@ router.route('/:articleId/comments/:commentId')
     })
     .put(function (req, res) {
         let comment = req.body;
-        comment._id = req.params.commentId;
+        console.log(chalk.yellow(comment.text));
         let articleId = req.params.articleId;
+        comment._id = req.params.commentId;
         discussionService.editComment(articleId, comment, function (err) {
             if (err) res.status(400).send(err);
             res.status(202).send();
@@ -201,5 +199,24 @@ router.route('/:articleId/comments/:commentId')
             res.status(202).send();
         });
     });
+
+/**
+ * End of comment request
+ */
+
+
+/**
+ * Get participants in article
+ */
+
+router.route('/:articleId/participants')
+    .get(function(req,res){
+        let articleId = req.params.articleId;
+        discussionService.getParticipants(articleId, function(err,doc){
+            if(err) res.status(404).send(err);
+            res.status(200).send(doc);
+        });
+    })
+
 
 module.exports = router;

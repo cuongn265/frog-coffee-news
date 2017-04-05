@@ -176,5 +176,26 @@ let self = module.exports = {
         }, function (err) {
             console.log(err);
         })
+    },
+
+    getIdAndUsername: function (userId) {
+        console.log(chalk.yellow("Get info with id "+userId));
+        let defer = Q.defer();
+        let info = {
+            user_id: undefined,
+            username: undefined
+        }
+        User.findById(userId, function (err, doc) {
+            if (err) {
+                console.log(err);
+                defer.reject(err);
+            } else {
+                info.user_id = doc._id;
+                info.username = doc.user_metadata.first_name + " " + doc.user_metadata.last_name;
+                defer.resolve(info);
+            }
+        });
+        return defer.promise;
     }
+
 }

@@ -3,6 +3,8 @@ let ObjectId = require('mongoose').Types.ObjectId;
 let DateService = require('../technical/current-date-service');
 
 let Discussion = require('../models/discussion-model');
+let userService = require('./user-service');
+
 let Q = require('q');
 
 const chalk = require('chalk');
@@ -59,6 +61,9 @@ let self = module.exports = {
   },
 
   editComment: function (articleId, comment, callback) {
+    console.log(chalk.magenta(comment.text));
+    console.log(chalk.magenta(comment._id));
+    
     Discussion.findOneAndUpdate({
       "article_id": articleId,
       "comments._id": comment._id
@@ -69,8 +74,6 @@ let self = module.exports = {
     }, function (err, doc) {
       if (err) return callback(err);
       else {
-        console.log(chalk.green("Modified doc"));
-        console.log(chalk.yellow(doc));
         return callback(null);
       }
     });
@@ -91,6 +94,45 @@ let self = module.exports = {
     })
   },
 
+
+  getParticipants: function (articleId, callback) {
+    /** Store complete info */
+    let participantsList = [];
+    /** Just store user id */
+    let participantId = [];
+    Discussion.findOne({
+      "article_id": articleId
+    }, function (err, doc) {
+      if (err) return callback(err);
+      else {
+        // query id of user
+        let comments = doc.comments;
+
+        let pushInfo = function (comments) {
+          let promises = comments.map(comment => {
+            if (participantId.indexOf(String(comment.user_id)) < 0) {
+              participantId.push(String(comment.user_id));
+              return userService.getIdAndUsername(comment.user_id).then(info => {
+                console.log(info.user_id);
+                participantsList.push(info);
+                return Q.resolve(info);
+              })
+            }
+          });
+          return Q.all(promises);
+
+        }
+
+        pushInfo(comments).then(participantsList => {
+          console.log(participantsList);
+          callback(null, participantsList);
+        });
+
+      }
+    });
+  },
+
+
   /**Init discussion for articles */
   initDiscussion: function (callback) {
     Article.find(function (err, doc) {
@@ -99,7 +141,7 @@ let self = module.exports = {
         self.hasDiscussion(doc._id).then(function (condition) {
           if (condition == false) {
             self.save(doc._id, function (err) {
-              if(err) console.log(err);
+              if (err) console.log(err);
             });
           }
         }, function (err) {
