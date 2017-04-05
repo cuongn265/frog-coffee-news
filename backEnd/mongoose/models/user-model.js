@@ -27,6 +27,14 @@ let UserSchema = new Schema({
         ref: 'roles'
     },
     last_seen: Date,
+    notifications: [
+        {
+            sender: ObjectId,
+            message: String,
+            seen: Boolean,
+            read: Boolean
+        }
+    ],
     categories_track: [{
         category: {
             type: String,
@@ -36,7 +44,8 @@ let UserSchema = new Schema({
         last_visit: Date,
         comment_count: Number,
         bookmark_count: Number
-    }]
+    }],
+    
 });
 
 let User = mongoose.model('users', UserSchema);

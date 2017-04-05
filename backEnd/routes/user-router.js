@@ -3,7 +3,9 @@ let router = express.Router();
 let userService = require('../mongoose/services/user-service');
 let articleService = require('../mongoose/services/article-service');
 let roleService = require('../mongoose/services/role-service');
+let notificationService = require('../mongoose/services/notification/notification-service');
 
+const chalk = require('chalk');
 /**
  * User Router
  */
@@ -162,6 +164,41 @@ router.get('/:userId/articles', function (req, res) {
         }
     });
 });
+
+
+/**GET: Get notification from this user */
+/**TODO: To be replaced by socket io emitter-receiver soon */
+router.route('/:userId/notifications')
+    .get(function (req, res) {
+        let userId = req.params.userId;
+        userService.findOne(userId, function (err, doc) {
+            if (err) res.status(400).send(err);
+            res.status(200).send(doc.notifications);
+        });
+    })
+    .post(function (req, res) {
+        let userId = req.params.userId;
+        console.log(chalk.magenta('Ready to post new notification'));
+        let notification = req.body;
+
+        notificationService.pushNotification(userId, notification).then(notification => {
+            console.log(chalk.blue('Returned notification'));
+            console.log(chalk.magenta(notification));
+            res.status(200).send(notification);
+        })
+
+    })
+
+router.route('/:userId/notification/:notificationId')
+    .get(function (req, res) {
+
+    })
+    .put(function (req, res) {
+
+    })
+    .delete(function (req, res) {
+
+    })
 
 
 
