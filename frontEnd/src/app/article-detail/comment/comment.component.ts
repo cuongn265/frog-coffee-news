@@ -29,7 +29,8 @@ export class CommentComponent implements OnInit {
     private dialog: MdDialog) { }
 
   ngOnInit() {
-    this.comment = { _id: '', user_id: this.authService.userProfile.identities[0].user_id, text: '', date: new Date() };
+    let user_id = this.authService.authenticated() ? this.authService.userProfile.identities[0].user_id : '';
+    this.comment = { _id: '', user_id: user_id, text: '', date: new Date() };
     this.sub = this.route.params.subscribe(params => {
       this.articleId = params['articleId'];
       this.articleService.getParticipants(this.articleId).then(res => this.participants = res);
@@ -50,10 +51,6 @@ export class CommentComponent implements OnInit {
     return username;
   }
 
-  onMethod() {
-    console.log('method is called')
-  }
-
   getCommentPeriod(timeStamp: string) {
     return this.articleService.getTimeDistance(timeStamp);
   }
@@ -70,7 +67,6 @@ export class CommentComponent implements OnInit {
     let dialogRef = this.dialog.open(ConfirmDialogComponent);
     dialogRef.afterClosed().subscribe((result) => {
       if (result == 'Yes') {
-        console.log(commentId);
         this.onDelete(this.articleId, commentId);
       }
     })
@@ -83,7 +79,6 @@ export class CommentComponent implements OnInit {
   }
 
   onModify(event, comment) {
-    console.log(comment)
     let dialogRef = this.dialog.open(ModifyCommentDialogComponent, {
       data: {
         comment: comment,
@@ -92,7 +87,6 @@ export class CommentComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       this.articleService.getComments(this.articleId).then(res => this.comments = res.comments)
-      console.log('close')
     })
   }
 }

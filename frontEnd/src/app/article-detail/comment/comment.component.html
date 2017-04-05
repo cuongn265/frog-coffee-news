@@ -1,7 +1,7 @@
 <h4>Comments</h4>
 <div class="line"></div>
 <!-- User comment box -->
-<div *ngIf="authService.authenticated()"> 
+<div *ngIf="authService.authenticated() && authService.userProfile"> 
   <form (ngSubmit)="onSubmit(commentForm.value)" #commentForm="ngForm">
     <md-list>
       <md-list-item>
@@ -47,16 +47,16 @@
       <p md-line>
          {{getCommentPeriod(comment.date)}}
       </p>
-      <span class="pull-right">
-        <button md-icon-button [md-menu-trigger-for]="menu" *ngIf="comment.user_id == authService.userProfile.identities[0].user_id || authService.userProfile.role == 1" >
+      <span class="pull-right" *ngIf="authService.authenticated() && authService.userProfile">
+        <button md-icon-button [md-menu-trigger-for]="menu" *ngIf="comment.user_id == authService.userProfile.identities[0]?.user_id || authService.userProfile.role == '58cd45e0879f9e00c88747bf'" >
           <md-icon>more_vert</md-icon>
         </button>
+        <md-menu #menu="mdMenu">
+          <button md-menu-item *ngIf="comment.user_id == authService.userProfile.identities[0].user_id" (click)="onModify($event, comment)"> Modify... </button>
+          <button md-menu-item (click)="onOpenConfirmDialog(comment._id)"> Remove... </button>
+        </md-menu> 
       </span> 
     </md-list-item>
-    <md-menu #menu="mdMenu">
-      <button md-menu-item *ngIf="comment.user_id == authService.userProfile.identities[0].user_id" (click)="onModify($event, comment)"> Modify... </button>
-      <button md-menu-item (click)="onOpenConfirmDialog(comment._id)"> Remove... </button>
-    </md-menu> 
     <div class="comment-content">
       <p>{{comment.text}}</p>
     </div>
