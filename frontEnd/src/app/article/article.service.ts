@@ -76,10 +76,10 @@ export class ArticleService {
     }).catch(this.handleError);
   }
 
-  putComment(comment: Comment) {
+  putComment(id: string, comment: Comment) {
     let body = JSON.stringify(comment);
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.put(this.apiUrl + 'comment', body, { headers: headers }).toPromise().then(response => response);
+    return this.http.put(this.apiUrl + 'articles' + '/' + id + '/comments' + '/' + comment._id, body, { headers: headers }).toPromise().then(response => response);
   }
 
   removeComment(articleId: string, commentId: string) {

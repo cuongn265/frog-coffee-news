@@ -1,3 +1,4 @@
+import { ModifyCommentDialogComponent } from './../../comment-dialog/modify-comment-dialog/modify-comment-dialog.component';
 import { ConfirmDialogComponent } from './../../confirm-dialog/confirm-dialog.component';
 import { MdDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -33,7 +34,7 @@ export class CommentComponent implements OnInit {
   }
 
   getCommentPeriod(timeStamp: string) {
-    // return this.articleService.getTimeDistance(timeStamp);
+    return this.articleService.getTimeDistance(timeStamp);
   }
 
   onSubmit(comment: Comment) {
@@ -55,48 +56,22 @@ export class CommentComponent implements OnInit {
   }
 
   onDelete(articleId: string, commentId: string) {
-    this.articleService.removeComment(articleId, commentId);
+    this.articleService.removeComment(articleId, commentId).then(res => 
+      this.articleService.getComments(this.articleId).then(res => this.comments = res.comments)
+    );
   }
 
-  removeComment(event, comment) {
-    // event.stopPropagation();
-    // this.dialogRemoveRef = this.dialog.open(RemoveCommentDialogComponent, {
-    //   disableClose: false
-    // });
-    // this.dialogRemoveRef.afterClosed().subscribe(result => {
-    //   this.dialogRemoveRef = null;
-    //   if (result === 'yes') {
-    //     this.articleService.removeComment(comment).then(response => {
-    //       this.articleService.getArticleDetail(this.articleId).then(article => {
-    //         this.article = article[0];
-    //         this.commentList = this.article['comments'];
-    //       });
-    //     });
-    //   }
-    //   else {
-    //     return;
-    //   }
-    // });
-  }
-
-  modifyComment(event, comment) {
-    // event.stopPropagation();
-    // this.dialogModifyRef = this.dialog.open(ModifyCommentDialogComponent, {
-    //   disableClose: false,
-    //   width: '600px'
-    // });
-    // this.storedComment = comment;
-    // this.dialogModifyRef.componentInstance.selectedComment = comment;
-    // this.dialogModifyRef.afterClosed().subscribe(result => {
-    //   this.articleService.getArticleDetail(this.articleId).then(article => {
-    //     console.log(article)
-    //     this.article = article;
-    //     this.commentList = this.article['comments'];
-    //   })
-    // });
-  }
-
-  closeCommentMenu() {
-    // this.trigger.closeMenu();
+  onModify(event, comment) {
+    console.log(comment)
+    let dialogRef = this.dialog.open(ModifyCommentDialogComponent, {
+      data: {
+        comment: comment,
+        articleId: this.articleId
+      }
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.articleService.getComments(this.articleId).then(res => this.comments = res.comments)
+      console.log('close')
+    })
   }
 }
