@@ -168,7 +168,7 @@ router.route('/:articleId/comments')
         let comment = req.body;
         let articleId = req.params.articleId;
         discussionService.addComment(articleId, comment, function (err) {
-            if (err) res.status(400).send();
+            if (err) res.status(400).send(err);
             res.status(201).send();
         })
     });

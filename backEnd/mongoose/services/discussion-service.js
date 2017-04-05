@@ -44,26 +44,31 @@ let self = module.exports = {
   },
 
   addComment: function (articleId, comment, callback) {
-    Discussion.update({
-      article_id: articleId
-    }, {
-      $push: {
-        "comments": {
-          user_id: comment.user_id,
-          date: DateService.getCurrentDay(),
-          text: comment.text
+    if (comment.user_id == undefined) {
+      return callback("Invalid UserId");
+    } else {
+      Discussion.update({
+        article_id: articleId
+      }, {
+        $push: {
+          "comments": {
+            user_id: comment.user_id,
+            date: DateService.getCurrentDay(),
+            text: comment.text
+          }
         }
-      }
-    }, function (err) {
-      if (err) return callback(err);
-      return callback(null);
-    })
+      }, function (err) {
+        if (err) return callback(err);
+        return callback(null);
+      })
+    }
+
   },
 
   editComment: function (articleId, comment, callback) {
     console.log(chalk.magenta(comment.text));
     console.log(chalk.magenta(comment._id));
-    
+
     Discussion.findOneAndUpdate({
       "article_id": articleId,
       "comments._id": comment._id
@@ -113,7 +118,6 @@ let self = module.exports = {
             if (participantId.indexOf(String(comment.user_id)) < 0) {
               participantId.push(String(comment.user_id));
               return userService.getIdAndUsername(comment.user_id).then(info => {
-                console.log(info.user_id);
                 participantsList.push(info);
                 return Q.resolve(info);
               })
@@ -123,9 +127,21 @@ let self = module.exports = {
 
         }
 
+        /** Use to remove undefined object in array */
+        Array.prototype.clean = function (deleteValue) {
+          for (var i = 0; i < this.length; i++) {
+            if (this[i] == deleteValue) {
+              this.splice(i, 1);
+              i--;
+            }
+          }
+          return this;
+        };
+
+
         pushInfo(comments).then(participantsList => {
-          console.log(participantsList);
-          callback(null, participantsList);
+          participantsList.clean(undefined);
+          callback(null, participantsList)
         });
 
       }
@@ -160,6 +176,7 @@ let self = module.exports = {
       else {
         if (doc == null) {
           console.log(chalk.red('This article does not have discussion yet'));
+          console.log(chalk.green('Init discussion....'));
           defer.resolve(false);
         }
         defer.resolve(true);
