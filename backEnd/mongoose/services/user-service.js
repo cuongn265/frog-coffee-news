@@ -179,7 +179,6 @@ let self = module.exports = {
     },
 
     getIdAndUsername: function (userId) {
-        console.log(chalk.yellow("Get info with id "+userId));
         let defer = Q.defer();
         let info = {
             user_id: undefined,

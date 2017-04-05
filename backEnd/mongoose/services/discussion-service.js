@@ -44,20 +44,25 @@ let self = module.exports = {
   },
 
   addComment: function (articleId, comment, callback) {
-    Discussion.update({
-      article_id: articleId
-    }, {
-      $push: {
-        "comments": {
-          user_id: comment.user_id,
-          date: DateService.getCurrentDay(),
-          text: comment.text
+    if (comment.user_id == undefined) {
+      return callback("Invalid UserId");
+    } else {
+      Discussion.update({
+        article_id: articleId
+      }, {
+        $push: {
+          "comments": {
+            user_id: comment.user_id,
+            date: DateService.getCurrentDay(),
+            text: comment.text
+          }
         }
-      }
-    }, function (err) {
-      if (err) return callback(err);
-      return callback(null);
-    })
+      }, function (err) {
+        if (err) return callback(err);
+        return callback(null);
+      })
+    }
+
   },
 
   editComment: function (articleId, comment, callback) {
@@ -113,7 +118,6 @@ let self = module.exports = {
             if (participantId.indexOf(String(comment.user_id)) < 0) {
               participantId.push(String(comment.user_id));
               return userService.getIdAndUsername(comment.user_id).then(info => {
-                console.log(info.user_id);
                 participantsList.push(info);
                 return Q.resolve(info);
               })
