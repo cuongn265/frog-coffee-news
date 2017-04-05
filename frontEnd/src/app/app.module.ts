@@ -9,6 +9,7 @@ import { AuthService } from './auth.service';
 import { MaterialModule } from '@angular/material';
 import { CollapseDirective } from 'ng2-bootstrap';
 
+
 import { AppComponent } from './app.component';
 import { ArticleComponent } from './article/article.component';
 import { AppRoutes } from './app.routing';
@@ -20,20 +21,8 @@ import { AuthGuard } from './auth-guard.service';
 import { UsersListComponent } from './users-list/users-list.component';
 import { ArticlesListComponent } from './articles-list/articles-list.component';
 
-/**
- * Import Socket IO Service Globally
- */
 import { SocketIOService } from './socket.io/socket-io.service';
-
-/**
- * Import Localstorage Service Globally
- */
 import { LocalStorageService } from './technical/local-storage.service';
-
-
-
-
-
 
 import {
   DataTableModule, ButtonModule, InputTextModule, DialogModule,
@@ -51,6 +40,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { ImageCropperComponent } from 'ng2-img-cropper';
 import { CommentComponent } from './article-detail/comment/comment.component';
+import { MentionModule } from 'angular2-mentions/mention';
 
 
 @NgModule({
@@ -93,7 +83,8 @@ import { CommentComponent } from './article-detail/comment/comment.component';
     ChartModule,
     CKEditorModule,
     Ng2PaginationModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MentionModule
   ],
   providers: [AuthGuard, AuthService, SocketIOService, LocalStorageService],
   bootstrap: [AppComponent],

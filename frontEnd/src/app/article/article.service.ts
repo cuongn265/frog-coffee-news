@@ -86,6 +86,10 @@ export class ArticleService {
     return this.http.delete(this.apiUrl + 'articles' + '/' + articleId + '/comments' + '/' + commentId).toPromise().then(response => response).catch(this.handleError);
   }
 
+  getParticipants(articleId: string) {
+    return this.http.get(this.apiUrl + 'articles' + '/' + articleId + '/participants').toPromise().then(res => res.json()).catch(this.handleError);
+  }
+
   // Time Converting Methods ---------------------------- //
   getTimeDistance(Post_TimeStamp: string): string {
     // get current time - UTC format

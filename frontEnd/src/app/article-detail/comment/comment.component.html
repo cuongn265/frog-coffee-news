@@ -1,7 +1,7 @@
 <h4>Comments</h4>
 <div class="line"></div>
 <!-- User comment box -->
-<div *ngIf="authService.authenticated()">
+<div *ngIf="authService.authenticated()"> 
   <form (ngSubmit)="onSubmit(commentForm.value)" #commentForm="ngForm">
     <md-list>
       <md-list-item>
@@ -11,13 +11,14 @@
               [(ngModel)]="comment.user_id"
               #userId>
         <md-input-container style=" width: 100%; padding-left: 16px;">
-          <textarea mdInput placeholder="Leave a comment as {{authService.userProfile.name}}" 
+          <textarea mdInput placeholder="Leave a comment as {{authService.userProfile.user_metadata.first_name + ' ' + authService.userProfile.user_metadata.last_name }}" 
                     maxlength="300" 
                     required 
                     #characterCountComment
                     name="text"
                     rows="3" 
-                    [(ngModel)]="comment.text">
+                    [(ngModel)]="comment.text"
+                    [mention]="mentionParticipants">
           </textarea>
           <md-hint align="end">{{characterCountComment.value.length}} / 300</md-hint>
         </md-input-container>
@@ -42,7 +43,7 @@
   <div *ngFor="let comment of comments.reverse()">
     <md-list-item>
       <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar">
-      <h2 md-line> {{authService.userProfile.nickname}} </h2>
+      <h2 md-line> {{getUsernameByUserId(comment.user_id)}} </h2>
       <p md-line>
          {{getCommentPeriod(comment.date)}}
       </p>
