@@ -61,8 +61,7 @@ let self = module.exports = {
                     })
                 }, function (err) {
                     return callback(err);
-                }).catch(function (err) {
-                });
+                }).catch(function (err) {});
         } else {
             Article.find({
                 category: categoryId
@@ -88,16 +87,25 @@ let self = module.exports = {
         }
     },
 
+    findOnePromise: function (articleId) {
+        let defer = Q.defer();
+        Article.findById(articleId, function (err, doc) {
+            if (err) defer.reject(err);
+            defer.resolve(doc);
+        });
+        return defer.promise;
+    },
+
     //
-    initDiscussion: function(articleId) {
-      let defer = Q.defer();
-      DiscussionService.save(articleId, function(err) {
-        if (err) {
-          return defer.reject();
-        }
-        return defer.resolve();
-      });
-      return defer.promise;
+    initDiscussion: function (articleId) {
+        let defer = Q.defer();
+        DiscussionService.save(articleId, function (err) {
+            if (err) {
+                return defer.reject();
+            }
+            return defer.resolve();
+        });
+        return defer.promise;
     },
 
 
@@ -110,10 +118,10 @@ let self = module.exports = {
             if (err) return callback(err);
             else {
                 // return callback(null);
-                self.initDiscussion(article._id).then(function(){
-                  return callback(null)
-                }, function(err) {
-                  return callback(err);
+                self.initDiscussion(article._id).then(function () {
+                    return callback(null)
+                }, function (err) {
+                    return callback(err);
                 });
             }
         });

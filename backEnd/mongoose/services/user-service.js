@@ -178,6 +178,34 @@ let self = module.exports = {
         })
     },
 
+    /** Notification Method stuffs */
+    pushNotification: function (notification) {
+        let defer = Q.defer();
+        let option = {
+            upsert: true,
+            new: true,
+            setDefaultsOnInsert: true
+        }
+
+
+        User.findByIdAndUpdate(notification.recipient, {
+            "$push": {
+                "notifications": {
+                    "sender": notification.sender,
+                    "message": notification.message,
+                    "seen": notification.seen,
+                    "read": notification.read
+                }
+            }
+        }, option, function (err) {
+            if (err) defer.reject(err);
+            defer.resolve(null);
+        })
+        return defer.promise;
+    },
+
+
+    /** Miscellanious  */
     getIdAndUsername: function (userId) {
         let defer = Q.defer();
         let info = {
