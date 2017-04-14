@@ -4,13 +4,13 @@
 @include mat-core();
 
 .user-card {
-    background-color: mat-color($primary);
+    background-color: white;
     .username-text {
-      color: white;
+      color: black;
     }
 
     .email-text {
-      color: white;
+      color: black;
     }
     img {
       width: 50px;
@@ -42,6 +42,11 @@
       }
     }
   }
+}
+
+md-toolbar /deep/ .mat-toolbar-layout {
+  margin: auto;
+  width: 100%;
 }
 
 @media screen and (min-width: 801px) {
