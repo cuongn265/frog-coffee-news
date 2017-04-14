@@ -1,9 +1,17 @@
-<md-sidenav-container fullscreen class="admin-container">
+<md-toolbar color="primary" style="position: fixed; z-index: 1">
+  <button md-icon-button (click)="start.toggle()" class="menu-btn">
+    <md-icon class="md-24" *ngIf="!start.opened">arrow_forward</md-icon>
+    <md-icon class="md-24" *ngIf="start.opened">arrow_back</md-icon>
+  </button>
+  <span class="remaining-space"></span>
+  <span [routerLink]="['/news/all']" class="header-title"> Frog Coffee News </span>
+</md-toolbar>
+<md-sidenav-container height="100%" style="top: 48px;" class="admin-container">
   <md-sidenav mode="side" opened="true" #start class="admin-sidenav">
-    <md-toolbar color="primary">
+    <!--<md-toolbar color="primary">
       <span [routerLink]="['/news/all']" id="header-title"> Frog Coffee News </span>
       <span class="remaining-space"></span>
-    </md-toolbar>
+    </md-toolbar>-->
 
     <md-card class="user-card">
       <md-card-header *ngIf="auth.authenticated() && auth.userProfile">
@@ -56,14 +64,7 @@
     </md-nav-list>
   </md-sidenav>
   <div class="admin-content">
-    <md-toolbar color="primary">
-      <button md-icon-button (click)="start.toggle()" class="menu-btn">
-        <md-icon class="md-24" *ngIf="!start.opened">arrow_forward</md-icon>
-        <md-icon class="md-24" *ngIf="start.opened">arrow_back</md-icon>
-      </button>
-      <span id="header-title"></span>
-      <span class="remaining-space"></span>
-    </md-toolbar>
+    
     <router-outlet></router-outlet>  
   </div>
 </md-sidenav-container>
