@@ -1,27 +1,28 @@
-<md-sidenav-container fullscreen>
-  <md-toolbar color="primary" style="height: 10vh;">
+<md-toolbar color="primary" style="height: 10vh; position: fixed; z-index: 1;">
+  <button md-icon-button (click)="start.toggle(); end.close()" class="menu-btn">
+    <md-icon class="md-24">menu</md-icon>
+  </button>
+  <span [routerLink]="['/news/all']" id="header-title"> Frog Coffee News </span>
+  <span class="remaining-space"></span>
+  <!--<span>
     <button md-icon-button (click)="start.toggle()" class="menu-btn">
       <md-icon class="md-24">menu</md-icon>
     </button>
-    <span [routerLink]="['/news/all']" id="header-title"> Frog Coffee News </span>
-    <span class="remaining-space"></span>
-    <!--<span>
-      <button md-icon-button (click)="start.toggle()" class="menu-btn">
-        <md-icon class="md-24">menu</md-icon>
-      </button>
-    </span>-->
-    <button class="category-button"
-      md-button
-      *ngFor="let category of categoryList"
-      [routerLink]="['/news', category.name | lowercase]"
-    >
-      {{category.name}}
-    </button>
-    <button md-icon-button (click)="end.toggle()" class="cat-btn">
-      <md-icon class="md-24">more_vert</md-icon>
-    </button>
-  </md-toolbar>
-  <md-sidenav class="md-sidenav" align="start" #start mode="over">
+  </span>-->
+  <button class="category-button"
+    md-button
+    *ngFor="let category of categoryList"
+    [routerLink]="['/news', category.name | lowercase]"
+  >
+    {{category.name}}
+  </button>
+  <button md-icon-button (click)="end.toggle(); start.close();" class="cat-btn">
+    <md-icon class="md-24">more_vert</md-icon>
+  </button>
+</md-toolbar>
+
+<md-sidenav-container style="height: 100%; top: 10vh;">
+  <md-sidenav class="md-sidenav" align="start" #start mode="over" style="height: 100%; position: fixed;">
     <md-card class="user-card">
       <md-card-header *ngIf="auth.authenticated() && auth.userProfile">
         <img md-card-avatar [src]="auth.userProfile.picture">
@@ -76,9 +77,7 @@
     </md-nav-list>
   </md-sidenav>
 
-  <md-sidenav class="md-sidenav" align="end" #end mode="over">
-    <md-toolbar color="primary" style="height: 10vh;">
-    </md-toolbar>
+  <md-sidenav class="md-sidenav" align="end" #end mode="over" style="height: 100%; position: fixed;">
     <md-nav-list>
       <md-list-item *ngFor="let category of categoryList">
         <a md-line (click)="end.close()" [routerLink]="['/news', category.name | lowercase]">{{category.name}} </a>
@@ -89,4 +88,5 @@
     </md-nav-list>
   </md-sidenav>
   <router-outlet></router-outlet>
+
 </md-sidenav-container>

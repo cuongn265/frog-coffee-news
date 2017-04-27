@@ -27,6 +27,8 @@
     "@types/dotenv": "^2.0.20",
     "angular2-jwt": "^0.1.26",
     "angular2-mdl": "^2.11.0",
+    "aws-sdk": "^2.41.0",
+    "angular2-mentions": "^0.4.4",
     "bootstrap": "3.3.7",
     "core-js": "^2.4.1",
     "dotenv": "^4.0.0",
