@@ -41,6 +41,9 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { ImageCropperComponent } from 'ng2-img-cropper';
 import { CommentComponent } from './article-detail/comment/comment.component';
 import { MentionModule } from 'angular2-mentions/mention';
+import { SwiperModule } from 'angular2-useful-swiper';
+import { SwiperComponent } from './swiper/swiper.component'; //or for angular-cli the path will be ../../node_modules/angular2-useful-swiper 
+
 
 
 @NgModule({
@@ -63,7 +66,8 @@ import { MentionModule } from 'angular2-mentions/mention';
     ArticleEditorComponent,
     ConfirmDialogComponent,
     ImageCropperComponent,
-    CommentComponent
+    CommentComponent,
+    SwiperComponent
   ],
   imports: [
     BrowserModule,
@@ -84,7 +88,8 @@ import { MentionModule } from 'angular2-mentions/mention';
     CKEditorModule,
     Ng2PaginationModule,
     BrowserAnimationsModule,
-    MentionModule
+    MentionModule,
+    SwiperModule
   ],
   providers: [AuthGuard, AuthService, SocketIOService, LocalStorageService],
   bootstrap: [AppComponent],
