@@ -7,14 +7,21 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class UserService {
     private apiUrl: string = process.env.apiUrl;
+
+    public usersList: {
+        first_name: string,
+        last_name: string,
+        email: string,
+        phone: string
+    }[] = [];
     constructor(private http: Http) { }
 
     getUserAccounts(): Promise<User[]> {
-        return this.http.get(this.apiUrl + 'all/users').toPromise().then(response => response.json()).catch(this.handleError);
+        return this.http.get(this.apiUrl + 'users').toPromise().then(response => response.json()).catch(this.handleError);
     }
 
     getUserAccount(userId: number): Promise<User> {
-        return this.http.get(this.apiUrl + 'all/users/' + userId).toPromise().then(response => response.json()).catch(this.handleError);
+        return this.http.get(this.apiUrl + 'users/' + userId).toPromise().then(response => response.json()).catch(this.handleError);
     }
 
     toggleStatus(userId: string) {

@@ -21,6 +21,7 @@ import { AuthGuard } from './auth-guard.service';
 import { UsersListComponent } from './users-list/users-list.component';
 import { ArticlesListComponent } from './articles-list/articles-list.component';
 
+import { UserService } from "./user/user.service";
 import { SocketIOService } from './socket.io/socket-io.service';
 import { LocalStorageService } from './technical/local-storage.service';
 

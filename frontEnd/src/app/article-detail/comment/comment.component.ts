@@ -8,10 +8,14 @@ import { Comment } from './../../comment';
 import { AuthService } from './../../auth.service';
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 
+import { UserService } from "../../user/user.service";
+import { LocalStorageService } from "../../technical/local-storage.service";
+
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss']
+  styleUrls: ['./comment.component.scss'],
+  providers: [UserService]
 })
 export class CommentComponent implements OnInit {
 
@@ -20,20 +24,32 @@ export class CommentComponent implements OnInit {
   comment: Comment;
   sub: any
   articleId: string;
-  participants: any;
-  mentionParticipants: any = ["Noah", "Liam", "Mason", "Jacob"]
+  participants: {
+    user_id: string,
+    username: string
+  }[] = [];
+  mentionParticipants: string[] = [];
 
   constructor(private authService: AuthService,
     private articleService: ArticleService,
     private route: ActivatedRoute,
-    private dialog: MdDialog) { }
+    private dialog: MdDialog,
+    private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
     let user_id = this.authService.authenticated() ? this.authService.userProfile.identities[0].user_id : '';
     this.comment = { _id: '', user_id: user_id, text: '', date: new Date() };
     this.sub = this.route.params.subscribe(params => {
       this.articleId = params['articleId'];
-      this.articleService.getParticipants(this.articleId).then(res => this.participants = res);
+
+      this.articleService.getParticipants(this.articleId).then(res => {
+        this.participants = res;
+        for(let participant of this.participants) {
+          if( participant.user_id !== this.localStorageService.getUserId()){
+                  this.mentionParticipants.push(participant.username);
+          }
+        }
+      });
     });
   }
 
