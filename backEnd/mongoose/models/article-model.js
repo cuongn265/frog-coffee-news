@@ -29,6 +29,8 @@ let ArticleSchema = new Schema({
     tags: [{
         type: ObjectId,
         ref: 'tags'
+    },{
+        name: String
     }]
 });
 
