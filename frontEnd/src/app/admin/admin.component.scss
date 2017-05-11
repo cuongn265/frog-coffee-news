@@ -39,6 +39,14 @@ html, body, material-app, md-sidenav-container, .admin-content {
   }
 }
 
+.remaining-space {
+  flex: 1 1 auto;
+}
+
+.header-title {
+  padding-right: 12px;
+}
+
 // @media screen and (max-width: 800px) {
 //   .admin-sidenav {
 //     display: none;

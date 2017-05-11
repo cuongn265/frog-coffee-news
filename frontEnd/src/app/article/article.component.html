@@ -8,8 +8,7 @@
   </div>
   <!-- Thing to fix ...-->
   <div class="row">
-    <h1>Test</h1>
-    <div class="col-md-4 col-sm-6" *ngFor="let article of publishedArticles | paginate: { itemsPerPage: 9, currentPage: p }" [routerLink]="[article._id]">
+    <div class="col-md-4 col-sm-6" *ngFor="let article of publishedArticles.reverse() | slice: 3 | paginate: { itemsPerPage: 9, currentPage: p }" [routerLink]="[article._id]">
       <md-card>
         <img md-card-image src={{article.header_image}} class="articles-img">
         <md-card-content>
