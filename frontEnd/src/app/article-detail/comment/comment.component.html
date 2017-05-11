@@ -1,53 +1,53 @@
-<h4>Comments</h4>
-<div class="line"></div>
-<!-- User comment box -->
-<div *ngIf="authService.authenticated() && authService.userProfile"> 
-  <form (ngSubmit)="onSubmit(commentForm.value)" #commentForm="ngForm">
-    <md-list>
-      <md-list-item>
-        <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar">
-        <input type="hidden" name="user_id" 
-              [value]="authService.userProfile.identities[0].user_id"
-              [(ngModel)]="comment.user_id"
+<md-toolbar color="primary" class="comment-toolbar">
+  <div class="col-md-8 col-sm-10 col-md-offset-2 col-sm-offset-1 col-xs-12">
+    <span>{{comments ? comments.length : ''}} COMMENTS</span>
+    <span class="remaining-space"></span>
+    <span [ngClass]="isActive == 'oldest' ? 'sort active' : 'sort'" (click)="isActive='oldest'">Oldest</span>
+    <span [ngClass]="isActive == 'newest' ? 'sort active' : 'sort'" (click)="isActive='newest'">Newest</span>
+    <span [ngClass]="isActive == 'best' ? 'sort active' : 'sort'" (click)="isActive='best'">Best</span>
+  </div>
+</md-toolbar>
+<div class="row">
+  <div class="col-md-8 col-sm-10 col-md-offset-2 col-sm-offset-1 col-xs-12">
+    <div *ngIf="authService.authenticated() && authService.userProfile">
+      <form (ngSubmit)="onSubmit(commentForm.value)" #commentForm="ngForm">
+        <md-list>
+          <md-list-item>
+            <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar">
+            <input type="hidden" name="user_id" [value]="authService.userProfile.identities[0].user_id" [(ngModel)]="comment.user_id"
               #userId>
-        <md-input-container style=" width: 100%; padding-left: 16px;">
-          <textarea mdInput placeholder="Leave a comment as {{authService.userProfile.user_metadata.first_name + ' ' + authService.userProfile.user_metadata.last_name }}" 
-                    maxlength="300" 
-                    required 
-                    #characterCountComment
-                    name="text"
-                    rows="3" 
-                    [(ngModel)]="comment.text"
-                    [mention]="mentionParticipants">
+            <md-input-container style=" width: 100%; padding-left: 16px;">
+              <textarea mdInput placeholder="Leave a comment as {{authService.userProfile.user_metadata.first_name + ' ' + authService.userProfile.user_metadata.last_name }}"
+                maxlength="300" required #characterCountComment name="text" rows="3" [(ngModel)]="comment.text" [mention]="mentionParticipants">
           </textarea>
-          <md-hint align="end">{{characterCountComment.value.length}} / 300</md-hint>
-        </md-input-container>
+              <md-hint align="end">{{characterCountComment.value.length}} / 300</md-hint>
+            </md-input-container>
 
-        <div style="margin-left: 3px;" [hidden]="submittingComment">
-          <button md-icon-button type="submit">
+            <div style="margin-left: 3px;" [hidden]="submittingComment">
+              <button md-icon-button type="submit">
             <md-icon color="primary"> send </md-icon>
           </button>
-        </div>
-        <!-- Comment submit spinner -->
-        <div id="circleG" *ngIf="submittingComment">
-          <div id="circleG_1" class="circleG"></div>
-          <div id="circleG_2" class="circleG"></div>
-          <div id="circleG_3" class="circleG"></div>
-        </div>
-      </md-list-item>
-    </md-list>
-  </form>
-</div>
-<!-- End of user comment box -->
-<md-list *ngIf="comments">
-  <div *ngFor="let comment of comments.reverse()">
-    <md-list-item>
-      <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar">
-      <h2 md-line> {{getUsernameByUserId(comment.user_id)}} </h2>
-      <p md-line>
-         {{getCommentPeriod(comment.date)}}
-      </p>
-      <span class="pull-right" *ngIf="authService.authenticated() && authService.userProfile">
+            </div>
+            <!-- Comment submit spinner -->
+            <div id="circleG" *ngIf="submittingComment">
+              <div id="circleG_1" class="circleG"></div>
+              <div id="circleG_2" class="circleG"></div>
+              <div id="circleG_3" class="circleG"></div>
+            </div>
+          </md-list-item>
+        </md-list>
+      </form>
+    </div>
+    <!-- End of user comment box -->
+    <md-list *ngIf="comments">
+      <div *ngFor="let comment of comments.reverse()">
+        <md-list-item>
+          <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar">
+          <h2 md-line> {{getUsernameByUserId(comment.user_id)}} </h2>
+          <p md-line>
+            {{getCommentPeriod(comment.date)}}
+          </p>
+          <span class="pull-right" *ngIf="authService.authenticated() && authService.userProfile">
         <button md-icon-button [md-menu-trigger-for]="menu" *ngIf="comment.user_id == authService.userProfile.identities[0]?.user_id || authService.userProfile.role == '58cd45e0879f9e00c88747bf'" >
           <md-icon>more_vert</md-icon>
         </button>
@@ -55,11 +55,13 @@
           <button md-menu-item *ngIf="comment.user_id == authService.userProfile.identities[0].user_id" (click)="onModify($event, comment)"> Modify... </button>
           <button md-menu-item (click)="onOpenConfirmDialog(comment._id)"> Remove... </button>
         </md-menu> 
-      </span> 
-    </md-list-item>
-    <div class="comment-content">
-      <p>{{comment.text}}</p>
-    </div>
-    <hr class="comment-divider">
+      </span>
+        </md-list-item>
+        <div class="comment-content">
+          <p>{{comment.text}}</p>
+        </div>
+        <hr class="comment-divider">
+      </div>
+    </md-list>
   </div>
-</md-list>
+</div>

@@ -1,10 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
 /*@import '~@angular/material/core/theming/prebuilt/pink-bluegrey.css';*/
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+@import 'theming.scss';
+
 body {
     margin: 0px;
-    font-family: 'Noto Sans', sans-serif !important;
+    font-family: 'Montserrat', sans-serif !important;
+    .mat-button-toggle,
+    %mat-button-base,
+    .mat-button,
+    .mat-raised-button,
+    .mat-fab,
+    .mat-icon-button,
+    .mat-mini-fab,
+    .mat-card,
+    .mat-checkbox,
+    .mat-input-container,
+    .mat-list,
+    .mat-menu-item,
+    .mat-radio-button,
+    .mat-select,
+    .mat-list .mat-list-item .mat-list-item-content,
+    .mat-nav-list .mat-list-item .mat-list-item-content,
+    .mat-simple-snackbar,
+    .mat-tab-label,
+    .mat-slide-toggle-content,
+    .mat-toolbar,
+    .mat-tooltip  {
+      font-family: 'Montserrat', sans-serif !important;;
+    }
 }
+
 
 .loader {
   position: absolute;

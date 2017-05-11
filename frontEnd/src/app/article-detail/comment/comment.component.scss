@@ -1,21 +1,33 @@
-.comment-line {
-  // width: 100%;
-  font-weight: 400;
-  position: relative;
-  pointer-events: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  h4 {
-    padding-right: 25px; // text-transform: uppercase
+.mat-toolbar {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  height: 200px;
+  font-size: 40px;
+  .remaining-space {
+    flex: 1 1 auto;
   }
-  .line {
-    position: relative;
-    height: 5px;
-    background-color: #E4E7EA;
-    flex: 2;
+  .sort {
+    opacity: 0.5;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    float: right;
+    vertical-align: middle;
+    line-height: 36px;
+    margin-right: 10px;
+    margin: 10px 5px;
+    width: 100px;
   }
+  .sort.active {
+    border: 1px solid;
+    border-radius: 20px;
+    opacity: 1;
+  }
+}
+
+.mat-toolbar /deep/ .mat-toolbar-layout {
+  margin: auto;
+  width: 100%;
 }
 
 .comment-content {
