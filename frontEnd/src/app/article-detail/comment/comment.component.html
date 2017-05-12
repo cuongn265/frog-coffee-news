@@ -1,10 +1,13 @@
 <md-toolbar color="primary" class="comment-toolbar">
   <div class="col-md-8 col-sm-10 col-md-offset-2 col-sm-offset-1 col-xs-12">
-    <span>{{comments ? comments.length : ''}} COMMENTS</span>
-    <span class="remaining-space"></span>
-    <span [ngClass]="isActive == 'oldest' ? 'sort active' : 'sort'" (click)="isActive='oldest'">Oldest</span>
-    <span [ngClass]="isActive == 'newest' ? 'sort active' : 'sort'" (click)="isActive='newest'">Newest</span>
-    <span [ngClass]="isActive == 'best' ? 'sort active' : 'sort'" (click)="isActive='best'">Best</span>
+    <div class="col-md-4 col-sm-12 col-xs-12 commentable">
+      <span>{{comments ? comments.length : ''}} COMMENTS</span>
+    </div>
+    <div class="col-md-8 col-sm-12 col-xs-12 sortable">
+      <span [ngClass]="isActive == 'best' ? 'clickable sort active' : 'clickable sort'" (click)="isActive='best'">Best</span>
+      <span [ngClass]="isActive == 'newest' ? 'clickable sort active' : 'clickable sort'" (click)="isActive='newest'">Newest</span>
+      <span [ngClass]="isActive == 'oldest' ? 'clickable sort active' : 'clickable sort'" (click)="isActive='oldest'">Oldest</span>
+    </div>
   </div>
 </md-toolbar>
 <div class="row">

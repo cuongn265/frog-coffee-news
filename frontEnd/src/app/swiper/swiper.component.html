@@ -1,4 +1,4 @@
-<swiper [config]="config">
+<swiper [config]="config" class="clickable" *ngIf="publishedArticles">
   <div class="swiper-wrapper">
     <div class="swiper-slide header" *ngFor="let article of publishedArticles.reverse() | slice:0:3; let i = index" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.85)), url(' + article.header_image + ')'}"
       [routerLink]="[article._id]">

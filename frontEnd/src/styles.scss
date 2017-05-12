@@ -28,6 +28,19 @@ body {
     .mat-tooltip  {
       font-family: 'Montserrat', sans-serif !important;;
     }
+
+    .mat-toolbar {
+      box-shadow: 0 2px 5px 0 rgba(0,0,0,0.24);
+    }
+
+    .clickable {
+      &:hover {
+        cursor: pointer
+      }
+      &:focus {
+        outline: none;
+      }
+    }
 }
 
 
