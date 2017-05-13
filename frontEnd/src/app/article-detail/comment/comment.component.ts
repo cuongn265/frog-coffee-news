@@ -1,6 +1,6 @@
 import { ModifyCommentDialogComponent } from './../../comment-dialog/modify-comment-dialog/modify-comment-dialog.component';
 import { ConfirmDialogComponent } from './../../confirm-dialog/confirm-dialog.component';
-import { MdDialog } from '@angular/material/dialog';
+import { MdDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
 import { ArticleService } from './../../article/article.service';
@@ -28,6 +28,9 @@ export class CommentComponent implements OnInit {
     user_id: string,
     username: string
   }[] = [];
+  order = 'text';
+  reverse = false;
+  isActive = 'best';
 
   commentText: string = "";
   mentionParticipants: string[] = [];
