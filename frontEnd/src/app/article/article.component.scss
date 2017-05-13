@@ -1,5 +1,6 @@
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber';
-@include mat-core(); // include all mixins
+@import '~@angular/material/theming';
+@import 'src/theming.scss';
+@include mat-core();
 .articles-container {
   margin-top: 80px;
   .heading-img {

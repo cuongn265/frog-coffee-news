@@ -10,8 +10,8 @@ import { LocalStorageService } from '../technical/local-storage.service';
 import { SocketIOService } from '../socket.io/socket-io.service';
 
 
-import { MdMenuTrigger } from '@angular/material/menu/menu';
-import { MdDialogRef, MdDialog } from '@angular/material/dialog';
+import { MdMenuTrigger } from '@angular/material/';
+import { MdDialogRef, MdDialog } from '@angular/material';
 import { ModifyCommentDialogComponent } from '../comment-dialog/modify-comment-dialog/modify-comment-dialog.component';
 import { RemoveCommentDialogComponent } from '../comment-dialog/remove-comment-dialog/remove-comment-dialog.component';
 

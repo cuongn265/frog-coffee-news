@@ -1,6 +1,6 @@
 import { ModifyCommentDialogComponent } from './../../comment-dialog/modify-comment-dialog/modify-comment-dialog.component';
 import { ConfirmDialogComponent } from './../../confirm-dialog/confirm-dialog.component';
-import { MdDialog } from '@angular/material/dialog';
+import { MdDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { Http } from '@angular/http';
 import { ArticleService } from './../../article/article.service';
@@ -21,7 +21,10 @@ export class CommentComponent implements OnInit {
   sub: any
   articleId: string;
   participants: any;
-  mentionParticipants: any = ["Noah", "Liam", "Mason", "Jacob"]
+  mentionParticipants: any = ["Noah", "Liam", "Mason", "Jacob"];
+  isActive = 'best';
+  order = 'text';
+  reverse = false;
 
   constructor(private authService: AuthService,
     private articleService: ArticleService,

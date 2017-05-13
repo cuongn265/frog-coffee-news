@@ -1,7 +1,12 @@
 /*@import '~@angular/material/core/theming/prebuilt/pink-bluegrey';*/
 // @import '~@angular/material/core/theming/prebuilt/pink-bluegrey';
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber';
+@import '~@angular/material/theming';
+@import 'src/theming.scss';
 @include mat-core();
+
+#header-title, .category-button {
+  font-family: 'Montserrat', 'Roboto', sans-serif
+}
 
 .user-card {
     background-color: white;
