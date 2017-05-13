@@ -28,6 +28,8 @@ export class CommentComponent implements OnInit {
     user_id: string,
     username: string
   }[] = [];
+
+  commentText: string = "";
   mentionParticipants: string[] = [];
 
   constructor(private authService: AuthService,
@@ -44,13 +46,27 @@ export class CommentComponent implements OnInit {
 
       this.articleService.getParticipants(this.articleId).then(res => {
         this.participants = res;
-        for(let participant of this.participants) {
-          if( participant.user_id !== this.localStorageService.getUserId()){
-                  this.mentionParticipants.push(participant.username);
+        for (let participant of this.participants) {
+          if (participant.user_id !== this.localStorageService.getUserId()) {
+            this.mentionParticipants.push(participant.username);
           }
         }
       });
     });
+  }
+
+  textChange(newValue: any) {
+    console.log('Current: '+this.commentText);
+    console.log(newValue);
+  }
+
+  checkKey(event) {
+    console.log(event, event.keyCode, event.keyIdentifier);
+  }
+
+  mentioned(mention: string) {
+    console.log("mentioned:", mention);
+    return mention;
   }
 
   getUsernameByUserId(userId: string) {

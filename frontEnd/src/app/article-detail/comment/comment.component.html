@@ -1,24 +1,18 @@
 <h4>Comments</h4>
 <div class="line"></div>
 <!-- User comment box -->
-<div *ngIf="authService.authenticated() && authService.userProfile"> 
+<div *ngIf="authService.authenticated() && authService.userProfile">
   <form (ngSubmit)="onSubmit(commentForm.value)" #commentForm="ngForm">
     <md-list>
       <md-list-item>
         <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar">
-        <input type="hidden" name="user_id" 
-              [value]="authService.userProfile.identities[0].user_id"
-              [(ngModel)]="comment.user_id"
-              #userId>
+        <input type="hidden" name="user_id" [value]="authService.userProfile.identities[0].user_id" [(ngModel)]="comment.user_id"
+          #userId>
         <md-input-container style=" width: 100%; padding-left: 16px;">
-          <textarea mdInput placeholder="Leave a comment as {{authService.userProfile.user_metadata.first_name + ' ' + authService.userProfile.user_metadata.last_name }}" 
-                    maxlength="300" 
-                    required 
-                    #characterCountComment
-                    name="text"
-                    rows="3" 
-                    [(ngModel)]="comment.text"
-                    [mention]="mentionParticipants">
+          <textarea mdInput placeholder="Leave a comment as {{authService.userProfile.user_metadata.first_name + ' ' + authService.userProfile.user_metadata.last_name }}"
+            maxlength="300" required #characterCountComment name="text" rows="3" [(ngModel)]="comment.text" [mention]="mentionParticipants" [mentionSelect]="mentioned"
+            (keydown)="checkKey($event)" [(ngModel)]="commentText" (ngModelChange)="textChange(newValue)">
+                    
           </textarea>
           <md-hint align="end">{{characterCountComment.value.length}} / 300</md-hint>
         </md-input-container>
@@ -45,7 +39,7 @@
       <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar">
       <h2 md-line> {{getUsernameByUserId(comment.user_id)}} </h2>
       <p md-line>
-         {{getCommentPeriod(comment.date)}}
+        {{getCommentPeriod(comment.date)}}
       </p>
       <span class="pull-right" *ngIf="authService.authenticated() && authService.userProfile">
         <button md-icon-button [md-menu-trigger-for]="menu" *ngIf="comment.user_id == authService.userProfile.identities[0]?.user_id || authService.userProfile.role == '58cd45e0879f9e00c88747bf'" >
@@ -55,7 +49,7 @@
           <button md-menu-item *ngIf="comment.user_id == authService.userProfile.identities[0].user_id" (click)="onModify($event, comment)"> Modify... </button>
           <button md-menu-item (click)="onOpenConfirmDialog(comment._id)"> Remove... </button>
         </md-menu> 
-      </span> 
+      </span>
     </md-list-item>
     <div class="comment-content">
       <p>{{comment.text}}</p>
