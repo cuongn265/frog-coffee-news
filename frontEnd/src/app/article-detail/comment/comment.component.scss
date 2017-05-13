@@ -26,17 +26,25 @@
     border-radius: 20px;
     opacity: 1;
   }
-  
   .commentable-row {
     padding-left: 0px;
     .commentable {
       padding-left: 0px;
     }
   }
+}
 
-  .comment-form {
-    margin-bottom: 20px;
+.comment-form {
+  margin-bottom: 20px;
+  .comment-input {
+    margin-left: 16px;
   }
+}
+
+
+
+md-list-item /deep/ .mat-list-item-content.mat-ripple {
+  overflow: visible;
 }
 
 .mat-toolbar /deep/ .mat-toolbar-layout {
@@ -53,10 +61,6 @@
     border-top: 2px solid #eee;
     margin: 0 72px;
   }
-  // .avatar {
-  //   height: 100%;
-  //   width: auto;
-  // }
 }
 
 @media screen and (max-width: 990px) {
