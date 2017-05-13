@@ -14,7 +14,7 @@ export class AuthService {
       primaryColor: '#673ab7'
     },
     languageDictionary: {
-      title: 'Frog Coffee News',
+      title: 'Mercury',
       error: {
         login: {
           'lock.invalid_email_password': 'Your username or password is invalid',

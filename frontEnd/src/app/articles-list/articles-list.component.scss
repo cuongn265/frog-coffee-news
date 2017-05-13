@@ -1,4 +1,5 @@
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber';
+@import '~@angular/material/theming';
+@import 'src/theming.scss';
 @include mat-core(); // include all mixins
 .articles-list-container {
   margin: 40px;

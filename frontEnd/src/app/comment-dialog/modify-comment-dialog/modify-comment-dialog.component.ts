@@ -1,8 +1,10 @@
 import { ActivatedRoute } from '@angular/router';
 import { Comment } from './../../comment';
-import { Component, OnInit } from '@angular/core';
-import { MdDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ArticleService } from '../../article/article.service';
+import { MdDialogRef } from '@angular/material';
+import {MD_DIALOG_DATA} from '@angular/material';
+
 
 @Component({
   selector: 'app-modify-comment-dialog',
@@ -13,18 +15,21 @@ import { ArticleService } from '../../article/article.service';
 export class ModifyCommentDialogComponent implements OnInit {
 
   selectedComment: Comment;
+  data: any;
 
   constructor(public dialogRef: MdDialogRef<ModifyCommentDialogComponent>,
-    private articleService: ArticleService) {
+    private articleService: ArticleService,
+    @Inject(MD_DIALOG_DATA) data: any) {
+      this.data = data;
   }
 
   ngOnInit() {
-    this.selectedComment = this.dialogRef.config.data.comment;
+    this.selectedComment = this.data.comment;
   }
 
   onSubmit(comment: Comment) {
     console.log(comment)
-    this.articleService.putComment(this.dialogRef.config.data.articleId, comment).then(response => {
+    this.articleService.putComment(this.data.articleId, comment).then(response => {
       this.dialogRef.close('yes')
     });
   }

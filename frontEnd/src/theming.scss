@@ -1,0 +1,13 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$primary: mat-palette($mat-deep-orange, 500);
+$accent:  mat-palette($mat-pink, A200, A100, A400);
+
+$warn:    mat-palette($mat-red);
+
+$candy-app-theme: mat-light-theme($primary, $accent, $warn);
+
+@include angular-material-theme($candy-app-theme);
+
+$mat-font-family: 'Titillium Web',sans-serif;
