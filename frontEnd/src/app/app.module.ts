@@ -1,3 +1,4 @@
+import { Ng2OrderModule } from 'ng2-order-pipe';
 import { UserComponent } from './user/user.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -45,7 +46,6 @@ import { SwiperModule } from 'angular2-useful-swiper';
 import { SwiperComponent } from './swiper/swiper.component'; //or for angular-cli the path will be ../../node_modules/angular2-useful-swiper 
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,7 +89,8 @@ import { SwiperComponent } from './swiper/swiper.component'; //or for angular-cl
     Ng2PaginationModule,
     BrowserAnimationsModule,
     MentionModule,
-    SwiperModule
+    SwiperModule,
+    Ng2OrderModule
   ],
   providers: [AuthGuard, AuthService, SocketIOService, LocalStorageService],
   bootstrap: [AppComponent],

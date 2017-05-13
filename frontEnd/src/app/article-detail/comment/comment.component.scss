@@ -26,6 +26,17 @@
     border-radius: 20px;
     opacity: 1;
   }
+  
+  .commentable-row {
+    padding-left: 0px;
+    .commentable {
+      padding-left: 0px;
+    }
+  }
+
+  .comment-form {
+    margin-bottom: 20px;
+  }
 }
 
 .mat-toolbar /deep/ .mat-toolbar-layout {
@@ -33,12 +44,19 @@
   width: 100%;
 }
 
-.comment-content {
-  margin-left: 72px;
-}
-
-.comment-divider {
-  border-top: 2px solid #eee;
+.comment {
+  margin-top: 15px;
+  .comment-content {
+    margin: 0 72px 20px 72px;
+  }
+  .comment-divider {
+    border-top: 2px solid #eee;
+    margin: 0 72px;
+  }
+  // .avatar {
+  //   height: 100%;
+  //   width: auto;
+  // }
 }
 
 @media screen and (max-width: 990px) {

@@ -31,7 +31,7 @@
   </div>
   <!-- End here-->
 </div>
-<pagination-controls (pageChange)="p = $event"></pagination-controls>
+<pagination-controls *ngIf="publishedArticles && publishedArticles.length > 0" (pageChange)="p = $event"></pagination-controls>
 <div class="container-notfound" *ngIf="!publishedArticles || publishedArticles.length == 0">
   <div class="wrapper">
     <img class="notfound-img" src="assets/images/not-found.png" />

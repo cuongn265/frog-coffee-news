@@ -23,6 +23,8 @@ export class CommentComponent implements OnInit {
   participants: any;
   mentionParticipants: any = ["Noah", "Liam", "Mason", "Jacob"];
   isActive = 'best';
+  order = 'text';
+  reverse = false;
 
   constructor(private authService: AuthService,
     private articleService: ArticleService,
