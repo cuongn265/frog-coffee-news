@@ -45,7 +45,6 @@ export class CommentComponent implements OnInit {
     private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
-    console.log(this.mentionedParticipants);
     let user_id = this.authService.authenticated() ? this.authService.userProfile.identities[0].user_id : '';
     this.comment = { _id: '', user_id: user_id, text: '', date: new Date() };
     this.sub = this.route.params.subscribe(params => {
@@ -64,27 +63,16 @@ export class CommentComponent implements OnInit {
 
  
 
-  checkMentionedUser(text: string) {
-    this.numberOfMentionedParticipant = this.getNumberOfMentionedParticipant(text);
-    //var String=text.substring(text.lastIndexOf("@")+1,text.lastIndexOf(" "));
-    var extract = text.match(/\@(\S+)/g);
-    console.log(extract);
-    //var arrStr = text.split(/[@\s]/);
-    //console.log(arrStr);
+  updateMentionedUser(text: string) {
+    this.mentionedParticipants = text.match(/\@(\S+)/g);
   }
 
   pushUserToMentionedList(user: string){
     this.mentionedParticipants.push(user);
   }
 
-  doDummy(){
-    console.log('dummy called!');
-  }
 
-
-  mentioned(mention: string) {
-    console.log('Mentioned: '+mention);
-    
+  mentioned(mention: string) {  
     return mention;
   }
 
@@ -110,12 +98,28 @@ export class CommentComponent implements OnInit {
   }
 
   onSubmit(comment: Comment) {
+    console.log('tagged user_id');
+    console.log(this.getTaggedParticipantIdList());
     this.articleService.postComment(this.articleId, comment).then(res => {
       this.articleService.getComments(this.articleId).then(res => this.comments = res.comments)
-      this.comment.text = ''
+      this.comment.text = '';
     }
     );
   }
+
+  getTaggedParticipantIdList(): any[]{
+    let taggedUserIdArray = [];
+    for(let tag of this.mentionedParticipants) {
+      for(let user of this.participants) {
+        if(tag.slice(1) == user.username){
+          taggedUserIdArray.push(user.user_id);
+        }
+      }
+    }
+    return taggedUserIdArray;
+  }
+
+  
 
   onOpenConfirmDialog(commentId: string) {
     let dialogRef = this.dialog.open(ConfirmDialogComponent);

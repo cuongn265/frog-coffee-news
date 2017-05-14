@@ -218,7 +218,7 @@ let self = module.exports = {
                 defer.reject(err);
             } else {
                 info.user_id = doc._id;
-                info.username = doc.user_metadata.first_name + doc.user_metadata.last_name;
+                info.username = (doc.user_metadata.first_name + doc.user_metadata.last_name).replace(" ", "");
                 defer.resolve(info);
             }
         });

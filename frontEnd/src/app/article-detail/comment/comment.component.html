@@ -22,7 +22,7 @@
                 #userId>
               <md-input-container style=" width: 100%;">
                 <input mdInput placeholder="Leave a comment as {{authService.userProfile.user_metadata.first_name + ' ' + authService.userProfile.user_metadata.last_name }}"
-                  maxlength="300" rows="2" required #characterCountComment name="text" [(ngModel)]="comment.text" [mention]="mentionParticipants" [mentionSelect]="mentioned" (ngModelChange)="checkMentionedUser($event)"
+                  maxlength="300" rows="2" required #characterCountComment name="text" [(ngModel)]="comment.text" [mention]="mentionParticipants" [mentionSelect]="mentioned" (ngModelChange)="updateMentionedUser($event)"
                 />
                 <md-hint align="end">{{characterCountComment.value.length}} / 300</md-hint>
               </md-input-container>
