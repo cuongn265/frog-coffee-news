@@ -1,16 +1,21 @@
 /*@import '~@angular/material/core/theming/prebuilt/pink-bluegrey';*/
 // @import '~@angular/material/core/theming/prebuilt/pink-bluegrey';
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber';
+@import '~@angular/material/theming';
+@import 'src/theming.scss';
 @include mat-core();
 
+#header-title, .category-button {
+  font-family: 'Montserrat', 'Roboto', sans-serif
+}
+
 .user-card {
-    background-color: mat-color($primary);
+    background-color: white;
     .username-text {
-      color: white;
+      color: black;
     }
 
     .email-text {
-      color: white;
+      color: black;
     }
     img {
       width: 50px;
@@ -42,6 +47,11 @@
       }
     }
   }
+}
+
+md-toolbar /deep/ .mat-toolbar-layout {
+  margin: auto;
+  width: 100%;
 }
 
 @media screen and (min-width: 801px) {

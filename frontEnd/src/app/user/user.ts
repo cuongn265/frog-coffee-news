@@ -8,4 +8,5 @@ export class User {
   public email: string;
   public role: string;
   public enable: boolean;
+  public identities: Array<any>;
 }

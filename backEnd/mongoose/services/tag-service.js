@@ -5,17 +5,21 @@
 
 let Tag = require('../models/tag-model');
 let ObjectId = require('mongoose').Types.ObjectId;
-module.exports = {
+let Q = require('q');
+const chalk = require('chalk');
+
+let self = module.exports = {
     /** FInd one */
     findOne: function (tagId, callback) {
+        let defer = Q.defer();
+
         if (ObjectId.isValid(tagId)) {
             Tag.findById(tagId, function (err, doc) {
-                if (err) return callback(err);
-                else {
-                    return callback(null, doc);
-                }
+                if (err) defer.reject(err);
+                defer.resolve(doc);
             });
         }
+        return defer.promise;
     },
 
     /**Find all tags */
@@ -73,14 +77,9 @@ module.exports = {
         if (ObjectId.isValid(documentId)) {
             Tag.findById(documentId).populate('articles').exec(function (err, docs) {
                 if (err) return callback(err);
-                else {
-                    console.log(docs);
-                    return callback(null, docs);
-                }
-            })
-        } else {
-            return callback('Invalid ObjectId');
+                return callback(null, docs);
+            });
         }
+        return callback('Invalid ObjectId');
     }
-
 }

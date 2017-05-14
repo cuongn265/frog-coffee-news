@@ -61,7 +61,9 @@ let mlabHost = config.get('database.mlab-host');
 let option = config.get('database.mlab-auth');
 
 
+//mongooseConnector.connectToMongo(mlabHost, option);
 mongooseConnector.connectToMongo(mlabHost, option);
+// mongooseConnector.connectToMongo(localhost);
 
 /**
  * ------   End of database connection configuration ---------------------------------------

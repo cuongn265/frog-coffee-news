@@ -66,9 +66,6 @@ let self = module.exports = {
   },
 
   editComment: function (articleId, comment, callback) {
-    console.log(chalk.magenta(comment.text));
-    console.log(chalk.magenta(comment._id));
-
     Discussion.findOneAndUpdate({
       "article_id": articleId,
       "comments._id": comment._id
