@@ -17,18 +17,14 @@
         <md-list>
           <md-list-item>
             <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar">
-            <p md-line>
               <input type="hidden" name="user_id" [value]="authService.userProfile.identities[0].user_id" [(ngModel)]="comment.user_id"
-                #userId>
-              <md-input-container style=" width: 100%;">
+              #userId>
+              <md-input-container style="width: 100%;" class="comment-input">
                 <input mdInput placeholder="Leave a comment as {{authService.userProfile.user_metadata.first_name + ' ' + authService.userProfile.user_metadata.last_name }}"
                   maxlength="300" rows="2" required #characterCountComment name="text" [(ngModel)]="comment.text" [mention]="mentionParticipants" [mentionSelect]="mentioned" (ngModelChange)="updateMentionedUser($event)"
                 />
                 <md-hint align="end">{{characterCountComment.value.length}} / 300</md-hint>
               </md-input-container>
-            </p>
-
-
             <div style="margin-left: 3px;" [hidden]="submittingComment">
               <button md-icon-button type="submit">
                 <md-icon color="primary"> send </md-icon>
