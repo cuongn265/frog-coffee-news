@@ -98,8 +98,9 @@ export class CommentComponent implements OnInit {
   }
 
   onSubmit(comment: Comment) {
-    console.log('tagged user_id');
+    console.log('TODO: list of tagged user_id');
     console.log(this.getTaggedParticipantIdList());
+    console.log('TODO: Make request notification to these user_id to remind that someone has tagged them in the post');
     this.articleService.postComment(this.articleId, comment).then(res => {
       this.articleService.getComments(this.articleId).then(res => this.comments = res.comments)
       this.comment.text = '';
