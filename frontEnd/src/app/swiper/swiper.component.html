@@ -1,10 +1,11 @@
 <md-grid-list cols="2" rowHeight="fit" class="landing">
   <md-grid-tile *ngFor="let article of publishedArticles.reverse() | slice:0:4; let i = index">
-    <div class="swiper-slide header" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(' + article.header_image + ')'}"
+    <div class="swiper-slide header clickable" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(' + article.header_image + ')'}"
       [routerLink]="[article._id]">
       <div [class]="'header header-' + i">
+        <div class="flex-col-start"></div>
         <div class="content">
-          <p>{{article.title}}</p>
+          <p class="title">{{article.title}}</p>
           <div class="body-info-container">
             <div class="info">
               <md-icon>volume_up</md-icon>{{article.source || 'MERCURY'}}</div>
@@ -17,7 +18,7 @@
           </div>
           <!--<p class="description">{{article.description}}</p>-->
         </div>
-        <div class="flex-col"></div>
+        <div class="flex-col-end"></div>
       </div>
     </div>
   </md-grid-tile>
