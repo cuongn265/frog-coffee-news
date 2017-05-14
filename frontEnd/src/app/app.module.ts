@@ -74,7 +74,7 @@ import { SwiperComponent } from './swiper/swiper.component'; //or for angular-cl
     BrowserModule,
     FormsModule,
     HttpModule,
-    MaterialModule.forRoot(),
+    MaterialModule,
     RouterModule.forRoot(AppRoutes),
     ShareButtonsModule,
     DataTableModule,

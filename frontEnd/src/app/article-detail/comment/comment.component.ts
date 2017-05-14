@@ -33,7 +33,10 @@ export class CommentComponent implements OnInit {
   isActive = 'best';
 
   commentText: string = "";
-  mentionParticipants: string[] = [];
+  private mentionParticipants: string[] = [];
+  private mentionedParticipants: string[];
+
+  private numberOfMentionedParticipant: number = 0;
 
   constructor(private authService: AuthService,
     private articleService: ArticleService,
@@ -42,6 +45,7 @@ export class CommentComponent implements OnInit {
     private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
+    console.log(this.mentionedParticipants);
     let user_id = this.authService.authenticated() ? this.authService.userProfile.identities[0].user_id : '';
     this.comment = { _id: '', user_id: user_id, text: '', date: new Date() };
     this.sub = this.route.params.subscribe(params => {
@@ -58,17 +62,29 @@ export class CommentComponent implements OnInit {
     });
   }
 
-  textChange(newValue: any) {
-    console.log('Current: '+this.commentText);
-    console.log(newValue);
+ 
+
+  checkMentionedUser(text: string) {
+    this.numberOfMentionedParticipant = this.getNumberOfMentionedParticipant(text);
+    //var String=text.substring(text.lastIndexOf("@")+1,text.lastIndexOf(" "));
+    var extract = text.match(/\@(\S+)/g);
+    console.log(extract);
+    //var arrStr = text.split(/[@\s]/);
+    //console.log(arrStr);
   }
 
-  checkKey(event) {
-    console.log(event, event.keyCode, event.keyIdentifier);
+  pushUserToMentionedList(user: string){
+    this.mentionedParticipants.push(user);
   }
+
+  doDummy(){
+    console.log('dummy called!');
+  }
+
 
   mentioned(mention: string) {
-    console.log("mentioned:", mention);
+    console.log('Mentioned: '+mention);
+    
     return mention;
   }
 
@@ -86,6 +102,9 @@ export class CommentComponent implements OnInit {
     return username;
   }
 
+  getNumberOfMentionedParticipant(text: string){
+    return (text.match(/@/g) || []).length;
+  }
   getCommentPeriod(timeStamp: string) {
     return this.articleService.getTimeDistance(timeStamp);
   }
