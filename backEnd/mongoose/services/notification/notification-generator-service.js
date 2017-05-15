@@ -22,28 +22,10 @@ let self = module.exports = {
 
     },
 
-
-
-
-
     generateMessageOnType: function (data) {
         let defer = Q.defer();
 
         self.getTemplateMessageOnType(data.type).then(message => {
-
-            // switch (data.type) {
-            //     case 'mentioned':
-            //         {
-
-
-            //         }
-            //     case 'new activities':
-            //         {
-
-            //         }
-            // }
-
-
             if (data.type == 'mentioned') {
                 ArticleService.findOnePromise(data.article_id).then(article => {
                     let notification = {
@@ -53,9 +35,6 @@ let self = module.exports = {
                         "seen": undefined,
                         "read": undefined
                     };
-                    // notification.article = article.title;
-                    console.log(data.sender);
-                    console.log(chalk.yellow('Resolve successfully at generateMessageOnType: ' + article.title));
                     UserService.getIdAndUsername(data.sender).then(info => {
 
                         notification.article = article.title;
@@ -63,7 +42,7 @@ let self = module.exports = {
                         notification.message = notification.sender + " " + message + " " + notification.article;
                         notification.seen = false;
                         notification.read = false;
-                        console.log(chalk.blue('successfully reolsve'));
+                        console.log(chalk.blue('successfully resolved'));
                         defer.resolve(notification);
                     })
                 })
@@ -75,10 +54,12 @@ let self = module.exports = {
 
     getTemplateMessageOnType: function (typeName) {
         let defer = Q.defer();
+        console.log(chalk.yellow(typeName));
         NotificationType.findOne({
             "type": typeName
         }, function (err, doc) {
             if (err) defer.reject(err);
+            
             defer.resolve(doc.templateMessage);
         });
         return defer.promise;

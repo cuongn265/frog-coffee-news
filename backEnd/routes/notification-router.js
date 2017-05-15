@@ -12,7 +12,7 @@ const chalk = require('chalk');
 /** Get notification of user*/
 router.route('/:userId')
     .get(function (req, res) {
-        
+
     });
 
 
@@ -33,4 +33,14 @@ router.route('/types')
         })
     });
 
+
+router.route('/pushNotification')
+    .post(function (req, res) {
+        let notification = req.body;
+        NotificationService.pushNotification(notification).then((notification) => {
+            res.status(202).send(notification);
+        }).catch((err) => {
+            res.status(400).send();
+        })
+    });
 module.exports = router;

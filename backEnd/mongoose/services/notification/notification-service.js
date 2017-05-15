@@ -21,12 +21,12 @@ let self = module.exports = {
     },
 
     /**------------------------- */
-    pushNotification: function (userId, notification) {
+    pushNotification: function (notification) {
         let defer = Q.defer();
-        let newNotification = notification;
-        newNotification.recipient = userId;
-        NotificationGenerator.generateMessageOnType(newNotification).then(notification => {
+        NotificationGenerator.generateMessageOnType(notification).then(notification => {
             defer.resolve(notification);
+        }).catch((err) => {
+            defer.reject(err);
         })
         return defer.promise;
     },
