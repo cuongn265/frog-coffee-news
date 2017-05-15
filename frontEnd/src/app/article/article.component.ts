@@ -14,8 +14,6 @@ import { ActivatedRoute } from '@angular/router';
 
 export class ArticleComponent implements OnInit, OnDestroy {
 
-  // @Input() name: string;
-
   articlesList: Article[];
   categoryName: string;
   publishedArticles: Article[];
@@ -23,8 +21,10 @@ export class ArticleComponent implements OnInit, OnDestroy {
   infiniteArticles: Article[] = [];
   sum = 6;
   throttle = 400;
-  scrollDistance = 2;
+  scrollDistance = 0;
   articleIndex = 0;
+  isLoading = false;
+  isFinish = false;
   private sub: any;
   constructor(private articleService: ArticleService, private route: ActivatedRoute) {
   }
@@ -56,29 +56,24 @@ export class ArticleComponent implements OnInit, OnDestroy {
   addItems(startIndex, endIndex) {
     let i = this.articleIndex;
     for (; i < this.sum; ++i) {
-      console.log("----------: " + i);
-      console.log(this.publishedArticles[i]);
-      console.log('----------');
       this.articleIndex++;
       this.infiniteArticles.push(this.publishedArticles[i]);
+      if (this.sum == this.publishedArticles.length) {
+        this.isFinish = true;
+      }
     }
-    console.log(this.infiniteArticles)
   }
   onScrollDown() {
-    console.log('scrolled!!');
-
-    // add another 20 items
     const start = this.sum;
-    console.log('start: ' + start);
     this.sum += 6;
-    console.log('sum: ' + this.sum);
     if (this.sum >= this.publishedArticles.length) {
       this.sum = this.publishedArticles.length
     }
-    this.addItems(start, this.sum);
-  }
-
-  onScroll() {
-    console.log('scrolled!!')
+    this.isLoading = true;
+    let self = this;
+    setTimeout(function () {
+      self.addItems(start, this.sum);
+      self.isLoading = false;
+    }, 1000);
   }
 }
