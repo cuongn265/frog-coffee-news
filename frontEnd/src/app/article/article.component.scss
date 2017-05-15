@@ -67,7 +67,6 @@
     }
   }
 }
-
 .container-notfound {
   height: 100%;
   margin-top: 50px;
@@ -80,23 +79,22 @@
     }
   }
 }
-
 md-grid-tile figure {
   align-items: flex-end !important;
 }
-
 pagination-controls {
   text-align: center;
 }
-
 pagination-controls /deep/ .ng2-pagination li.current {
   background: mat-color($primary) !important;
 }
-
 pagination-controls /deep/ .ng2-pagination li {
   font-size: 14px !important;
   cursor: pointer;
   a:hover {
     text-decoration: none;
   }
+}
+.search-results {
+  height: 100%; // overflow: scroll;
 }

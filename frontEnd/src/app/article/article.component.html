@@ -6,9 +6,14 @@
       <div class="line"></div>
     </div>
   </div>
-  <!-- Thing to fix ...-->
-  <div class="row">
-    <div class="col-md-4 col-sm-6" *ngFor="let article of publishedArticles.reverse() | slice: 4 | paginate: { itemsPerPage: 9, currentPage: p }">
+
+  <div class="row search-results"
+      infinite-scroll
+      debounce
+      [infiniteScrollDistance]="scrollDistance"
+      [infiniteScrollThrottle]="throttle"
+      (scrolled)="onScrollDown()">
+    <div class="col-md-4 col-sm-6" *ngFor="let article of infiniteArticles">
       <md-card>
         <img md-card-image src={{article.header_image}} class="articles-img">
         <md-card-content>
@@ -31,7 +36,6 @@
   </div>
   <!-- End here-->
 </div>
-<pagination-controls *ngIf="publishedArticles && publishedArticles.length > 0" (pageChange)="p = $event"></pagination-controls>
 <div class="container-notfound" *ngIf="!publishedArticles || publishedArticles.length == 0">
   <div class="wrapper">
     <img class="notfound-img" src="assets/images/not-found.png" />
