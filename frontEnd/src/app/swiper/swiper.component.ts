@@ -47,4 +47,7 @@ export class SwiperComponent implements OnInit {
     });
   }
 
+  getArticlePeriod(timestamps) {
+    return this.articleService.getTimeDistance(timestamps);
+  }
 }

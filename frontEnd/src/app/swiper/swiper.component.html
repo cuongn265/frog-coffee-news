@@ -1,16 +1,25 @@
-<swiper [config]="config" class="clickable" *ngIf="publishedArticles">
-  <div class="swiper-wrapper">
-    <div class="swiper-slide header" *ngFor="let article of publishedArticles.reverse() | slice:0:3; let i = index" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.85)), url(' + article.header_image + ')'}"
+<md-grid-list cols="2" rowHeight="fit" class="landing">
+  <md-grid-tile *ngFor="let article of publishedArticles.reverse() | slice:0:4; let i = index">
+    <div class="swiper-slide header clickable" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(' + article.header_image + ')'}"
       [routerLink]="[article._id]">
-      <div class="header">
+      <div [class]="'header header-' + i">
+        <div class="flex-col-start"></div>
         <div class="content">
-          <h3>{{article.title}}</h3>
-          <p class="description">{{article.description}}</p>
+          <p class="title">{{article.title}}</p>
+          <div class="body-info-container">
+            <div class="info">
+              <md-icon>volume_up</md-icon>{{article.source || 'MERCURY'}}</div>
+            <div class="info">
+              <md-icon>access_time</md-icon>{{getArticlePeriod(article.date.toString())}}</div>
+            <!--<div class="info">
+              <md-icon>people</md-icon>{{article.author || "N/A"}}</div>-->
+            <span class="remaining-space"></span>
+            <p class="info-category">{{categoryName}}</p>
+          </div>
+          <!--<p class="description">{{article.description}}</p>-->
         </div>
+        <div class="flex-col-end"></div>
       </div>
     </div>
-  </div>
-  <div class="swiper-pagination swiper-pagination-black"></div>
-  <div class="swiper-button-next swiper-button-black"></div>
-  <div class="swiper-button-prev swiper-button-black"></div>
-</swiper>
+  </md-grid-tile>
+</md-grid-list>

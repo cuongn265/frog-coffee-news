@@ -1,3 +1,4 @@
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { UserComponent } from './user/user.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -91,7 +92,8 @@ import { SwiperComponent } from './swiper/swiper.component'; //or for angular-cl
     BrowserAnimationsModule,
     MentionModule,
     SwiperModule,
-    Ng2OrderModule
+    Ng2OrderModule,
+    InfiniteScrollModule
   ],
   providers: [AuthGuard, AuthService, SocketIOService, LocalStorageService],
   bootstrap: [AppComponent],
