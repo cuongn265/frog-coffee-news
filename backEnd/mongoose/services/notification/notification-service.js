@@ -23,8 +23,32 @@ let self = module.exports = {
         Notification.find({
             recipient: userId
         }, function (err, docs) {
-            if(err) return callback(err);
-            return callback(null,docs);
+            if (err) return callback(err);
+            return callback(null, docs);
+        });
+    },
+
+    seenAllNotificationByUser: function (userId, callback) {
+        console.log('user: ' + userId);
+        Notification.update({
+            recipient: userId
+        }, {
+            "$set": {
+                "seen": true
+            }
+        }, {
+            multi: true
+        }, function (err, docs) {
+            if (err) throw err;
+            console.log(docs);
+            return callback(null);
+        });
+    },
+
+    update: function (notification_id, notification, callback) {
+        Notification.findByIdAndUpdate(notification_id, notification, function (err) {
+            if (err) return callback(err);
+            return callback(null);
         });
     },
 
