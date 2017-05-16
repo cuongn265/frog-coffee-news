@@ -6,9 +6,14 @@
       <div class="line"></div>
     </div>
   </div>
-  <!-- Thing to fix ...-->
-  <div class="row">
-    <div class="col-md-4 col-sm-6" *ngFor="let article of publishedArticles.reverse() | slice: 3 | paginate: { itemsPerPage: 9, currentPage: p }">
+
+  <div class="row search-results"
+      infinite-scroll
+      debounce
+      [infiniteScrollDistance]="scrollDistance"
+      [infiniteScrollThrottle]="throttle"
+      (scrolled)="onScrollDown()">
+    <div class="col-md-4 col-sm-6" *ngFor="let article of infiniteArticles">
       <md-card>
         <img md-card-image src={{article.header_image}} class="articles-img">
         <md-card-content>
@@ -30,8 +35,69 @@
     </div>
   </div>
   <!-- End here-->
+  <div class="row row-loading" *ngIf="!isFinish" [hidden]="!isLoading">
+    <div class="col-md-4 col-sm-6">
+      <md-card class="timeline-item">
+        <div class="animated-background facebook">
+          <div class="background-masker header-top"></div>
+          <div class="background-masker header-left"></div>
+          <div class="background-masker header-right"></div>
+          <div class="background-masker header-bottom"></div>
+          <div class="background-masker subheader-left"></div>
+          <div class="background-masker subheader-right"></div>
+          <div class="background-masker subheader-bottom"></div>
+          <div class="background-masker content-top"></div>
+          <div class="background-masker content-first-end"></div>
+          <div class="background-masker content-second-line"></div>
+          <div class="background-masker content-second-end"></div>
+          <div class="background-masker content-third-line"></div>
+          <div class="background-masker content-third-end"></div>
+        </div>
+      </md-card>
+      <div class="clearfix visible-sm-block"></div>
+    </div>
+    <div class="col-md-4 col-sm-6">
+      <md-card class="timeline-item">
+        <div class="animated-background facebook">
+          <div class="background-masker header-top"></div>
+          <div class="background-masker header-left"></div>
+          <div class="background-masker header-right"></div>
+          <div class="background-masker header-bottom"></div>
+          <div class="background-masker subheader-left"></div>
+          <div class="background-masker subheader-right"></div>
+          <div class="background-masker subheader-bottom"></div>
+          <div class="background-masker content-top"></div>
+          <div class="background-masker content-first-end"></div>
+          <div class="background-masker content-second-line"></div>
+          <div class="background-masker content-second-end"></div>
+          <div class="background-masker content-third-line"></div>
+          <div class="background-masker content-third-end"></div>
+        </div>
+      </md-card>
+      <div class="clearfix visible-sm-block"></div>
+    </div>
+    <div class="col-md-4 col-sm-6 dynamic-col">
+      <md-card class="timeline-item">
+        <div class="animated-background facebook">
+          <div class="background-masker header-top"></div>
+          <div class="background-masker header-left"></div>
+          <div class="background-masker header-right"></div>
+          <div class="background-masker header-bottom"></div>
+          <div class="background-masker subheader-left"></div>
+          <div class="background-masker subheader-right"></div>
+          <div class="background-masker subheader-bottom"></div>
+          <div class="background-masker content-top"></div>
+          <div class="background-masker content-first-end"></div>
+          <div class="background-masker content-second-line"></div>
+          <div class="background-masker content-second-end"></div>
+          <div class="background-masker content-third-line"></div>
+          <div class="background-masker content-third-end"></div>
+        </div>
+      </md-card>
+      <div class="clearfix visible-sm-block"></div>
+    </div>
+  </div>
 </div>
-<pagination-controls *ngIf="publishedArticles && publishedArticles.length > 0" (pageChange)="p = $event"></pagination-controls>
 <div class="container-notfound" *ngIf="!publishedArticles || publishedArticles.length == 0">
   <div class="wrapper">
     <img class="notfound-img" src="assets/images/not-found.png" />

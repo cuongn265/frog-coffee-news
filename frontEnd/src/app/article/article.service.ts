@@ -18,8 +18,8 @@ export class ArticleService {
       articleUrl = this.apiUrl + 'articles';
     } else {
       articleUrl = this.apiUrl + 'categories/' +name + '/articles';
-    }
-
+    }  
+    console.log(articleUrl);
     return this.http.get(articleUrl)
       .toPromise()
       .then(response => response.json())
