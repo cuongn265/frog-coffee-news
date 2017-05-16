@@ -10,12 +10,14 @@ const chalk = require('chalk');
 
 
 /** Get notification of user*/
-router.route('/:userId')
+router.route('/users/:userId')
     .get(function (req, res) {
-
+        let recipient = req.params.userId;
+        NotificationService.findbyUser(recipient, function (err, docs) {
+            if(err) res.status(400).send(err);
+            res.status(200).send(docs);
+        })
     });
-
-
 router.route('/types')
     /*Get all notification types*/
     .get(function (req, res) {
@@ -37,8 +39,8 @@ router.route('/types')
 router.route('/pushNotification')
     .post(function (req, res) {
         let notification = req.body;
-        NotificationService.pushNotification(notification).then((notification) => {
-            res.status(202).send(notification);
+        NotificationService.pushNotification(notification).then(() => {
+            res.status(202).send();
         }).catch((err) => {
             res.status(400).send();
         })
