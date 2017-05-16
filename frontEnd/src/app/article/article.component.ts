@@ -16,7 +16,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   articlesList: Article[];
   categoryName: string;
-  publishedArticles: Article[];
+  publishedArticles: Article[] = [];
   array = [];
   infiniteArticles: Article[] = [];
   sum = 6;
@@ -35,8 +35,11 @@ export class ArticleComponent implements OnInit, OnDestroy {
       this.categoryName = params['categoryName']; // (+) converts string 'id' to a number
 
       this.publishedArticles = [];
+      this.infiniteArticles = [];
       this.articleService.getArticles(this.categoryName).then(
         (response) => {
+          console.log(response.length);
+          console.log(response);
           this.articlesList = response;
           this.articlesList.forEach(article => {
             if (article.date) {
