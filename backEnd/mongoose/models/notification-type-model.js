@@ -6,7 +6,7 @@ let Schema = mongoose.Schema
 let NotificationTypesSchema = new Schema({
     type: String,
     templateMessage: String
-})
+});
 
 let NotificationType = mongoose.model('notification-types',NotificationTypesSchema);
 

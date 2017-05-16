@@ -17,5 +17,12 @@
                 "autoReconnect": true
             }
         }
+    },
+    "notification": {
+        "type": [{
+            "name": "mentioned"
+        }, {
+            "name": "tagged"
+        }]
     }
 }
