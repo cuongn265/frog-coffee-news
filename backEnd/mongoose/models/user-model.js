@@ -27,14 +27,6 @@ let UserSchema = new Schema({
         ref: 'roles'
     },
     last_seen: Date,
-    notifications: [
-        {
-            sender: ObjectId,
-            message: String,
-            seen: Boolean,
-            read: Boolean
-        }
-    ],
     categories_track: [{
         category: {
             type: String,
