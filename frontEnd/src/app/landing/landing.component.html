@@ -1,0 +1,106 @@
+<md-toolbar color="primary" style="height: 10vh; position: fixed; z-index: 1;">
+  <button md-icon-button (click)="start.toggle(); end.close()" class="menu-btn">
+    <md-icon class="md-24">menu</md-icon>
+  </button>
+  <span [routerLink]="['/news/all']" id="header-title" class="clickable"> Mercury </span>
+  <span class="remaining-space"></span>
+  <button md-icon-button (click)="end.toggle(); start.close();" class="cat-btn">
+    <md-icon class="md-24">more_vert</md-icon>
+  </button>
+</md-toolbar>
+
+<md-sidenav-container style="height: 90vh; top: 10vh;">
+  <md-sidenav class="md-sidenav" align="start" #start mode="over" style="height: 100%; position: fixed;">
+    <md-card class="user-card">
+      <md-card-header *ngIf="auth.authenticated() && auth.userProfile">
+        <img md-card-avatar [src]="auth.userProfile.picture">
+        <md-card-title class="username-text">{{auth.userProfile.first_name || auth.userProfile.name}} {{auth.userProfile.last_name}}</md-card-title>
+        <md-card-subtitle class="email-text">{{auth.userProfile.email || auth.userProfile.gender}}</md-card-subtitle>
+      </md-card-header>
+      <md-card-header *ngIf="!auth.authenticated()">
+        <img md-card-avatar src="assets/images/logo.png">
+        <md-card-title class="username-text">anonymous</md-card-title>
+        <md-card-subtitle class="email-text">anonymous@gmail.com</md-card-subtitle>
+      </md-card-header>
+    </md-card>
+    <md-nav-list>
+      <md-list-item>
+        <a md-line href="#">Favorites</a>
+        <button md-icon-button>
+          <md-icon>favorite</md-icon>
+        </button>
+      </md-list-item>
+      <md-divider></md-divider>
+      <md-list-item>
+        <a md-line href="#">Account</a>
+        <button md-icon-button>
+          <md-icon>person</md-icon>
+        </button>
+      </md-list-item>
+      <md-list-item>
+        <a md-line href="#">Comment</a>
+        <button md-icon-button>
+          <md-icon>comment</md-icon>
+        </button>
+      </md-list-item>
+      <md-list-item *ngIf="auth.authenticated() && auth.userProfile && auth.userProfile.role == '58cd45e0879f9e00c88747bf'">
+        <button md-icon-button>
+          <md-icon>settings</md-icon>
+        </button>
+        <a md-line [routerLink]="['/admin']">Admin</a>
+      </md-list-item>
+      <md-divider></md-divider>
+      <md-list-item *ngIf="!auth.authenticated()">
+        <button md-icon-button>
+          <md-icon>vpn_key</md-icon>
+        </button>
+        <a md-line (click)="auth.login()">Log In</a>
+      </md-list-item>
+        <md-list-item *ngIf="auth.authenticated()">
+        <button md-icon-button>
+          <md-icon>vpn_key</md-icon>
+        </button>
+        <a md-line (click)="auth.logout()">Log Out</a>
+      </md-list-item>
+    </md-nav-list>
+  </md-sidenav>
+
+  <md-sidenav class="md-sidenav" align="end" #end mode="over" style="height: 100%; position: fixed;">
+    <md-nav-list>
+      <md-list-item *ngFor="let category of categoryList">
+        <a md-line (click)="end.close()" [routerLink]="['/news', category.name | lowercase]">{{category.name}} </a>
+        <button md-icon-button>
+          <md-icon>loyalty</md-icon>
+        </button>
+      </md-list-item>
+    </md-nav-list>
+  </md-sidenav>
+
+  <div class="side-nav-content" *ngIf="categoryList">
+    <md-grid-list cols="2" rowHeight="fit" class="landing">
+      <md-grid-tile *ngFor="let category of categoryList.reverse() | slice:0:4; let i = index">
+        <div class="swiper-slide header clickable" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url(' + backgroundUrl[i] + ')'}"
+          [routerLink]="['/news', category.name | lowercase]">
+          <div [class]="'header header-' + i">
+            <div class="flex-col-start"></div>
+            <div class="content">
+              <p class="title">{{category.name}}</p>
+              <!--<div class="body-info-container">
+                <div class="info">
+                  <md-icon>volume_up</md-icon>{{'MERCURY'}}</div>
+                <div class="info">
+                  <md-icon>access_time</md-icon>{{'today'}}</div>
+                <div class="info">
+                  <md-icon>people</md-icon>{{article.author || "N/A"}}</div>
+                <span class="remaining-space"></span>
+                <p class="info-category">{{'category'}}</p>
+              </div>-->
+              <p class="description">{{category.description}}</p>
+            </div>
+            <div class="flex-col-end"></div>
+          </div>
+        </div>
+      </md-grid-tile>
+    </md-grid-list>
+  </div>
+</md-sidenav-container>

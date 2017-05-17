@@ -32,14 +32,14 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
+      this.articleIndex = 0;
+      this.infiniteArticles = [];
       this.categoryName = params['categoryName']; // (+) converts string 'id' to a number
 
       this.publishedArticles = [];
       this.infiniteArticles = [];
       this.articleService.getArticles(this.categoryName).then(
         (response) => {
-          console.log(response.length);
-          console.log(response);
           this.articlesList = response;
           this.articlesList.forEach(article => {
             if (article.date) {
@@ -57,25 +57,25 @@ export class ArticleComponent implements OnInit, OnDestroy {
   }
 
   addItems(startIndex, endIndex) {
-    let i = this.articleIndex;
-    for (; i < this.sum; ++i) {
+    if (this.sum >= this.publishedArticles.length) {
+      this.sum = this.publishedArticles.length
+    }
+
+    for (let i = this.articleIndex; i < this.sum; ++i) {
+      let length = this.publishedArticles.length
       this.articleIndex++;
-      this.infiniteArticles.push(this.publishedArticles[i]);
+      this.infiniteArticles.push(this.publishedArticles[length - 1 - i]);
       if (this.sum == this.publishedArticles.length) {
         this.isFinish = true;
       }
     }
   }
   onScrollDown() {
-    const start = this.sum;
     this.sum += 6;
-    if (this.sum >= this.publishedArticles.length) {
-      this.sum = this.publishedArticles.length
-    }
     this.isLoading = true;
     let self = this;
     setTimeout(function () {
-      self.addItems(start, this.sum);
+      self.addItems(this.articleIndex, this.sum);
       self.isLoading = false;
     }, 1000);
   }

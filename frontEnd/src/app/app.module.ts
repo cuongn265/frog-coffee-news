@@ -45,7 +45,8 @@ import { ImageCropperComponent } from 'ng2-img-cropper';
 import { CommentComponent } from './article-detail/comment/comment.component';
 import { MentionModule } from 'angular2-mentions/mention';
 import { SwiperModule } from 'angular2-useful-swiper';
-import { SwiperComponent } from './swiper/swiper.component'; //or for angular-cli the path will be ../../node_modules/angular2-useful-swiper 
+import { SwiperComponent } from './swiper/swiper.component';
+import { LandingComponent } from './landing/landing.component'; //or for angular-cli the path will be ../../node_modules/angular2-useful-swiper 
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { SwiperComponent } from './swiper/swiper.component'; //or for angular-cl
     ConfirmDialogComponent,
     ImageCropperComponent,
     CommentComponent,
-    SwiperComponent
+    SwiperComponent,
+    LandingComponent
   ],
   imports: [
     BrowserModule,
