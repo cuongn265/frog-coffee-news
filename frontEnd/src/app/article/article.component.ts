@@ -22,7 +22,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
   sum = 6;
   throttle = 400;
   scrollDistance = 0;
-  articleIndex = 0;
+  articleIndex = 4;
   isLoading = false;
   isFinish = false;
   private sub: any;
@@ -32,7 +32,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      this.articleIndex = 0;
+      this.articleIndex = 4;
       this.infiniteArticles = [];
       this.categoryName = params['categoryName']; // (+) converts string 'id' to a number
 
@@ -46,7 +46,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
               this.publishedArticles.push(article);
             }
           }, this);
-          this.addItems(0, this.sum);
+          this.addItems(4, this.sum);
         }
       );
     });
