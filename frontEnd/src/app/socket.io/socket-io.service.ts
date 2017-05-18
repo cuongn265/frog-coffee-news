@@ -20,6 +20,23 @@ export class SocketIOService {
      * Configure event emitter -----------------------------------------
      */
 
+    subscribeNotificationEvent(userId: string) {
+        let socket = this.socket;
+        let data = {
+            user_id: userId
+        };
+        // Emit socket
+        socket.emit('subscribeNotification', data);
+    }
+
+    listenToNotification() {
+        let socket = this.socket;
+        socket.on('sendNotificationsToUser', function (notifications) {
+            console.log('Got my notification');
+            console.log(notifications);
+        });
+    }
+
     sendUserCategoryBrowsingEvent(userId: String, categoryName: String) {
         let socket = this.socket;
         let data = {
@@ -31,8 +48,11 @@ export class SocketIOService {
             console.log('message emitted');
             socket.emit('category browsing', data);
         }, 5000);
-
     }
+
+
+
+
 
     /**
      * End of configuring event emitter -----------------------------------------

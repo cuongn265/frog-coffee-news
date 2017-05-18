@@ -8,5 +8,10 @@ export class User {
   public email: string;
   public role: string;
   public enable: boolean;
-  public identities: Array<any>;
+  public identities: Array<{
+    user_id: string,
+    provider: string,
+    connection: string,
+    isSocial: boolean
+  }>;
 }

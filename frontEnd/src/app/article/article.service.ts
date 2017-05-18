@@ -17,8 +17,8 @@ export class ArticleService {
     if (name === undefined || name == 'all' || name == '') {
       articleUrl = this.apiUrl + 'articles';
     } else {
-      articleUrl = this.apiUrl + 'categories/' +name + '/articles';
-    }  
+      articleUrl = this.apiUrl + 'categories/' + name + '/articles';
+    }
     console.log(articleUrl);
     return this.http.get(articleUrl)
       .toPromise()
@@ -57,7 +57,7 @@ export class ArticleService {
     let article = { '_id': articleId };
     let body = JSON.stringify(article);
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.delete(this.apiUrl + 'articles/' + articleId , new RequestOptions({
+    return this.http.delete(this.apiUrl + 'articles/' + articleId, new RequestOptions({
       headers: headers,
       body: body
     })).toPromise().then(response => response).catch(this.handleError);
@@ -89,6 +89,24 @@ export class ArticleService {
   getParticipants(articleId: string) {
     return this.http.get(this.apiUrl + 'articles' + '/' + articleId + '/participants').toPromise().then(res => res.json()).catch(this.handleError);
   }
+
+  mentionParticipants(articleId: string, userId: string, participantsId: any[]) {
+    let header = new Headers({ 'Content-Type': 'application/json' });
+    for (let mentionedParticipantId of participantsId) {
+      let notification = {
+        type: 'mentioned',
+        article_id: articleId,
+        sender: userId,
+        recipient: mentionedParticipantId
+      }
+      this.http.post(this.apiUrl + 'notifications/pushNotification', notification, { headers: header })
+        .toPromise().then(response => response).catch(this.handleError);
+    }
+
+  }
+
+
+
 
   // Time Converting Methods ---------------------------- //
   getTimeDistance(Post_TimeStamp: string): string {

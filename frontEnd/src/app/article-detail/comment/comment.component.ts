@@ -61,18 +61,18 @@ export class CommentComponent implements OnInit {
     });
   }
 
- 
+
 
   updateMentionedUser(text: string) {
     this.mentionedParticipants = text.match(/\@(\S+)/g);
   }
 
-  pushUserToMentionedList(user: string){
+  pushUserToMentionedList(user: string) {
     this.mentionedParticipants.push(user);
   }
 
 
-  mentioned(mention: string) {  
+  mentioned(mention: string) {
     return mention;
   }
 
@@ -90,7 +90,7 @@ export class CommentComponent implements OnInit {
     return username;
   }
 
-  getNumberOfMentionedParticipant(text: string){
+  getNumberOfMentionedParticipant(text: string) {
     return (text.match(/@/g) || []).length;
   }
   getCommentPeriod(timeStamp: string) {
@@ -98,21 +98,25 @@ export class CommentComponent implements OnInit {
   }
 
   onSubmit(comment: Comment) {
-    console.log('TODO: list of tagged user_id');
-    console.log(this.getTaggedParticipantIdList());
-    console.log('TODO: Make request notification to these user_id to remind that someone has tagged them in the post');
+    /* Post comment */
     this.articleService.postComment(this.articleId, comment).then(res => {
       this.articleService.getComments(this.articleId).then(res => this.comments = res.comments)
       this.comment.text = '';
+    });
+
+    /* Raise notification to tagged User */
+    if (this.mentionedParticipants.length > 0) {
+      let user_id = this.authService.authenticated() ? this.authService.userProfile.identities[0].user_id : '';
+      this.articleService.mentionParticipants(this.articleId, user_id, this.getMentionedParticipantIdList());
     }
-    );
+
   }
 
-  getTaggedParticipantIdList(): any[]{
+  getMentionedParticipantIdList(): any[] {
     let taggedUserIdArray = [];
-    for(let tag of this.mentionedParticipants) {
-      for(let user of this.participants) {
-        if(tag.slice(1) == user.username){
+    for (let tag of this.mentionedParticipants) {
+      for (let user of this.participants) {
+        if (tag.slice(1) == user.username) {
           taggedUserIdArray.push(user.user_id);
         }
       }
@@ -120,7 +124,7 @@ export class CommentComponent implements OnInit {
     return taggedUserIdArray;
   }
 
-  
+
 
   onOpenConfirmDialog(commentId: string) {
     let dialogRef = this.dialog.open(ConfirmDialogComponent);
