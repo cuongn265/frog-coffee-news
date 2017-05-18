@@ -33,7 +33,8 @@ export class UserComponent implements OnInit {
       if (this.checkProfile()) {
         let userId = this.user.identities[0].user_id;
         /* Subscribe to notification event */
-        this.socketService.subscribeNotificationEvent(userId);
+
+        this.socketService.subscribeUser(userId);
       }
     }
   }

@@ -47,9 +47,15 @@ let io = require('socket.io')(server);
 
 /**Import handler */
 let userConnectionHandler = require('./socket-handlers/user-connection.hander');
+let socketConnectionManager = require('./socket-handlers/sockets-connection-manager');  
+
+socketConnectionManager.construct(io);
+
+
 
 io.on('connection', function (socket) {
   console.log('User connected with socket Id ' + socket.id);
+  socketConnectionManager.pushUserSockets(socket);
   userConnectionHandler(socket);
 });
 

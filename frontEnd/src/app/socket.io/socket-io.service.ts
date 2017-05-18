@@ -20,12 +20,13 @@ export class SocketIOService {
      * Configure event emitter -----------------------------------------
      */
 
-    subscribeNotificationEvent(userId: string) {
+    subscribeUser(userId: string) {
         let socket = this.socket;
         let data = {
             user_id: userId
         };
         // Emit socket
+        socket.emit('loggedIn', data);
         socket.emit('subscribeNotification', data);
     }
 

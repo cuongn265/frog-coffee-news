@@ -63,7 +63,7 @@ export class AuthService {
         this.userProfile = profile;
         let userId = this.userProfile.identities[0].user_id;
         /* Subscribe to notification event */
-        this.socketService.subscribeNotificationEvent(userId);
+        this.socketService.subscribeUser(userId);
       });
     });
 
