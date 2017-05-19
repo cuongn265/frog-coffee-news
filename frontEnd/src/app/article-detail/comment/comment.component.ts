@@ -110,17 +110,16 @@ export class CommentComponent implements OnInit {
     });
   }
 
-  getMentionedParticipantIdList(): any[] {
-      this.articleService.getParticipants(this.articleId).then(res => {
-        this.participants = res;
-        for (let participant of this.participants) {
-          if (participant.user_id !== this.localStorageService.getUserId()) {
-            this.mentionParticipants.push(participant.username);
-          }
+ getMentionedParticipantIdList(): any[] {
+    let taggedUserIdArray = [];
+    for (let tag of this.mentionedParticipants) {
+      for (let user of this.participants) {
+        if (tag.slice(1) == user.username) {
+          taggedUserIdArray.push(user.user_id);
         }
-      });
+      }
     }
-    );
+    return taggedUserIdArray;
   }
 
   getTaggedParticipantIdList(): any[] {
