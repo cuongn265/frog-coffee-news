@@ -17,6 +17,14 @@ router.route('/:notificationId')
         })
     });
 
+router.route('/:notificationId/markAsRead')
+    .put(function (req, res) {
+        let notificationId = req.params.notificationId;
+        NotificationService.markAsRead(notificationId, function (err) {
+            if(err) res.status(400).send();
+            res.status(202).send();
+        })
+    });
 
 /** Get notification of user*/
 router.route('/users/:userId')
