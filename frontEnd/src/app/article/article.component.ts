@@ -26,13 +26,14 @@ export class ArticleComponent implements OnInit, OnDestroy {
   isLoading = false;
   isFinish = false;
   private sub: any;
+
   constructor(private articleService: ArticleService, private route: ActivatedRoute) {
   }
 
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      this.categoryName = params['categoryName']; // (+) converts string 'id' to a number
+      this.categoryName = params['categoryName'];
 
       this.publishedArticles = [];
       this.infiniteArticles = [];
