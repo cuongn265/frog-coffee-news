@@ -55,6 +55,18 @@
           <md-icon>comment</md-icon>
         </button>
       </md-list-item>
+      <md-list-item [mdMenuTriggerFor]="appMenu">
+        <p md-line>Notifications</p>
+        <button md-icon-button>
+          <md-chip-list style="width: 100%; height: 100%;">
+            <md-chip color="primary" selected="true">{{notifications? notifications.unread : 0}}</md-chip>
+          </md-chip-list>
+        </button>
+        <md-menu #appMenu="mdMenu" yPosition="above">
+          <button md-menu-item> Settings </button>
+          <button md-menu-item> Help </button>
+        </md-menu>
+      </md-list-item>
       <md-list-item *ngIf="auth.authenticated() && auth.userProfile && auth.userProfile.role == '58cd45e0879f9e00c88747bf'">
         <button md-icon-button>
           <md-icon>settings</md-icon>
