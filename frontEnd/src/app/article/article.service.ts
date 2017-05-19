@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Article } from './article';
 import { Comment } from '../comment';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { SocketIOService } from "../socket.io/socket-io.service";
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
@@ -9,7 +10,7 @@ export class ArticleService {
 
   private apiUrl: string = process.env.apiUrl;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private socketIOService: SocketIOService) { }
 
   // get articles of selected category
   getArticles(name: string): Promise<Article[]> {
@@ -100,7 +101,10 @@ export class ArticleService {
         recipient: mentionedParticipantId
       }
       this.http.post(this.apiUrl + 'notifications/pushNotification', notification, { headers: header })
-        .toPromise().then(response => response).catch(this.handleError);
+        .toPromise().then(response => {
+          this.socketIOService.pushNotificationToUsers(participantsId);
+        }).catch(this.handleError);
+
     }
 
   }

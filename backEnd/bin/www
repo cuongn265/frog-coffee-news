@@ -54,7 +54,6 @@ socketConnectionManager.construct(io);
 
 
 io.on('connection', function (socket) {
-  console.log('User connected with socket Id ' + socket.id);
   socketConnectionManager.pushUserSockets(socket);
   userConnectionHandler(socket);
 });

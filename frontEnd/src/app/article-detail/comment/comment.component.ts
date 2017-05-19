@@ -34,7 +34,7 @@ export class CommentComponent implements OnInit {
 
   commentText: string = "";
   private mentionParticipants: string[] = [];
-  private mentionedParticipants: string[];
+  private mentionedParticipants: string[] = [];
 
   private numberOfMentionedParticipant: number = 0;
 
@@ -102,13 +102,17 @@ export class CommentComponent implements OnInit {
     this.articleService.postComment(this.articleId, comment).then(res => {
       this.articleService.getComments(this.articleId).then(res => this.comments = res.comments)
       this.comment.text = '';
+      
+      if (this.mentionedParticipants != null && this.mentionedParticipants.length > 0) {
+        
+        let user_id = this.authService.authenticated() ? this.authService.userProfile.identities[0].user_id : '';
+        let mentionedParticipants = this.getMentionedParticipantIdList();
+        this.articleService.mentionParticipants(this.articleId, user_id, mentionedParticipants);
+      }
     });
 
+
     /* Raise notification to tagged User */
-    if (this.mentionedParticipants.length > 0) {
-      let user_id = this.authService.authenticated() ? this.authService.userProfile.identities[0].user_id : '';
-      this.articleService.mentionParticipants(this.articleId, user_id, this.getMentionedParticipantIdList());
-    }
 
   }
 
