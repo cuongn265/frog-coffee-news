@@ -16,8 +16,8 @@ export class AppComponent implements OnInit {
 
   constructor(private categoryService: CategoryService, private auth: AuthService, private socketService: SocketIOService) { }
 
+  
   ngOnInit() {
-    this.socketService.initializeSocketInstance();
     this.categoryService.getCategories().then(
       (response) => {
         this.categoryList = response;
