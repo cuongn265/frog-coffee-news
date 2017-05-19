@@ -26,12 +26,7 @@ let self = module.exports = {
     /** track article view */
     increaseArticleView: function (article_id) {
         articleService.increaseView(article_id).then((doc) => {
-            console.log(chalk.blue('Visit count increased'));
-            console.log(doc);
-            articleService.updateScore(article_id).then((doc) => {
-                console.log(chalk.blue('score updated'));
-                console.log(doc);
-            });
+            articleService.updateScore(article_id).then((doc) => {});
         });
     }
 }

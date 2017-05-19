@@ -182,7 +182,6 @@ let self = module.exports = {
         let defer = Q.defer();
         self.findOnePromise(documentId).then((article) => {
             let distance_min = DateService.getMinutesSinceRelease(article.date);
-            console.log(chalk.yellow('Distance_min: ' + distance_min));
             let score = article.visit_count / distance_min;
             Article.findByIdAndUpdate(documentId, {
                 "$set": {

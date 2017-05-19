@@ -10,7 +10,7 @@ const chalk = require('chalk');
 let self = module.exports = function (socket) {
 
     socket.on('disconnect', function () {
-        /** Remove this socket connection */       
+        /** Remove this socket connection */
         socketsConnectionManager.removeUserSockets(socket);
         socket.disconnect();
 
@@ -18,6 +18,10 @@ let self = module.exports = function (socket) {
 
     socket.on('category browsing', function (data) {
         trackerService.trackUserCategory(data);
+    });
+
+    socket.on('increaseViewCount', function (article_id) {
+       trackerService.increaseArticleView(article_id);
     });
 
     socket.on('subscribeNotification', function (data) {
