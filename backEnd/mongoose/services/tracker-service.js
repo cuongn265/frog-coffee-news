@@ -7,7 +7,7 @@ let ObjectId = require('mongoose').Types.ObjectId;
 
 let self = module.exports = {
 
-
+        
     isValidUser: function (userId) {
         if (ObjectId.isValid(userId))
             return true;

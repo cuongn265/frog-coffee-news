@@ -75,6 +75,9 @@ let self = module.exports = {
         }
     },
 
+
+
+
     /** Find by creator */
     findByCreator: function (userId, callback) {
         if (ObjectId.isValid(userId)) {
@@ -191,6 +194,29 @@ let self = module.exports = {
                 if (err) defer.reject(err);
                 defer.resolve(doc);
             })
+        });
+        return defer.promise;
+    },
+
+
+    findTrendingArticlesByCategory: function (categoryId) {
+        let defer = Q.defer();
+        Article.find({
+            category: categoryId
+        }).sort({
+            score: -1
+        }).exec(function (err, docs) {
+            err ? defer.reject(err) : defer.resolve(docs);
+        });
+        return defer.promise;
+    },
+
+    findAllTrendingArticles: function () {
+        let defer = Q.defer();
+        Article.find({}).sort({
+            score: -1
+        }).exec(function (err, docs) {
+            err ? defer.reject(err): defer.resolve(docs);
         });
         return defer.promise;
     },

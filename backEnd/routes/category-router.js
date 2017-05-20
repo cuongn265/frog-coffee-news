@@ -31,6 +31,15 @@ router.route('/')
         })
     });
 
+router.route('/articles/trending')
+    .get(function (req, res) {
+        articleService.findAllTrendingArticles().then((articles) => {
+            res.status(200).send(articles);
+        }).catch((err) => {
+            res.status(400).send(err);
+        });
+    });
+
 
 /**
  * ROUTE: with category_id
@@ -83,6 +92,16 @@ router.route('/:category/articles')
                 res.status(200).send(docs);
             }
         });
-    })
+    });
+
+router.route('/:category/articles/trending')
+    .get(function (req, res) {
+        let categoryId = req.params.category;
+        articleService.findTrendingArticlesByCategory(categoryId).then((articles) => {
+            res.status(200).send(articles);
+        }).catch((err) => {
+            res.status(400).send(err);
+        });
+    });
 
 module.exports = router;
