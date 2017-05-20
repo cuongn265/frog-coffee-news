@@ -4,6 +4,13 @@
   </button>
   <span [routerLink]="['/home']" id="header-title" class="clickable"> Mercury </span>
   <span class="remaining-space"></span>
+  <span>
+    <md-icon class="md-24 notifications-icon">notifications</md-icon>
+    <span class="notifications-count">{{ notifications ? notifications.length : 0}}</span>
+  </span>
+  <span class="menu-btn">
+    <md-icon class="md-24 personal-icon">face</md-icon>
+  </span>
   <button md-icon-button (click)="end.toggle(); start.close();" class="cat-btn">
     <md-icon class="md-24">more_vert</md-icon>
   </button>
