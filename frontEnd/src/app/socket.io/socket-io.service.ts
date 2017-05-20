@@ -52,9 +52,17 @@ export class SocketIOService {
         }, 5000);
     }
 
-    pushNotificationToUsers(userList: any[]){
+    sendIncreaseViewCountEvent(articleId: string) {
         let socket = this.socket;
-        socket.emit('pushNotificationToUsers',userList);
+        // make sure user read this article at least 10s
+        setTimeout(function () {
+            socket.emit('increaseViewCount', articleId);
+        }, 10000);
+    }
+
+    pushNotificationToUsers(userList: any[]) {
+        let socket = this.socket;
+        socket.emit('pushNotificationToUsers', userList);
     }
 
 
