@@ -40,6 +40,15 @@ router.route('/articles/trending')
         });
     });
 
+router.route('/articles/latest')
+    .get(function (req, res) {
+        articleService.findAllLatestArticles().then((articles) => {
+            res.status(200).send(articles);
+        }).catch((err) => {
+            res.status(400).send(err);
+        });
+    });
+
 
 /**
  * ROUTE: with category_id
@@ -103,5 +112,15 @@ router.route('/:category/articles/trending')
             res.status(400).send(err);
         });
     });
+
+router.route('/:category/articles/latest')
+    .get(function (req, res) {
+        let categoryId = req.params.category;
+        articleService.findLatestArticlesByCategory(categoryId).then((articles) => {
+            res.status(200).send(articles);
+        }).catch((err) => {
+            res.status(400).send(err);
+        });
+    })
 
 module.exports = router;

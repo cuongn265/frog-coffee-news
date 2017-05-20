@@ -222,6 +222,28 @@ let self = module.exports = {
         return defer.promise;
     },
 
+    findLatestArticlesByCategory: function (categoryId) {
+        let defer = Q.defer();
+        Article.find({
+            category: categoryId
+        }).limit(10).sort({
+            date: -1
+        }).exec(function (err, docs) {
+            err ? defer.reject(err) : defer.resolve(docs);
+        });
+        return defer.promise;
+    },
+
+    findAllLatestArticles: function () {
+        let defer = Q.defer();
+        Article.find({}).limit(20).sort({
+            date: -1
+        }).exec(function (err, docs) {
+            err ? defer.reject(err): defer.resolve(docs);
+        });
+        return defer.promise;
+    },
+
     initScore: function (callback) {
         Article.update({}, {
             "$set": {
