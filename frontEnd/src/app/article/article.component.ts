@@ -22,7 +22,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
   sum = 6;
   throttle = 400;
   scrollDistance = 0;
-  articleIndex = 0;
+  articleIndex = 4;
   isLoading = false;
   isFinish = false;
   private sub: any;
@@ -33,21 +33,21 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      this.categoryName = params['categoryName'];
+      this.articleIndex = 4;
+      this.infiniteArticles = [];
+      this.categoryName = params['categoryName']; // (+) converts string 'id' to a number
 
       this.publishedArticles = [];
       this.infiniteArticles = [];
       this.articleService.getArticles(this.categoryName).then(
         (response) => {
-          console.log(response.length);
-          console.log(response);
           this.articlesList = response;
           this.articlesList.forEach(article => {
             if (article.date) {
               this.publishedArticles.push(article);
             }
           }, this);
-          this.addItems(0, this.sum);
+          this.addItems(4, this.sum);
         }
       );
     });
@@ -58,25 +58,25 @@ export class ArticleComponent implements OnInit, OnDestroy {
   }
 
   addItems(startIndex, endIndex) {
-    let i = this.articleIndex;
-    for (; i < this.sum; ++i) {
+    if (this.sum >= this.publishedArticles.length) {
+      this.sum = this.publishedArticles.length
+    }
+
+    for (let i = this.articleIndex; i < this.sum; ++i) {
+      let length = this.publishedArticles.length
       this.articleIndex++;
-      this.infiniteArticles.push(this.publishedArticles[i]);
+      this.infiniteArticles.push(this.publishedArticles[length - 1 - i]);
       if (this.sum == this.publishedArticles.length) {
         this.isFinish = true;
       }
     }
   }
   onScrollDown() {
-    const start = this.sum;
     this.sum += 6;
-    if (this.sum >= this.publishedArticles.length) {
-      this.sum = this.publishedArticles.length
-    }
     this.isLoading = true;
     let self = this;
     setTimeout(function () {
-      self.addItems(start, this.sum);
+      self.addItems(this.articleIndex, this.sum);
       self.isLoading = false;
     }, 1000);
   }

@@ -1,0 +1,23 @@
+<div class="category-timeline">
+  <div class="row is-flex">
+    <div class="col-md-4 col-sm-4 category-container">
+      <p class="category-name">{{category.name}}</p>
+      <p class="category-description">{{category.description}}</p>
+    </div>
+
+    <div class="col-md-8 col-sm-8 article-container">
+      <div class="article" *ngFor="let article of articles | orderBy: 'date' : reverse | slice:0:3">
+        <div class="card-container">
+          <md-card>
+            <md-card-title-group>
+              <md-card-subtitle><md-icon class="timeline-icon" color="primary">fiber_new</md-icon> {{article.date | date: 'mediumTime'}} &nbsp; - &nbsp; <span class="author">{{article.author || 'UNKNOWN'}}</span></md-card-subtitle>
+              <md-card-title>{{article.title}}</md-card-title>
+              <md-card-subtitle>{{article.description}}</md-card-subtitle>
+              <img md-card-md-image [src]="article.header_image">
+            </md-card-title-group>
+          </md-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,12 +10,17 @@ import { LoginComponent } from './login/login.component';
 import { ArticleDetailComponent } from './article-detail/article-detail.component';
 import { AuthGuard } from './auth-guard.service';
 import { ArticleEditorComponent } from './articles-list/article-editor/article-editor.component';
+import { LandingComponent } from './landing/landing.component';
 
 export const AppRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'news',
+    redirectTo: 'home',
     pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    component: LandingComponent
   },
   {
     path: 'news',
