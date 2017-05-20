@@ -202,21 +202,22 @@ let self = module.exports = {
     findTrendingArticlesByCategory: function (categoryId) {
         let defer = Q.defer();
         Article.find({
-            category: categoryId
-        }).sort({
-            score: -1
-        }).exec(function (err, docs) {
-            err ? defer.reject(err) : defer.resolve(docs);
-        });
+                category: categoryId
+            }).limit(10)
+            .sort({
+                score: -1
+            }).exec(function (err, docs) {
+                err ? defer.reject(err) : defer.resolve(docs);
+            });
         return defer.promise;
     },
 
     findAllTrendingArticles: function () {
         let defer = Q.defer();
-        Article.find({}).sort({
+        Article.find({}).limit(20).sort({
             score: -1
         }).exec(function (err, docs) {
-            err ? defer.reject(err): defer.resolve(docs);
+            err ? defer.reject(err) : defer.resolve(docs);
         });
         return defer.promise;
     },
@@ -233,6 +234,6 @@ let self = module.exports = {
         }, function (err, docs) {
             if (err) return callback(err);
             return callback(null);
-        })
+        });
     }
 }
