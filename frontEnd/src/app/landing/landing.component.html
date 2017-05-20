@@ -2,7 +2,7 @@
   <button md-icon-button (click)="start.toggle(); end.close()" class="menu-btn">
     <md-icon class="md-24">menu</md-icon>
   </button>
-  <span [routerLink]="['/news/all']" id="header-title" class="clickable"> Mercury </span>
+  <span [routerLink]="['/home']" id="header-title" class="clickable"> Mercury </span>
   <span class="remaining-space"></span>
   <button md-icon-button (click)="end.toggle(); start.close();" class="cat-btn">
     <md-icon class="md-24">more_vert</md-icon>
@@ -82,21 +82,11 @@
         <md-grid-list cols="2" rowHeight="fit" class="landing swiper-slide" *ngFor="let page of categoryPage; let j = index;">
           <md-grid-tile *ngFor="let category of page; let i = index">
             <div class="swiper-slide header clickable" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url(' + backgroundUrl[i] + ')'}"
-              [routerLink]="['/news', category.name | lowercase]">
+              [routerLink]="['/news', category.name | lowercase]" skipLocationChange>
               <div [class]="'header header-' + i">
                 <div class="flex-col-start"></div>
                 <div class="content">
                   <p class="title">{{category.name}}</p>
-                  <!--<div class="body-info-container">
-                    <div class="info">
-                      <md-icon>volume_up</md-icon>{{'MERCURY'}}</div>
-                    <div class="info">
-                      <md-icon>access_time</md-icon>{{'today'}}</div>
-                    <div class="info">
-                      <md-icon>people</md-icon>{{article.author || "N/A"}}</div>
-                    <span class="remaining-space"></span>
-                    <p class="info-category">{{'category'}}</p>
-                  </div>-->
                   <p class="description">{{category.description}}</p>
                 </div>
                 <div class="flex-col-end"></div>
@@ -110,16 +100,6 @@
                   <div class="flex-col-start"></div>
                   <div class="content">
                     <p class="title">{{''}}</p>
-                    <!--<div class="body-info-container">
-                      <div class="info">
-                        <md-icon>volume_up</md-icon>{{'MERCURY'}}</div>
-                      <div class="info">
-                        <md-icon>access_time</md-icon>{{'today'}}</div>
-                      <div class="info">
-                        <md-icon>people</md-icon>{{article.author || "N/A"}}</div>
-                      <span class="remaining-space"></span>
-                      <p class="info-category">{{'category'}}</p>
-                    </div>-->
                     <p class="description">{{''}}</p>
                   </div>
                   <div class="flex-col-end"></div>
@@ -132,5 +112,10 @@
       <div class="swiper-pagination swiper-pagination-white"></div>
     </swiper>
 
+    <div class="latest-news-area">
+      <div *ngFor="let category of categoryList" class="category-timeline-container" >
+        <app-category-timeline [category]="category"></app-category-timeline>
+      </div>
+    </div>
   </div>
 </md-sidenav-container>
