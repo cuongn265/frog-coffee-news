@@ -45,14 +45,14 @@ let self = module.exports = {
 
     /** Find by category */
     findByCategory: function (category, callback) {
-        let deffer = Q.defer();
+        let defer = Q.defer();
         let categoryId = category;
         /** if category paramater is not object ID ? - may be it's a name ? **/
         if (!ObjectId.isValid(category)) {
             categoryService.getIdByName(category).then(function (category) {
                     categoryId = category._id;
                 }, function (err) {
-                    return deffer.reject(err);
+                    return defer.reject(err);
                 })
                 .then(function (err) {
                     Article.find({
@@ -199,16 +199,31 @@ let self = module.exports = {
     },
 
 
-    findTrendingArticlesByCategory: function (categoryId) {
+    findTrendingArticlesByCategory: function (category) {
         let defer = Q.defer();
-        Article.find({
-                category: categoryId
-            }).limit(10)
-            .sort({
-                score: -1
-            }).exec(function (err, docs) {
-                err ? defer.reject(err) : defer.resolve(docs);
+        if (!ObjectId.isValid(category)) {
+            categoryService.getIdByName(category).then((doc) => {
+                categoryId = doc._id;
+                Article.find({
+                        category: categoryId
+                    }).limit(10)
+                    .sort({
+                        score: -1
+                    }).exec(function (err, docs) {
+                        err ? defer.reject(err) : defer.resolve(docs);
+                    });
             });
+        } else {
+            Article.find({
+                    category: category
+                }).limit(10)
+                .sort({
+                    score: -1
+                }).exec(function (err, docs) {
+                    err ? defer.reject(err) : defer.resolve(docs);
+                });
+        }
+
         return defer.promise;
     },
 
@@ -222,15 +237,28 @@ let self = module.exports = {
         return defer.promise;
     },
 
-    findLatestArticlesByCategory: function (categoryId) {
+    findLatestArticlesByCategory: function (category) {
         let defer = Q.defer();
-        Article.find({
-            category: categoryId
-        }).limit(10).sort({
-            date: -1
-        }).exec(function (err, docs) {
-            err ? defer.reject(err) : defer.resolve(docs);
-        });
+        if (!ObjectId.isValid(category)) {
+            categoryService.getIdByName(category).then((doc) => {
+                categoryId = doc._id;
+                Article.find({
+                    category: categoryId
+                }).limit(10).sort({
+                    date: -1
+                }).exec(function (err, docs) {
+                    err ? defer.reject(err) : defer.resolve(docs);
+                });
+            })
+        } else {
+            Article.find({
+                category: category
+            }).limit(10).sort({
+                date: -1
+            }).exec(function (err, docs) {
+                err ? defer.reject(err) : defer.resolve(docs);
+            });
+        }
         return defer.promise;
     },
 
@@ -239,7 +267,7 @@ let self = module.exports = {
         Article.find({}).limit(20).sort({
             date: -1
         }).exec(function (err, docs) {
-            err ? defer.reject(err): defer.resolve(docs);
+            err ? defer.reject(err) : defer.resolve(docs);
         });
         return defer.promise;
     },
