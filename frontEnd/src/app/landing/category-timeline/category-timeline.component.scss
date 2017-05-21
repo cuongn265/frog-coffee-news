@@ -1,0 +1,114 @@
+@import '~@angular/material/theming';
+@import 'src/theming.scss';
+@include mat-core();
+
+.category-timeline {
+  padding: 0 200px 0 100px;
+
+  .category-container {
+    font-size: 30px;
+    font-weight: bold;
+    color: #eb5322;
+    padding-right: 70px;
+    .category-name {
+    }
+    .category-description {
+      font-size: 12px;
+      font-weight: bold;
+      color: rgba(0, 0, 0, 0.54);
+      margin-bottom: 200px;
+    }
+  }
+
+  .article-container {
+    border-left: 2px solid #dfdfdf;
+    padding-left: 30px;
+    .article {
+      width: 100%;
+    }
+  }
+}
+
+.card-container {
+  display: flex;
+  flex-flow: column nowrap;
+
+  .mat-card {
+    width: 100%;
+    box-shadow: none;
+    background-color: inherit;
+  }
+
+  md-card-subtitle {
+  	font-size: 11px;
+  	font-weight: bold;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    .author {
+      color: mat-color($primary);
+    }
+    .timeline-icon {
+      position: absolute;
+      left: -50px;
+      top: 10px;
+      background: inherit;
+      font-size: 40px;
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  md-card-title {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.2;
+    color: #000000;
+  }
+
+  img.mat-card-md-image {
+    min-width: 112px;
+    width: 112px;
+    min-height: 100%;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+    margin: 0 0 0 40px;
+  }
+
+  img {
+    background-color: gray;
+  }
+}
+
+.row.is-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.row.is-flex > [class*='col-'] {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+@media screen and (max-width: 800px) {
+  .category-timeline {
+    padding-right: 100px;
+  }
+  .category-container {
+    padding-left: 0px;
+    .category-name {
+      margin-top: 40px !important;
+    }
+    .category-description {
+      margin-bottom: 20px !important;
+    }
+  }
+  img.mat-card-md-image {
+    margin-left: 10px !important;
+  }
+  md-card-title {
+    font-size: 12px !important;
+  }
+}

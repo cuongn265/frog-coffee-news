@@ -22,7 +22,9 @@ let self = module.exports = {
     findbyUser: function (userId, callback) {
         Notification.find({
             recipient: userId
-        }, function (err, docs) {
+        }).sort({
+            date: -1
+        }).exec(function (err, docs) {
             if (err) return callback(err);
             return callback(null, docs);
         });
@@ -81,7 +83,7 @@ let self = module.exports = {
                 "read": true
             }
         }, function (err) {
-            if(err) throw err;
+            if (err) throw err;
             return callback(null);
         });
     },

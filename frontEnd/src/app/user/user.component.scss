@@ -31,6 +31,28 @@
   margin-bottom: 2px;
 }
 
+.notifications-count {
+  display: flex;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  background: royalblue;
+  font-size: 10px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  top: 5px;
+  right: 5px;
+}
+
+.notifications-icon, .personal-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .md-sidenav {
   width: 300px;
   md-nav-list {
@@ -52,34 +74,4 @@
 md-toolbar /deep/ .mat-toolbar-layout {
   margin: auto;
   width: 100%;
-}
-
-md-chip-list /deep/ .mat-chip-list-wrapper {
-  justify-content: center;
-}
-
-md-chip-list md-chip {
-  width: 24px;
-  height: 24px;
-  margin: 0;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 0px !important;
-}
-
-@media screen and (min-width: 801px) {
-  .cat-btn {
-    visibility: hidden;
-  }
-}
-
-@media screen and (max-width: 800px) {
-  .category-button {
-    display: none;
-  }
-  .cat-btn {
-    visibility: visible;
-  }
 }
