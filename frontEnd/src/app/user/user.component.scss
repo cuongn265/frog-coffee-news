@@ -1,26 +1,26 @@
 /*@import '~@angular/material/core/theming/prebuilt/pink-bluegrey';*/
+
 // @import '~@angular/material/core/theming/prebuilt/pink-bluegrey';
 @import '~@angular/material/theming';
 @import 'src/theming.scss';
 @include mat-core();
-
-#header-title, .category-button {
+#header-title,
+.category-button {
   font-family: 'Montserrat', 'Roboto', sans-serif
 }
 
 .user-card {
-    background-color: white;
-    .username-text {
-      color: black;
-    }
-
-    .email-text {
-      color: black;
-    }
-    img {
-      width: 50px;
-      height: 50px;
-    }
+  background-color: white;
+  .username-text {
+    color: black;
+  }
+  .email-text {
+    color: black;
+  }
+  img {
+    width: 50px;
+    height: 50px;
+  }
 }
 
 .remaining-space {

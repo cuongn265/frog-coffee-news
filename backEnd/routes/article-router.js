@@ -7,15 +7,26 @@ let discussionService = require('../mongoose/services/discussion-service');
 
 const chalk = require('chalk');
 
+router.route('/initScore')
+    .post(function (req, res) {
+        console.log('init score');
+        articleService.initScore(function (err) {
+            if(err) res.status(400).send();
+            res.status(202).send();
+        });
+    });
+    
 router.route('/initDiscussion')
     .post(function (req, res) {
         console.log(chalk.cyan("ready to init"));
-        discussionService.initDiscussion(function(err){
-            if(err) res.status(400).send(err);
+        discussionService.initDiscussion(function (err) {
+            if (err) res.status(400).send(err);
             res.status(202).send();
         });
         res.status(202).send();
-    })
+    });
+
+
 /** Article Router */
 router.route('/')
     /** GET: Get all articles */
@@ -210,10 +221,10 @@ router.route('/:articleId/comments/:commentId')
  */
 
 router.route('/:articleId/participants')
-    .get(function(req,res){
+    .get(function (req, res) {
         let articleId = req.params.articleId;
-        discussionService.getParticipants(articleId, function(err,doc){
-            if(err) res.status(404).send(err);
+        discussionService.getParticipants(articleId, function (err, doc) {
+            if (err) res.status(404).send(err);
             res.status(200).send(doc);
         });
     })

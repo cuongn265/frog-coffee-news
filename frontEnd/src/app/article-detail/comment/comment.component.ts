@@ -34,7 +34,7 @@ export class CommentComponent implements OnInit {
 
   commentText: string = "";
   private mentionParticipants: string[] = [];
-  private mentionedParticipants: string[];
+  private mentionedParticipants: string[] = [];
 
   private numberOfMentionedParticipant: number = 0;
 
@@ -96,19 +96,30 @@ export class CommentComponent implements OnInit {
   }
 
   onSubmit(comment: Comment) {
+    /* Post comment */
     this.articleService.postComment(this.articleId, comment).then(res => {
       this.articleService.getComments(this.articleId).then(res => this.comments = res.comments);
       this.comment.text = '';
-      this.articleService.getParticipants(this.articleId).then(res => {
-        this.participants = res;
-        for (let participant of this.participants) {
-          if (participant.user_id !== this.localStorageService.getUserId()) {
-            this.mentionParticipants.push(participant.username);
-          }
+
+     
+      if (this.mentionedParticipants != null && this.mentionedParticipants.length > 0) {
+        let user_id = this.authService.authenticated() ? this.authService.userProfile.identities[0].user_id : '';
+        let mentionedParticipants = this.getMentionedParticipantIdList();
+        this.articleService.mentionParticipants(this.articleId, user_id, mentionedParticipants);
+      }
+    });
+  }
+
+ getMentionedParticipantIdList(): any[] {
+    let taggedUserIdArray = [];
+    for (let tag of this.mentionedParticipants) {
+      for (let user of this.participants) {
+        if (tag.slice(1) == user.username) {
+          taggedUserIdArray.push(user.user_id);
         }
-      });
+      }
     }
-    );
+    return taggedUserIdArray;
   }
 
   getTaggedParticipantIdList(): any[] {
@@ -122,8 +133,6 @@ export class CommentComponent implements OnInit {
     }
     return taggedUserIdArray;
   }
-
-
 
   onOpenConfirmDialog(commentId: string) {
     let dialogRef = this.dialog.open(ConfirmDialogComponent);
@@ -147,6 +156,7 @@ export class CommentComponent implements OnInit {
         articleId: this.articleId
       }
     });
+    
     dialogRef.afterClosed().subscribe((result) => {
       this.articleService.getComments(this.articleId).then(res => this.comments = res.comments)
     })

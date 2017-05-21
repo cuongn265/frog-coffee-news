@@ -64,11 +64,11 @@ export class ArticleDetailComponent implements OnInit {
       this.articleService.getArticleDetail(this.articleId).then(article => {
         /**Emit user category track */
         this.socketService.sendUserCategoryBrowsingEvent(String(userId), String(article.category));
+        /**Emit increased view count */
+        this.socketService.sendIncreaseViewCountEvent(this.articleId);
         this.article = article;
         this.articleService.getComments(articleId).then(res => {
-          console.log(res);
           this.commentList = res.comments;
-          console.log(this.commentList);
         })
         // this.commentList = this.article['comments'];
       });

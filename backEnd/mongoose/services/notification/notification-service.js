@@ -74,6 +74,18 @@ let self = module.exports = {
         return defer.promise;
     },
 
+    markAsRead: function (notification_id, callback) {
+        Notification.findByIdAndUpdate(notification_id, {
+            "$set": {
+                "seen": true,
+                "read": true
+            }
+        }, function (err) {
+            if(err) throw err;
+            return callback(null);
+        });
+    },
+
 
     /** Methods for manipulating notification type */
     findOneType: function () {
