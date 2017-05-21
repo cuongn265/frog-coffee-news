@@ -17,18 +17,21 @@ export class UserComponent implements OnInit {
   categoryList: Category[];
   user: User;
 
+  private notifications: any[];
+
+
   constructor(private categoryService: CategoryService, private auth: AuthService, private socketService: SocketIOService) { }
 
   ngOnInit() {
     this.socketService.initializeSocketInstance();
-    this.socketService.listenToNotification();
+    this.socketService.listenToNotification().subscribe((notifications) => {
+      this.notifications = notifications;
+    });
     this.categoryService.getCategories().then(
       (response) => {
         this.categoryList = response;
       }
     );
-
-
     if (this.auth.authenticated()) {
       if (this.checkProfile()) {
         let userId = this.user.identities[0].user_id;

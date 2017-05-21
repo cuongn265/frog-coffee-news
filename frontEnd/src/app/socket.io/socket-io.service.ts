@@ -2,6 +2,7 @@
  * Configure Socket IO on Client side
  */
 import * as io from 'socket.io-client';
+import { Observable } from "rxjs/Observable";
 export class SocketIOService {
     private url: string = process.env.hostUrl;
     private socket;
@@ -31,12 +32,14 @@ export class SocketIOService {
         socket.emit('subscribeNotification', data);
     }
 
-    listenToNotification() {
-        let socket = this.socket;
-        socket.on('sendNotificationsToUser', function (notifications) {
-            console.log('Got my notification');
-            console.log(notifications);
+    listenToNotification(): Observable<any> {
+        let observable = new Observable((observer) => {
+            let socket = this.socket;
+            socket.on('sendNotificationsToUser', function (notifications) {
+                observer.next(notifications);
+            });
         });
+        return observable;
     }
 
     sendUserCategoryBrowsingEvent(userId: String, categoryName: String) {
