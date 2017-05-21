@@ -15,7 +15,7 @@ import { LandingComponent } from './landing/landing.component';
 export const AppRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'news',
     pathMatch: 'full'
   },
   {
@@ -26,7 +26,8 @@ export const AppRoutes: Routes = [
     path: 'news',
     component: UserComponent,
     children: [
-      { path: '', redirectTo: 'all', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', component: LandingComponent, },
       { path: ':categoryName', component: ArticleComponent, },
       { path: ':categoryName/:articleId', component: ArticleDetailComponent },
     ]
