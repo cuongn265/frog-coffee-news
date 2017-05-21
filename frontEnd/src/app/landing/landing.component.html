@@ -35,8 +35,21 @@
   </swiper>
 
   <div class="latest-news-area">
-    <div *ngFor="let category of categoryList" class="category-timeline-container" >
-      <app-category-timeline [category]="category"></app-category-timeline>
+    <div class="headline-title row">
+      <div class="col-md-4 col-sm-4">
+
+      </div>
+      <div class="col-md-8 col-sm-8 type-container">
+        <span [ngClass]="{active: newsType == 'latest'}" (click)="newsType = 'latest'">
+          Latest stories
+        </span>
+        <span [ngClass]="{active: newsType == 'popular'}" (click)="newsType = 'popular'">
+          Most popular
+        </span>
+      </div>
+    </div>
+    <div *ngFor="let category of categoryList" class="category-timeline-container">
+      <app-category-timeline [category]="category" [type]="newsType"></app-category-timeline>
     </div>
   </div>
 </div>

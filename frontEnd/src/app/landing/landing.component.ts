@@ -29,6 +29,7 @@ export class LandingComponent implements OnInit {
   categoryPage: any;
   comingSoonCategoryLength: any;
   comingSoonCategory: any;
+  newsType: string = 'latest';
 
   constructor(private categoryService: CategoryService, private auth: AuthService) { }
 
