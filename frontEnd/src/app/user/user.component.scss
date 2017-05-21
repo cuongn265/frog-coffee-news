@@ -1,26 +1,26 @@
 /*@import '~@angular/material/core/theming/prebuilt/pink-bluegrey';*/
+
 // @import '~@angular/material/core/theming/prebuilt/pink-bluegrey';
 @import '~@angular/material/theming';
 @import 'src/theming.scss';
 @include mat-core();
-
-#header-title, .category-button {
+#header-title,
+.category-button {
   font-family: 'Montserrat', 'Roboto', sans-serif
 }
 
 .user-card {
-    background-color: white;
-    .username-text {
-      color: black;
-    }
-
-    .email-text {
-      color: black;
-    }
-    img {
-      width: 50px;
-      height: 50px;
-    }
+  background-color: white;
+  .username-text {
+    color: black;
+  }
+  .email-text {
+    color: black;
+  }
+  img {
+    width: 50px;
+    height: 50px;
+  }
 }
 
 .remaining-space {
@@ -29,6 +29,28 @@
 
 .menu-btn {
   margin-bottom: 2px;
+}
+
+.notifications-count {
+  display: flex;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  background: royalblue;
+  font-size: 10px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  top: 5px;
+  right: 5px;
+}
+
+.notifications-icon, .personal-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .md-sidenav {
@@ -52,20 +74,4 @@
 md-toolbar /deep/ .mat-toolbar-layout {
   margin: auto;
   width: 100%;
-}
-
-@media screen and (min-width: 801px) {
-  .cat-btn {
-    visibility: hidden;
-  }
-}
-
-
-@media screen and (max-width: 800px) {
-  .category-button {
-    display: none;
-  }
-  .cat-btn {
-    visibility: visible;
-  }
 }

@@ -34,7 +34,7 @@ export class CommentComponent implements OnInit {
 
   commentText: string = "";
   private mentionParticipants: string[] = [];
-  private mentionedParticipants: string[];
+  private mentionedParticipants: string[] = [];
 
   private numberOfMentionedParticipant: number = 0;
 
@@ -61,18 +61,16 @@ export class CommentComponent implements OnInit {
     });
   }
 
- 
-
   updateMentionedUser(text: string) {
     this.mentionedParticipants = text.match(/\@(\S+)/g);
   }
 
-  pushUserToMentionedList(user: string){
+  pushUserToMentionedList(user: string) {
     this.mentionedParticipants.push(user);
   }
 
 
-  mentioned(mention: string) {  
+  mentioned(mention: string) {
     return mention;
   }
 
@@ -90,7 +88,7 @@ export class CommentComponent implements OnInit {
     return username;
   }
 
-  getNumberOfMentionedParticipant(text: string){
+  getNumberOfMentionedParticipant(text: string) {
     return (text.match(/@/g) || []).length;
   }
   getCommentPeriod(timeStamp: string) {
@@ -98,21 +96,25 @@ export class CommentComponent implements OnInit {
   }
 
   onSubmit(comment: Comment) {
-    console.log('TODO: list of tagged user_id');
-    console.log(this.getTaggedParticipantIdList());
-    console.log('TODO: Make request notification to these user_id to remind that someone has tagged them in the post');
+    /* Post comment */
     this.articleService.postComment(this.articleId, comment).then(res => {
-      this.articleService.getComments(this.articleId).then(res => this.comments = res.comments)
+      this.articleService.getComments(this.articleId).then(res => this.comments = res.comments);
       this.comment.text = '';
-    }
-    );
+
+     
+      if (this.mentionedParticipants != null && this.mentionedParticipants.length > 0) {
+        let user_id = this.authService.authenticated() ? this.authService.userProfile.identities[0].user_id : '';
+        let mentionedParticipants = this.getMentionedParticipantIdList();
+        this.articleService.mentionParticipants(this.articleId, user_id, mentionedParticipants);
+      }
+    });
   }
 
-  getTaggedParticipantIdList(): any[]{
+ getMentionedParticipantIdList(): any[] {
     let taggedUserIdArray = [];
-    for(let tag of this.mentionedParticipants) {
-      for(let user of this.participants) {
-        if(tag.slice(1) == user.username){
+    for (let tag of this.mentionedParticipants) {
+      for (let user of this.participants) {
+        if (tag.slice(1) == user.username) {
           taggedUserIdArray.push(user.user_id);
         }
       }
@@ -120,7 +122,17 @@ export class CommentComponent implements OnInit {
     return taggedUserIdArray;
   }
 
-  
+  getTaggedParticipantIdList(): any[] {
+    let taggedUserIdArray = [];
+    for (let tag of this.mentionedParticipants) {
+      for (let user of this.participants) {
+        if (tag.slice(1) == user.username) {
+          taggedUserIdArray.push(user.user_id);
+        }
+      }
+    }
+    return taggedUserIdArray;
+  }
 
   onOpenConfirmDialog(commentId: string) {
     let dialogRef = this.dialog.open(ConfirmDialogComponent);
@@ -144,6 +156,7 @@ export class CommentComponent implements OnInit {
         articleId: this.articleId
       }
     });
+    
     dialogRef.afterClosed().subscribe((result) => {
       this.articleService.getComments(this.articleId).then(res => this.comments = res.comments)
     })

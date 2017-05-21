@@ -17,8 +17,6 @@ let ArticleSchema = new Schema({
     content: String,
     author: String,
     source: String,
-    upvoters: [],
-    downvoters: [],
     published: Boolean,
     deleted_at: Date,
     category: {
@@ -31,7 +29,15 @@ let ArticleSchema = new Schema({
         ref: 'tags'
     },{
         name: String
-    }]
+    }],
+    visit_count: {
+        type: Number,
+        default: 0
+    },
+    score: {
+        type: Number,
+        default: 0
+    }
 });
 
 let Article = mongoose.model('articles', ArticleSchema);

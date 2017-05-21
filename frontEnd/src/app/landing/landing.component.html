@@ -1,0 +1,42 @@
+<div class="side-nav-content" *ngIf="categoryList">
+  <swiper [config]="config">
+    <div class="swiper-wrapper">
+      <md-grid-list cols="2" rowHeight="fit" class="landing swiper-slide" *ngFor="let page of categoryPage; let j = index;">
+        <md-grid-tile *ngFor="let category of page; let i = index">
+          <div class="swiper-slide header clickable" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url(' + backgroundUrl[i] + ')'}"
+            [routerLink]="['/news', category.name | lowercase]">
+            <div [class]="'header header-' + i">
+              <div class="flex-col-start"></div>
+              <div class="content">
+                <p class="title">{{category.name}}</p>
+                <p class="description">{{category.description}}</p>
+              </div>
+              <div class="flex-col-end"></div>
+            </div>
+          </div>
+        </md-grid-tile>
+        <ng-template [ngIf]="j == (categoryPage.length -1) && comingSoonCategory.length > 0">
+          <md-grid-tile *ngFor="let i of comingSoonCategory">
+            <div class="swiper-slide header clickable" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(' + 'https://s-media-cache-ak0.pinimg.com/736x/b5/02/a6/b502a622a46b25efad731435b4b9c74b.jpg' + ')', 'background-repeat':'round'}">
+              <div [class]="'header header-' + i">
+                <div class="flex-col-start"></div>
+                <div class="content">
+                  <p class="title">{{''}}</p>
+                  <p class="description">{{''}}</p>
+                </div>
+                <div class="flex-col-end"></div>
+              </div>
+            </div>
+          </md-grid-tile>
+        </ng-template>
+      </md-grid-list>
+    </div>
+    <div class="swiper-pagination swiper-pagination-white"></div>
+  </swiper>
+
+  <div class="latest-news-area">
+    <div *ngFor="let category of categoryList" class="category-timeline-container" >
+      <app-category-timeline [category]="category"></app-category-timeline>
+    </div>
+  </div>
+</div>

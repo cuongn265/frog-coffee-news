@@ -64,16 +64,15 @@ module.exports = {
 
     /** get category by category name */
     getIdByName: function (name) {
-        let deffer = Q.defer();
+        let defer = Q.defer();
         let categoryName = name;
         Category.findOne({
             name: new RegExp('^' + name + '$', "i")
         }, function (err, doc) {
-            if (err) return deffer.reject(err);
-            if (doc == null) return deffer.reject('Invalid Category');
-            return deffer.resolve(doc);
+            if (err) return defer.reject(err);
+            if (doc == null) return defer.reject('Invalid Category');
+            return defer.resolve(doc);
         });
-        return deffer.promise;
-
+        return defer.promise;
     }
 }
