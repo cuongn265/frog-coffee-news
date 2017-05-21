@@ -105,8 +105,8 @@ router.route('/:category/articles')
 
 router.route('/:category/articles/trending')
     .get(function (req, res) {
-        let categoryId = req.params.category;
-        articleService.findTrendingArticlesByCategory(categoryId).then((articles) => {
+        let category = req.params.category;
+        articleService.findTrendingArticlesByCategory(category).then((articles) => {
             res.status(200).send(articles);
         }).catch((err) => {
             res.status(400).send(err);
@@ -115,8 +115,8 @@ router.route('/:category/articles/trending')
 
 router.route('/:category/articles/latest')
     .get(function (req, res) {
-        let categoryId = req.params.category;
-        articleService.findLatestArticlesByCategory(categoryId).then((articles) => {
+        let category = req.params.category;
+        articleService.findLatestArticlesByCategory(category).then((articles) => {
             res.status(200).send(articles);
         }).catch((err) => {
             res.status(400).send(err);
