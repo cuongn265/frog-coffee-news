@@ -1,24 +1,19 @@
 <md-toolbar color="primary" style="height: 10vh; position: fixed; z-index: 1;">
-  <button md-icon-button (click)="start.toggle(); end.close()" class="menu-btn">
+  <button md-icon-button (click)="start.toggle();" class="menu-btn">
     <md-icon class="md-24">menu</md-icon>
   </button>
-  <span [routerLink]="['/home']" id="header-title" class="clickable"> Mercury </span>
+  <span [routerLink]="['/news/home']" id="header-title" class="clickable"> Mercury </span>
   <span class="remaining-space"></span>
-  <!--<span>
-    <button md-icon-button (click)="start.toggle()" class="menu-btn">
-      <md-icon class="md-24">menu</md-icon>
-    </button>
-  </span>-->
-  <button class="category-button"
-    md-button
-    *ngFor="let category of categoryList"
-    [routerLink]="['/news', category.name | lowercase]"
-  >
-    {{category.name}}
+  <button md-icon-button [mdMenuTriggerFor]="appMenu">
+    <md-icon class="md-24 notifications-icon">notifications</md-icon>
+    <span class="notifications-count">{{ notifications ? notifications.length : 0}}</span>
   </button>
-  <button md-icon-button (click)="end.toggle(); start.close();" class="cat-btn">
-    <md-icon class="md-24">more_vert</md-icon>
+  <button md-icon-button class="menu-btn">
+    <md-icon class="md-24 personal-icon">face</md-icon>
   </button>
+  <md-menu #appMenu="mdMenu" [overlapTrigger]="false">
+    <button md-menu-item *ngFor="let noti of notifications | json"> {{ noti? noti.content : "No noti yet"}} </button>
+  </md-menu>
 </md-toolbar>
 
 <md-sidenav-container style="height: 100%; top: 10vh;">
@@ -36,37 +31,13 @@
       </md-card-header>
     </md-card>
     <md-nav-list>
-      <md-list-item>
-        <a md-line href="#">Favorites</a>
+      <md-list-item *ngFor="let category of categoryList">
+        <a md-line (click)="start.close()" [routerLink]="['/news', category.name | lowercase]">{{category.name}} </a>
         <button md-icon-button>
-          <md-icon>favorite</md-icon>
+          <md-icon>loyalty</md-icon>
         </button>
       </md-list-item>
       <md-divider></md-divider>
-      <md-list-item>
-        <a md-line href="#">Account</a>
-        <button md-icon-button>
-          <md-icon>person</md-icon>
-        </button>
-      </md-list-item>
-      <md-list-item>
-        <a md-line href="#">Comment</a>
-        <button md-icon-button>
-          <md-icon>comment</md-icon>
-        </button>
-      </md-list-item>
-      <md-list-item [mdMenuTriggerFor]="appMenu">
-        <p md-line>Notifications</p>
-        <button md-icon-button>
-          <md-chip-list style="width: 100%; height: 100%;">
-            <md-chip color="primary" selected="true">{{notifications? notifications.unread : 0}}</md-chip>
-          </md-chip-list>
-        </button>
-        <md-menu #appMenu="mdMenu" yPosition="above">
-          <button md-menu-item> Settings </button>
-          <button md-menu-item> Help </button>
-        </md-menu>
-      </md-list-item>
       <md-list-item *ngIf="auth.authenticated() && auth.userProfile && auth.userProfile.role == '58cd45e0879f9e00c88747bf'">
         <button md-icon-button>
           <md-icon>settings</md-icon>

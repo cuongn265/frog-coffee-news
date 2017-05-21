@@ -47,8 +47,7 @@ import { MentionModule } from 'angular2-mentions/mention';
 import { SwiperModule } from 'angular2-useful-swiper';
 import { SwiperComponent } from './swiper/swiper.component';
 import { LandingComponent } from './landing/landing.component';
-import { CategoryTimelineComponent } from './landing/category-timeline/category-timeline.component'; //or for angular-cli the path will be ../../node_modules/angular2-useful-swiper 
-
+import { CategoryTimelineComponent } from './landing/category-timeline/category-timeline.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +72,7 @@ import { CategoryTimelineComponent } from './landing/category-timeline/category-
     CommentComponent,
     SwiperComponent,
     LandingComponent,
-    CategoryTimelineComponent
+    CategoryTimelineComponent,
   ],
   imports: [
     BrowserModule,
