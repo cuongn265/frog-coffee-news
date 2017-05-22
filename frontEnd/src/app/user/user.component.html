@@ -12,7 +12,7 @@
     <md-icon class="md-24 personal-icon">face</md-icon>
   </button>
   <md-menu #appMenu="mdMenu" [overlapTrigger]="false">
-    <button md-menu-item *ngFor="let noti of notifications"> {{noti.message}} </button>
+    <button md-menu-item *ngFor="let noti of notifications" [routerLink]="['/news', noti.category, noti.article_id]"> {{noti.message}} </button>
   </md-menu>
 </md-toolbar>
 
