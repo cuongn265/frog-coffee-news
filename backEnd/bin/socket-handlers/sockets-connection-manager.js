@@ -26,7 +26,6 @@ let self = module.exports = {
   removeUserSockets(socket){
     for (let i = 0; i < userSockets.length; i++) {
       if(socket.id == userSockets[i].socket.id){
-        console.log(chalk.green('Found it'));
         userSockets.splice(i,1);
       }
     }

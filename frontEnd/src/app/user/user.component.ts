@@ -71,4 +71,13 @@ export class UserComponent implements OnInit {
       }
     }
   }
+
+  markNotificationAsRead(notificationId: any) {
+    if (this.auth.authenticated()) {
+      if (this.checkProfile()) {
+        let userId = this.user.identities[0].user_id;
+        this.userService.markNotificationAsRead(userId, notificationId);
+      }
+    }
+  }
 }
