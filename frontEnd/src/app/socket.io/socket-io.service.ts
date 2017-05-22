@@ -26,10 +26,14 @@ export class SocketIOService {
         let data = {
             user_id: userId
         };
-        console.log('Subscribe user');
         // Emit socket
         socket.emit('loggedIn', data);
         socket.emit('subscribeNotification', data);
+    }
+
+    markNotificationAsRead(userId: string) {
+        let socket = this.socket;
+        socket.emit('readNotification', userId);
     }
 
     listenToNotification(): Observable<any> {

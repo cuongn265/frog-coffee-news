@@ -39,7 +39,6 @@ router.route('/users/:userId')
 router.route('/users/:userId/seenAll')
     .post(function (req, res) {
         let userId = req.params.userId;
-        console.log(chalk.yellow('Seen all request'));
         NotificationService.seenAllNotificationByUser(userId, function (err) {
             if (err) res.status(400).send(err);
             res.status(202).send();
