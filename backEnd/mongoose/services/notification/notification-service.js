@@ -3,6 +3,8 @@ let Notification = require('../../models/notification-model');
 let User = require('../../models/user-model');
 let NotificationGenerator = require('./notification-generator-service');
 let DateService = require('../../technical/current-date-service');
+let articleService = require('../article-service');
+
 let Q = require('q');
 const chalk = require('chalk');
 
@@ -31,7 +33,6 @@ let self = module.exports = {
     },
 
     seenAllNotificationByUser: function (userId, callback) {
-        console.log('user: ' + userId);
         Notification.update({
             recipient: userId
         }, {
@@ -42,7 +43,6 @@ let self = module.exports = {
             multi: true
         }, function (err, docs) {
             if (err) throw err;
-            console.log(docs);
             return callback(null);
         });
     },
@@ -58,21 +58,28 @@ let self = module.exports = {
     pushNotification: function (notification) {
         let defer = Q.defer();
         notification.date = DateService.getCurrentDay();
-        NotificationGenerator.generateMessageOnType(notification).then(message => {
-            notification.message = message;
-            notification.seen = false;
-            notification.read = false;
 
-            /**Save notification */
-            notification = new Notification(notification);
-            notification.save(function (err) {
-                if (err) defer.reject(err);
-                defer.resolve();
-            });
+        articleService.getCategoryNameByArticleId(notification.article_id).then((categoryName) => {
+            notification.category = categoryName;
+            return notification;
+        }).then((notification) => {
 
-        }).catch((err) => {
-            defer.reject(err);
-        })
+            NotificationGenerator.generateMessageOnType(notification).then(message => {
+                notification.message = message;
+                notification.seen = false;
+                notification.read = false;
+
+                /**Save notification */
+                notification = new Notification(notification);
+                notification.save(function (err) {
+                    if (err) defer.reject(err);
+                    defer.resolve();
+                });
+
+            }).catch((err) => {
+                defer.reject(err);
+            })
+        });
         return defer.promise;
     },
 

@@ -16,10 +16,7 @@ let NotificationSchema = new Schema({
     type: ObjectId,
     ref: 'articles'
   },
-  category_id: {
-    type: ObjectId,
-    ref: 'categories'
-  },
+  category: String,
   message: String,
   seen: Boolean,
   read: Boolean,

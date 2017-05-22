@@ -21,7 +21,7 @@ let self = module.exports = function (socket) {
     });
 
     socket.on('increaseViewCount', function (article_id) {
-       trackerService.increaseArticleView(article_id);
+        trackerService.increaseArticleView(article_id);
     });
 
     socket.on('subscribeNotification', function (data) {
@@ -51,6 +51,21 @@ let self = module.exports = function (socket) {
                 }
             }
         }
+    });
 
+    socket.on('readNotification', function (userId) {
+        let connectedUsers = socketsConnectionManager.getUserSockets();
+        /*Iterate through array of user who has new notification */
+        // loop through connected socket to find which socket he is using
+        for (let connectedUser of connectedUsers) {
+            if (connectedUser.user_id == userId) {
+                notificationService.findbyUser(userId, function (err, notifications) {
+                    if (err) {
+                        connectedUser.socket.emit('failure');
+                    }
+                    connectedUser.socket.emit('sendNotificationsToUser', notifications);
+                });
+            }
+        }
     });
 }
