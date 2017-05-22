@@ -1,8 +1,9 @@
 /** Category Service: provide methods on Category Model */
 var Category = require('../models/category-model');
 var ObjectId = require('mongoose').Types.ObjectId;
+
 let Q = require('q');
-module.exports = {
+let self = module.exports = {
 
     /**Find one document  */
     findOne: function (documentId, callback) {

@@ -239,7 +239,7 @@ let self = module.exports = {
         Article.find({}).limit(20).sort({
             date: -1
         }).exec(function (err, docs) {
-            err ? defer.reject(err): defer.resolve(docs);
+            err ? defer.reject(err) : defer.resolve(docs);
         });
         return defer.promise;
     },
@@ -257,5 +257,17 @@ let self = module.exports = {
             if (err) return callback(err);
             return callback(null);
         });
+    },
+
+    getCategoryNameByArticleId: function (articleId) {
+        let defer = Q.defer();
+        self.findOnePromise(articleId).then((article) => {
+            return article.category;
+        }).then((category) => {
+            categoryService.findOne(category, function (err, doc) {
+                err ? defer.reject(err) : defer.resolve(doc.name.toLowerCase());
+            });
+        });
+        return defer.promise;
     }
 }
