@@ -33,7 +33,6 @@ let self = module.exports = {
     },
 
     seenAllNotificationByUser: function (userId, callback) {
-        console.log('user: ' + userId);
         Notification.update({
             recipient: userId
         }, {
@@ -44,7 +43,6 @@ let self = module.exports = {
             multi: true
         }, function (err, docs) {
             if (err) throw err;
-            console.log(docs);
             return callback(null);
         });
     },

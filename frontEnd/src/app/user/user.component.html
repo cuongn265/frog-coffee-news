@@ -4,9 +4,9 @@
   </button>
   <span [routerLink]="['/news/home']" id="header-title" class="clickable"> Mercury </span>
   <span class="remaining-space"></span>
-  <button md-icon-button [mdMenuTriggerFor]="appMenu">
+  <button md-icon-button [mdMenuTriggerFor]="appMenu" (click)="markAllAsSeen()">
     <md-icon class="md-24 notifications-icon">notifications</md-icon>
-    <span class="notifications-count">{{ notifications ? notifications.length : 0}}</span>
+    <span class="notifications-count">{{ totalNotSeenNotifications}}</span>
   </button>
   <button md-icon-button class="menu-btn">
     <md-icon class="md-24 personal-icon">face</md-icon>
@@ -51,7 +51,7 @@
         </button>
         <a md-line (click)="auth.login()">Log In</a>
       </md-list-item>
-        <md-list-item *ngIf="auth.authenticated()">
+      <md-list-item *ngIf="auth.authenticated()">
         <button md-icon-button>
           <md-icon>vpn_key</md-icon>
         </button>
