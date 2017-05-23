@@ -9,7 +9,7 @@ import { CategoryService } from "../../category.service";
 import { MdDialogRef } from "@angular/material";
 import { ActivatedRoute } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
-import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
+import {ImageCropperComponent, CropperSettings, CropperDrawSettings, Bounds} from 'ng2-img-cropper';
 import * as AWS from 'aws-sdk';
 import { AuthService } from "../../auth.service";
 
@@ -48,16 +48,21 @@ export class ArticleEditorComponent implements OnInit {
     private route: ActivatedRoute,
     private auth: AuthService,
     private snackBar: MdSnackBar) {
-    this.cropperSettings = new CropperSettings();
-    this.cropperSettings.noFileInput = true;
-    this.cropperSettings.width = 1600;
-    this.cropperSettings.height = 900;
-    this.cropperSettings.croppedWidth = 1600;
-    this.cropperSettings.croppedHeight = 900;
-    
-    /**
-     * Get tags first
-     */
+      this.cropperSettings = new CropperSettings();
+      this.cropperSettings.noFileInput = true;
+      this.cropperSettings.width = 1600;
+      this.cropperSettings.height = 900;
+      this.cropperSettings.croppedWidth =1600;
+      this.cropperSettings.croppedHeight = 900;
+      this.cropperSettings.preserveSize = true;
+      this.cropperSettings.dynamicSizing = true;
+      this.cropperSettings.cropperClass = 'myCropper';
+      this.cropperSettings.croppingClass = 'myCropping';
+
+      this.cropperSettings.cropperDrawSettings = new CropperDrawSettings();
+      this.cropperSettings.cropperDrawSettings.strokeColor = '#fdfdfd';
+      this.cropperSettings.cropperDrawSettings.strokeWidth = 1;
+      this.data = {};
     articleService.getTags().then((tags) => {
       this.articleTags = tags;
       console.log(this.articleTags);
