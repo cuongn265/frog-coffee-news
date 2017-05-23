@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { ArticleDetailComponent } from './article-detail/article-detail.component';
 import { AuthGuard } from './auth-guard.service';
 import { ArticleEditorComponent } from './articles-list/article-editor/article-editor.component';
+import { LandingComponent } from './landing/landing.component';
 
 export const AppRoutes: Routes = [
   {
@@ -18,10 +19,15 @@ export const AppRoutes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'home',
+    component: LandingComponent
+  },
+  {
     path: 'news',
     component: UserComponent,
     children: [
-      { path: '', redirectTo: 'all', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', component: LandingComponent, },
       { path: ':categoryName', component: ArticleComponent, },
       { path: ':categoryName/:articleId', component: ArticleDetailComponent },
     ]

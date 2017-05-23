@@ -14,22 +14,30 @@ import { ActivatedRoute } from '@angular/router';
 
 export class ArticleComponent implements OnInit, OnDestroy {
 
-  // @Input() name: string;
-
   articlesList: Article[];
   categoryName: string;
-  publishedArticles: Article[];
+  publishedArticles: Article[] = [];
+  array = [];
+  infiniteArticles: Article[] = [];
+  sum = 6;
+  throttle = 400;
+  scrollDistance = 0;
+  articleIndex = 4;
+  isLoading = false;
+  isFinish = false;
   private sub: any;
+
   constructor(private articleService: ArticleService, private route: ActivatedRoute) {
   }
 
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      this.categoryName = params['categoryName']; // (+) converts string 'id' to a number
-
-      /** */
+      this.articleIndex = 4;
+      this.infiniteArticles = [];
+      this.categoryName = params['categoryName'];
       this.publishedArticles = [];
+      this.infiniteArticles = [];
       this.articleService.getArticles(this.categoryName).then(
         (response) => {
           this.articlesList = response;
@@ -38,7 +46,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
               this.publishedArticles.push(article);
             }
           }, this);
-          console.log(this.publishedArticles);
+          this.addItems(4, this.sum);
         }
       );
     });
@@ -46,5 +54,29 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  addItems(startIndex, endIndex) {
+    if (this.sum >= this.publishedArticles.length) {
+      this.sum = this.publishedArticles.length
+    }
+
+    for (let i = this.articleIndex; i < this.sum; ++i) {
+      let length = this.publishedArticles.length
+      this.articleIndex++;
+      this.infiniteArticles.push(this.publishedArticles[length - 1 - i]);
+      if (this.sum == this.publishedArticles.length) {
+        this.isFinish = true;
+      }
+    }
+  }
+  onScrollDown() {
+    this.sum += 6;
+    this.isLoading = true;
+    let self = this;
+    setTimeout(function () {
+      self.addItems(this.articleIndex, this.sum);
+      self.isLoading = false;
+    }, 1000);
   }
 }

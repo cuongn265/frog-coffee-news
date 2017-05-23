@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Comment } from '../../comment';
-import {MdDialogRef} from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { Comment } from './../../comment';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ArticleService } from '../../article/article.service';
+import { MdDialogRef } from '@angular/material';
+import {MD_DIALOG_DATA} from '@angular/material';
+
 
 @Component({
   selector: 'app-modify-comment-dialog',
@@ -11,19 +14,23 @@ import { ArticleService } from '../../article/article.service';
 })
 export class ModifyCommentDialogComponent implements OnInit {
 
-  selectedComment: Comment = new Comment();
-  commentContent: Text;
-  constructor(public dialogRef: MdDialogRef<ModifyCommentDialogComponent>,
-              private articleService: ArticleService) { }
+  selectedComment: Comment;
+  data: any;
 
-  ngOnInit() {
-    console.log("User modify this comment");
-    console.log(this.selectedComment);
+  constructor(public dialogRef: MdDialogRef<ModifyCommentDialogComponent>,
+    private articleService: ArticleService,
+    @Inject(MD_DIALOG_DATA) data: any) {
+      this.data = data;
   }
 
-  onSubmit(){
-    this.articleService.putComment(this.selectedComment).then(response => {
-      console.log(response);
+  ngOnInit() {
+    this.selectedComment = this.data.comment;
+  }
+
+  onSubmit(comment: Comment) {
+    console.log(comment)
+    this.articleService.putComment(this.data.articleId, comment).then(response => {
+      this.dialogRef.close('yes')
     });
   }
 }

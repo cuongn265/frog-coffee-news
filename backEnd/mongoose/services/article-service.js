@@ -5,6 +5,8 @@ let DateService = require('../technical/current-date-service');
 let categoryService = require('./category-service');
 let DiscussionService = require('./discussion-service')
 let Q = require('q');
+
+const chalk = require('chalk');
 let self = module.exports = {
     /**Find one document */
     findOne: function (documentId, callback) {
@@ -43,14 +45,14 @@ let self = module.exports = {
 
     /** Find by category */
     findByCategory: function (category, callback) {
-        let deffer = Q.defer();
+        let defer = Q.defer();
         let categoryId = category;
         /** if category paramater is not object ID ? - may be it's a name ? **/
         if (!ObjectId.isValid(category)) {
             categoryService.getIdByName(category).then(function (category) {
                     categoryId = category._id;
                 }, function (err) {
-                    return deffer.reject(err);
+                    return defer.reject(err);
                 })
                 .then(function (err) {
                     Article.find({
@@ -72,6 +74,9 @@ let self = module.exports = {
             })
         }
     },
+
+
+
 
     /** Find by creator */
     findByCreator: function (userId, callback) {
@@ -153,5 +158,144 @@ let self = module.exports = {
         } else {
             return callback('Invalid ObjectId');
         }
+    },
+
+
+
+    /**
+     * Increase number of view
+     */
+    increaseView: function (documentId) {
+        let defer = Q.defer();
+        Article.findByIdAndUpdate(documentId, {
+            "$inc": {
+                "visit_count": 1
+            }
+        }, function (err, doc) {
+            if (err) defer.reject(err);
+            defer.resolve(doc);
+        });
+        return defer.promise;
+    },
+
+    /**
+     * Update score base on release date and view
+     */
+    updateScore: function (documentId) {
+        let defer = Q.defer();
+        self.findOnePromise(documentId).then((article) => {
+            let distance_min = DateService.getMinutesSinceRelease(article.date);
+            let score = article.visit_count / distance_min;
+            Article.findByIdAndUpdate(documentId, {
+                "$set": {
+                    "score": score
+                }
+            }, function (err, doc) {
+                if (err) defer.reject(err);
+                defer.resolve(doc);
+            })
+        });
+        return defer.promise;
+    },
+
+
+    findTrendingArticlesByCategory: function (category) {
+        let defer = Q.defer();
+        if (!ObjectId.isValid(category)) {
+            categoryService.getIdByName(category).then((doc) => {
+                categoryId = doc._id;
+                Article.find({
+                        category: categoryId
+                    }).limit(10)
+                    .sort({
+                        score: -1
+                    }).exec(function (err, docs) {
+                        err ? defer.reject(err) : defer.resolve(docs);
+                    });
+            });
+        } else {
+            Article.find({
+                    category: category
+                }).limit(10)
+                .sort({
+                    score: -1
+                }).exec(function (err, docs) {
+                    err ? defer.reject(err) : defer.resolve(docs);
+                });
+        }
+
+        return defer.promise;
+    },
+
+    findAllTrendingArticles: function () {
+        let defer = Q.defer();
+        Article.find({}).limit(20).sort({
+            score: -1
+        }).exec(function (err, docs) {
+            err ? defer.reject(err) : defer.resolve(docs);
+        });
+        return defer.promise;
+    },
+
+    findLatestArticlesByCategory: function (category) {
+        let defer = Q.defer();
+        if (!ObjectId.isValid(category)) {
+            categoryService.getIdByName(category).then((doc) => {
+                categoryId = doc._id;
+                Article.find({
+                    category: categoryId
+                }).limit(10).sort({
+                    date: -1
+                }).exec(function (err, docs) {
+                    err ? defer.reject(err) : defer.resolve(docs);
+                });
+            })
+        } else {
+            Article.find({
+                category: category
+            }).limit(10).sort({
+                date: -1
+            }).exec(function (err, docs) {
+                err ? defer.reject(err) : defer.resolve(docs);
+            });
+        }
+        return defer.promise;
+    },
+
+    findAllLatestArticles: function () {
+        let defer = Q.defer();
+        Article.find({}).limit(20).sort({
+            date: -1
+        }).exec(function (err, docs) {
+            err ? defer.reject(err) : defer.resolve(docs);
+        });
+        return defer.promise;
+    },
+
+    initScore: function (callback) {
+        Article.update({}, {
+            "$set": {
+                "visit_count": 0,
+                "score": 0
+            }
+        }, {
+            "new": true,
+            "multi": true
+        }, function (err, docs) {
+            if (err) return callback(err);
+            return callback(null);
+        });
+    },
+
+    getCategoryNameByArticleId: function (articleId) {
+        let defer = Q.defer();
+        self.findOnePromise(articleId).then((article) => {
+            return article.category;
+        }).then((category) => {
+            categoryService.findOne(category, function (err, doc) {
+                err ? defer.reject(err) : defer.resolve(doc.name.toLowerCase());
+            });
+        });
+        return defer.promise;
     }
 }

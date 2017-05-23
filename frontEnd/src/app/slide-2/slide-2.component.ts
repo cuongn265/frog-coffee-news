@@ -32,7 +32,6 @@ export class Slide2Component implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
       this.categoryName = params['categoryName']; // (+) converts string 'id' to a number 
-      console.log('cat:' + this.categoryName);
       this.publishedArticles = [];
       this.articleService.getArticles(this.categoryName).then(
         (response) => {
@@ -42,8 +41,6 @@ export class Slide2Component implements OnInit, AfterViewInit {
               this.publishedArticles.push(article);
             }
           }, this);
-          console.log("+++++ slider");
-          console.log(this.publishedArticles)
           $(this.el.nativeElement).ready(function () {
             $('#myCarousel').carousel({
               interval: 3000

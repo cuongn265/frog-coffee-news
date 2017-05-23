@@ -63,6 +63,7 @@ let option = config.get('database.mlab-auth');
 
 //mongooseConnector.connectToMongo(mlabHost, option);
 mongooseConnector.connectToMongo(mlabHost, option);
+ //mongooseConnector.connectToMongo(localhost);
 
 /**
  * ------   End of database connection configuration ---------------------------------------
@@ -76,7 +77,7 @@ app.use('/api/v1', api);
 app.use('/api/v2/categories', categoryRouter);
 app.use('/api/v2/articles', articleRouter);
 app.use('/api/v2/users', userRouter);
-app.use('/api/v2/notification', notificationRouter);
+app.use('/api/v2/notifications', notificationRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

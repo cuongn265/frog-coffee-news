@@ -1,0 +1,69 @@
+<md-toolbar color="primary" class="comment-toolbar">
+  <div class="col-md-8 col-sm-10 col-md-offset-2 col-sm-offset-1 col-xs-12 commentable-row">
+    <div class="col-md-6 col-sm-12 col-xs-12 commentable">
+      <span>{{comments ? comments.length : ''}} COMMENTS</span>
+    </div>
+    <div class="col-md-6 col-sm-12 col-xs-12 sortable">
+      <span [ngClass]="isActive == 'best' ? 'clickable sort active' : 'clickable sort'" (click)="isActive='best'; order='text'; reverse=false">Best</span>
+      <span [ngClass]="isActive == 'newest' ? 'clickable sort active' : 'clickable sort'" (click)="isActive='newest'; order='date'; reverse=true">Newest</span>
+      <span [ngClass]="isActive == 'oldest' ? 'clickable sort active' : 'clickable sort'" (click)="isActive='oldest'; order='date'; reverse=false">Oldest</span>
+    </div>
+  </div>
+</md-toolbar>
+<div class="row">
+  <div class="col-md-8 col-sm-10 col-md-offset-2 col-sm-offset-1 col-xs-12 comment-form">
+    <div *ngIf="authService.authenticated() && authService.userProfile">
+      <form (ngSubmit)="onSubmit(commentForm.value)" #commentForm="ngForm" role="form" novalidate>
+        <md-list>
+          <md-list-item>
+            <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar">
+              <input type="hidden" name="user_id" [value]="authService.userProfile.identities[0].user_id" [(ngModel)]="comment.user_id"
+              #userId>
+              <md-input-container style="width: 100%;" class="comment-input">
+                <input autocomplete="off" mdInput placeholder="Leave a comment as {{authService.userProfile.user_metadata.first_name + ' ' + authService.userProfile.user_metadata.last_name }}"
+                  maxlength="300" rows="2" required #characterCountComment name="text" [(ngModel)]="comment.text" [mention]="mentionParticipants" [mentionSelect]="mentioned" (ngModelChange)="updateMentionedUser($event)"
+                />
+                <md-hint align="end">{{characterCountComment.value.length}} / 300</md-hint>
+              </md-input-container>
+            <div style="margin-left: 3px;" [hidden]="submittingComment">
+              <button md-icon-button type="submit">
+                <md-icon color="primary"> send </md-icon>
+              </button>
+            </div>
+            <!-- Comment submit spinner -->
+            <div id="circleG" *ngIf="submittingComment">
+              <div id="circleG_1" class="circleG"></div>
+              <div id="circleG_2" class="circleG"></div>
+              <div id="circleG_3" class="circleG"></div>
+            </div>
+          </md-list-item>
+        </md-list>
+      </form>
+    </div>
+    <!-- End of user comment box -->
+    <md-list *ngIf="comments">
+      <div *ngFor="let comment of comments | orderBy: order : reverse" class="comment">
+        <md-list-item>
+          <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar" class="avatar">
+          <h2 md-line> {{getUsernameByUserId(comment.user_id)}} </h2>
+          <p md-line>
+            {{getCommentPeriod(comment.date)}}
+          </p>
+          <span class="pull-right" *ngIf="authService.authenticated() && authService.userProfile">
+            <button md-icon-button [md-menu-trigger-for]="menu" *ngIf="comment.user_id == authService.userProfile.identities[0]?.user_id || authService.userProfile.role == '58cd45e0879f9e00c88747bf'" >
+              <md-icon>more_vert</md-icon>
+            </button>
+            <md-menu #menu="mdMenu">
+              <button md-menu-item *ngIf="comment.user_id == authService.userProfile.identities[0].user_id" (click)="onModify($event, comment)"> Modify... </button>
+              <button md-menu-item (click)="onOpenConfirmDialog(comment._id)"> Remove... </button>
+            </md-menu> 
+          </span>
+        </md-list-item>
+        <div class="comment-content">
+          <p>{{comment.text}}</p>
+        </div>
+        <hr class="comment-divider">
+      </div>
+    </md-list>
+  </div>
+</div>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Article } from './article';
 import { Comment } from '../comment';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { SocketIOService } from "../socket.io/socket-io.service";
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
@@ -9,7 +10,7 @@ export class ArticleService {
 
   private apiUrl: string = process.env.apiUrl;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private socketIOService: SocketIOService) { }
 
   // get articles of selected category
   getArticles(name: string): Promise<Article[]> {
@@ -17,9 +18,9 @@ export class ArticleService {
     if (name === undefined || name == 'all' || name == '') {
       articleUrl = this.apiUrl + 'articles';
     } else {
-      articleUrl = this.apiUrl + 'categories/' +name + '/articles';
+      articleUrl = this.apiUrl + 'categories/' + name + '/articles';
     }
-
+    console.log(articleUrl);
     return this.http.get(articleUrl)
       .toPromise()
       .then(response => response.json())
@@ -57,35 +58,59 @@ export class ArticleService {
     let article = { '_id': articleId };
     let body = JSON.stringify(article);
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.delete(this.apiUrl + 'articles/' + articleId , new RequestOptions({
+    return this.http.delete(this.apiUrl + 'articles/' + articleId, new RequestOptions({
       headers: headers,
       body: body
     })).toPromise().then(response => response).catch(this.handleError);
   }
 
-  postComment(comment: Comment) {
+  getComments(id: string): Promise<any> {
+    let url = this.apiUrl + 'articles' + '/' + id + '/comments';
+    return this.http.get(url).toPromise().then(response => response.json()).catch(this.handleError);
+  }
+
+  postComment(id: string, comment: Comment) {
     let body = JSON.stringify(comment);
     let header = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.post(this.apiUrl + 'comment', body, { headers: header }).toPromise().then(response => {
+    return this.http.post(this.apiUrl + 'articles' + '/' + id + '/comments', body, { headers: header }).toPromise().then(response => {
       console.log(response.status);
     }).catch(this.handleError);
   }
 
-  putComment(comment: Comment) {
+  putComment(id: string, comment: Comment) {
     let body = JSON.stringify(comment);
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.put(this.apiUrl + 'comment', body, { headers: headers }).toPromise().then(response => response);
+    return this.http.put(this.apiUrl + 'articles' + '/' + id + '/comments' + '/' + comment._id, body, { headers: headers }).toPromise().then(response => response);
   }
 
-  removeComment(comment: Comment) {
-    let selectedComment = { '_id': comment._id }
-    let body = JSON.stringify(selectedComment);
-    let headers = new Headers({ 'Content-Type': 'application/json ' });
-    return this.http.delete(this.apiUrl + 'comment', new RequestOptions({
-      headers: headers,
-      body: body
-    })).toPromise().then(response => response).catch(this.handleError);
+  removeComment(articleId: string, commentId: string) {
+    return this.http.delete(this.apiUrl + 'articles' + '/' + articleId + '/comments' + '/' + commentId).toPromise().then(response => response).catch(this.handleError);
   }
+
+  getParticipants(articleId: string) {
+    return this.http.get(this.apiUrl + 'articles' + '/' + articleId + '/participants').toPromise().then(res => res.json()).catch(this.handleError);
+  }
+
+  mentionParticipants(articleId: string, userId: string, participantsId: any[]) {
+    let header = new Headers({ 'Content-Type': 'application/json' });
+    for (let mentionedParticipantId of participantsId) {
+      let notification = {
+        type: 'mentioned',
+        article_id: articleId,
+        sender: userId,
+        recipient: mentionedParticipantId
+      }
+      this.http.post(this.apiUrl + 'notifications/pushNotification', notification, { headers: header })
+        .toPromise().then(response => {
+          this.socketIOService.pushNotificationToUsers(participantsId);
+        }).catch(this.handleError);
+
+    }
+
+  }
+
+
+
 
   // Time Converting Methods ---------------------------- //
   getTimeDistance(Post_TimeStamp: string): string {

@@ -1,10 +1,15 @@
-<form (ngSubmit)="onSubmit(); dialogRef.close('yes')" #commentForm="ngForm">
+<form (ngSubmit)="onSubmit(commentForm.value)" #commentForm="ngForm">
   <md-dialog-content>
     <h3 md-dialog-title class="dialog-header"> Modify comment</h3>
+    <input type="hidden" name="_id" [ngModel]="selectedComment._id">
     <div class="modify-comment-container">
       <md-input-container style="width: 100%;">
-        <textarea mdInput placeholder="Type to modify your comment below" maxlength="300" #characterCountComment rows="4" name="content"
-          [(ngModel)]="selectedComment.content" value="{{selectedComment.content}}"></textarea>
+        <textarea mdInput 
+          placeholder="Type to modify your comment below" 
+          maxlength="300" #characterCountComment 
+          rows="4" 
+          name="text"
+          [ngModel]="selectedComment.text"></textarea>
           <md-hint align="end">{{characterCountComment.value.length}} / 300</md-hint>
       </md-input-container>
     </div>
@@ -17,5 +22,3 @@
     </div>
   </md-dialog-actions>
 </form>
-
-<!-- (click)="dialogRef.close('no');" -->

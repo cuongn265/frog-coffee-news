@@ -1,27 +1,23 @@
-<md-sidenav-container fullscreen>
-  <md-toolbar color="primary" style="height: 10vh;">
-    <button md-icon-button (click)="start.toggle()" class="menu-btn">
-      <md-icon class="md-24">menu</md-icon>
-    </button>
-    <span [routerLink]="['/news/all']" id="header-title"> Frog Coffee News </span>
-    <span class="remaining-space"></span>
-    <!--<span>
-      <button md-icon-button (click)="start.toggle()" class="menu-btn">
-        <md-icon class="md-24">menu</md-icon>
-      </button>
-    </span>-->
-    <button class="category-button"
-      md-button
-      *ngFor="let category of categoryList"
-      [routerLink]="['/news', category.name | lowercase]"
-    >
-      {{category.name}}
-    </button>
-    <button md-icon-button (click)="end.toggle()" class="cat-btn">
-      <md-icon class="md-24">more_vert</md-icon>
-    </button>
-  </md-toolbar>
-  <md-sidenav class="md-sidenav" align="start" #start mode="over">
+<md-toolbar color="primary" style="height: 10vh; position: fixed; z-index: 1;">
+  <button md-icon-button (click)="start.toggle();" class="menu-btn">
+    <md-icon class="md-24">menu</md-icon>
+  </button>
+  <span [routerLink]="['/news/home']" id="header-title" class="clickable"> Mercury </span>
+  <span class="remaining-space"></span>
+  <button md-icon-button [mdMenuTriggerFor]="appMenu" (click)="markAllAsSeen()">
+    <md-icon class="md-24 notifications-icon">notifications</md-icon>
+    <span class="notifications-count">{{ totalNotSeenNotifications}}</span>
+  </button>
+  <button md-icon-button class="menu-btn">
+    <md-icon class="md-24 personal-icon">face</md-icon>
+  </button>
+  <md-menu #appMenu="mdMenu" [overlapTrigger]="false">
+    <button md-menu-item *ngFor="let noti of notifications" [routerLink]="['/news', noti.category, noti.article_id]" [ngStyle]="{'background-color': noti.read ? 'none': 'bisque'}" (click)="markNotificationAsRead(noti._id)"> {{noti.message}} </button>
+  </md-menu>
+</md-toolbar>
+
+<md-sidenav-container style="height: 100%; top: 10vh;">
+  <md-sidenav class="md-sidenav" align="start" #start mode="over" style="height: 100%; position: fixed;">
     <md-card class="user-card">
       <md-card-header *ngIf="auth.authenticated() && auth.userProfile">
         <img md-card-avatar [src]="auth.userProfile.picture">
@@ -35,25 +31,13 @@
       </md-card-header>
     </md-card>
     <md-nav-list>
-      <md-list-item>
-        <a md-line href="#">Favorites</a>
+      <md-list-item *ngFor="let category of categoryList">
+        <a md-line (click)="start.close()" [routerLink]="['/news', category.name | lowercase]">{{category.name}} </a>
         <button md-icon-button>
-          <md-icon>favorite</md-icon>
+          <md-icon>loyalty</md-icon>
         </button>
       </md-list-item>
       <md-divider></md-divider>
-      <md-list-item>
-        <a md-line href="#">Account</a>
-        <button md-icon-button>
-          <md-icon>person</md-icon>
-        </button>
-      </md-list-item>
-      <md-list-item>
-        <a md-line href="#">Comment</a>
-        <button md-icon-button>
-          <md-icon>comment</md-icon>
-        </button>
-      </md-list-item>
       <md-list-item *ngIf="auth.authenticated() && auth.userProfile && auth.userProfile.role == '58cd45e0879f9e00c88747bf'">
         <button md-icon-button>
           <md-icon>settings</md-icon>
@@ -67,7 +51,7 @@
         </button>
         <a md-line (click)="auth.login()">Log In</a>
       </md-list-item>
-        <md-list-item *ngIf="auth.authenticated()">
+      <md-list-item *ngIf="auth.authenticated()">
         <button md-icon-button>
           <md-icon>vpn_key</md-icon>
         </button>
@@ -76,9 +60,7 @@
     </md-nav-list>
   </md-sidenav>
 
-  <md-sidenav class="md-sidenav" align="end" #end mode="over">
-    <md-toolbar color="primary" style="height: 10vh;">
-    </md-toolbar>
+  <md-sidenav class="md-sidenav" align="end" #end mode="over" style="height: 100%; position: fixed;">
     <md-nav-list>
       <md-list-item *ngFor="let category of categoryList">
         <a md-line (click)="end.close()" [routerLink]="['/news', category.name | lowercase]">{{category.name}} </a>
@@ -89,4 +71,5 @@
     </md-nav-list>
   </md-sidenav>
   <router-outlet></router-outlet>
+
 </md-sidenav-container>
