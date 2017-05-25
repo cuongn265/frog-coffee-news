@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 /*@import '~@angular/material/core/theming/prebuilt/pink-bluegrey.css';*/
-@import 'theming.scss';
+@import '~@angular/material/theming';
+@import 'src/theming.scss';
+@include mat-core();
 
 body {
     margin: 0px;
@@ -43,6 +45,28 @@ body {
       }
       &:focus {
         outline: none;
+      }
+    }
+
+    .cdk-overlay-container .mat-menu-panel.my-menu {
+      max-width: 400px;
+      max-height: 600px;
+      .mat-menu-content .mat-menu-item {
+        color: #000;
+        font-size: 12px;
+        white-space: normal;
+        overflow: visible;
+        line-height: 18px;
+        padding: 10px 16px;
+        min-height: 72px;
+        border-bottom: 1px solid #fdfdfd;
+        .message, .time {
+          margin: 0
+        }
+        .time {
+          font-size: 10px;
+          color: rgba(0, 0, 0, 0.54);
+        }
       }
     }
 }

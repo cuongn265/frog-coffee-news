@@ -11,8 +11,11 @@
   <button md-icon-button class="menu-btn">
     <md-icon class="md-24 personal-icon">face</md-icon>
   </button>
-  <md-menu #appMenu="mdMenu" [overlapTrigger]="false">
-    <button md-menu-item *ngFor="let noti of notifications" [routerLink]="['/news', noti.category, noti.article_id]" [ngStyle]="{'background-color': noti.read ? 'none': 'bisque'}" (click)="markNotificationAsRead(noti._id)"> {{noti.message}} </button>
+  <md-menu #appMenu="mdMenu" [overlapTrigger]="false" class="my-menu">
+    <div md-menu-item *ngFor="let noti of notifications" [routerLink]="['/news', noti.category, noti.article_id]" [ngStyle]="{'background-color': noti.read ? 'none': 'bisque'}" (click)="markNotificationAsRead(noti._id)">
+      <p class="message"> {{noti.message}} </p>
+      <p class="time"> {{noti.date | amTimeAgo}} </p>
+    </div>
   </md-menu>
 </md-toolbar>
 
