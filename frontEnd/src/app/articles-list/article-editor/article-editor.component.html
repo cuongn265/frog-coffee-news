@@ -8,8 +8,8 @@
       </md-input-container>
 
       <md-input-container style="width: 100%">
-        <textarea mdInput maxlength="200" placeholder="Desciption" [(ngModel)]="articleDetail.description"
-          id="description" name="description" #description>
+        <textarea mdInput maxlength="200" placeholder="Desciption" [(ngModel)]="articleDetail.description" id="description" name="description"
+          #description>
         </textarea>
         <md-hint align="end">{{description.value.length}} / 200</md-hint>
       </md-input-container>
@@ -24,6 +24,18 @@
         </md-option>
       </md-select>
 
+      <!--
+      <tag-input [ngModel]="['@item']" [onlyFromAutocomplete]="true" name="tags">
+        <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="autocompleteTags">
+        </tag-input-dropdown>
+      </tag-input>
+      -->
+
+      <tag-input [(ngModel)]="articleDetail.tags" [onlyFromAutocomplete]="true" name="tags" [secondaryPlaceholder]="'Select tags for article'" [displayBy]="'name'">
+        <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="articleTags" [displayBy]="'name'" [identifyBy]="'_id'">
+        </tag-input-dropdown>
+      </tag-input>
+
       <div class="row">
         <div class="col-md-6">
           <div class="file-upload">
@@ -31,16 +43,12 @@
           </div>
           <div>
             <br>
-            <img-cropper #cropper [image]="data"
-              [settings]="cropperSettings" (onCrop)="cropped($event, articleDetail)"
-              [style.display]="data.image ? 'block' : 'hidden'"
-              >
+            <img-cropper #cropper [image]="data" [settings]="cropperSettings" (onCrop)="cropped($event, articleDetail)" [style.display]="data.image ? 'block' : 'hidden'">
             </img-cropper>
           </div>
         </div>
         <div class="col-md-6">
-          <button md-raised-button color="primary" type="button" (click)="onApplyCrop(data)"
-                  [disabled]="isLoading" *ngIf="data.image">
+          <button md-raised-button color="primary" type="button" (click)="onApplyCrop(data)" [disabled]="isLoading" *ngIf="data.image">
             <md-spinner color="accent" *ngIf="isLoading"></md-spinner>Apply crop &nbsp;&nbsp;
           </button>
           <div class="result rounded" *ngIf="data.image">
@@ -50,8 +58,7 @@
         </div>
       </div>
 
-      <ckeditor required name="content" [(ngModel)]="articleDetail.content" [config]="{extraPlugins: 'divarea'}"
-        debounce="500">
+      <ckeditor required name="content" [(ngModel)]="articleDetail.content" [config]="{extraPlugins: 'divarea'}" debounce="500">
       </ckeditor>
     </md-card-content>
     <md-card-actions>
