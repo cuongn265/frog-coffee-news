@@ -172,8 +172,6 @@ let self = module.exports = {
       if (err) defer.reject(err);
       else {
         if (doc == null) {
-          console.log(chalk.red('This article does not have discussion yet'));
-          console.log(chalk.green('Init discussion....'));
           defer.resolve(false);
         }
         defer.resolve(true);

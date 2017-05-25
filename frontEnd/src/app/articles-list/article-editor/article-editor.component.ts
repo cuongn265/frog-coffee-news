@@ -124,6 +124,8 @@ export class ArticleEditorComponent implements OnInit {
       if (params['id']) {
         this.articleService.getArticleDetail(params['id']).then(res => {
           this.articleDetail = res;
+          console.log('Article Detail');
+          console.log(this.articleDetail);
           this.data.image = res.header_image;
           var image: any = new Image();
           image.src = res.header_image;
@@ -138,17 +140,26 @@ export class ArticleEditorComponent implements OnInit {
   }
 
   onSubmit(article: any): void {
-    console.log('you submitted value:', article);
+
     article.header_image = this.articleDetail.header_image;
     if (article.tags) {
-      for(let tag of article.tags) {
-        this.submittedTags.push({
-          tag_id : tag._id,
-          name : tag.name
-        });
+      for (let tag of article.tags) {
+        if (tag.tag_id) {
+          this.submittedTags.push({
+            tag_id: tag.tag_id,
+            name: tag.name
+          });
+        }
+        else {
+          this.submittedTags.push({
+            tag_id: tag._id,
+            name: tag.name
+          });
+        }
       }
       article.tags = this.submittedTags;
     }
+    console.log('you submitted value:', article);
 
 
     if (article._id === undefined) {

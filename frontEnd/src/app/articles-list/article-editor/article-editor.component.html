@@ -24,7 +24,8 @@
         </md-option>
       </md-select>
 
-      <tag-input [(ngModel)]="articleDetail.tags" [onlyFromAutocomplete]="true" name="tags" [secondaryPlaceholder]="'Select tags for article'" [displayBy]="'name'">
+      <tag-input [(ngModel)]="articleDetail.tags" [onlyFromAutocomplete]="true" name="tags" [secondaryPlaceholder]="'Select tags for article'"
+        [displayBy]="'name'">
         <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="articleTags" [displayBy]="'name'" [identifyBy]="'_id'">
         </tag-input-dropdown>
       </tag-input>

@@ -81,5 +81,65 @@ let self = module.exports = {
             });
         }
         return callback('Invalid ObjectId');
+    },
+
+    pushArticleToTags: function (articleId, tags) {
+
+        let promises = tags.map(tag => {
+            return self.pushArticleToTag(articleId, tag).then(() => {
+                return Q.resolve();
+            }).catch((err) => {
+                return Q.reject(err);
+            });
+        });
+        return Q.all(promises);
+    },
+
+    pushArticleToTag: function (articleId, tagId) {
+        let defer = Q.defer();
+        console.log(chalk.red('Tag ID'));
+        console.log(tagId);
+        console.log('Ready to push ' + articleId + ' into ' + tagId);
+        self.tagContainArticle(articleId, tagId).then((isExist) => {
+            console.log('Result');
+            console.log(isExist);
+            if (isExist) defer.resolve();
+            else {
+                console.log(chalk.yellow('Resolved'));
+                Tag.findByIdAndUpdate(tagId, {
+                    "$push": {
+                        "articles": articleId
+                    }
+                }, function (err) {
+                    if (err) defer.reject(err);
+                    defer.resolve();
+                });
+            }
+        });
+        return defer.promise;
+    },
+
+    tagContainArticle: function (articleId, tagId) {
+        let defer = Q.defer();
+        Tag.find({
+            "_id": tagId,
+            "articles": {
+                "$elemMatch": {
+                    "$eq": articleId
+                }
+            }
+        }).select('articles').exec(function (err, doc) {
+            if (err) defer.reject(err);
+            if (typeof doc[0] !== 'undefined') {
+                for (let article of doc[0].articles) {
+                    if (article == articleId) {
+                        defer.resolve(true);
+                    }
+                }
+                defer.resolve(false);
+            }
+            defer.resolve(false);
+        });
+        return defer.promise;
     }
 }

@@ -124,7 +124,7 @@ let self = module.exports = {
             else {
                 // return callback(null);
                 self.initDiscussion(article._id).then(function () {
-                    return callback(null)
+                    return callback(null, article._id);
                 }, function (err) {
                     return callback(err);
                 });
