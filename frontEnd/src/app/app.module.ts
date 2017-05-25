@@ -48,6 +48,7 @@ import { SwiperModule } from 'angular2-useful-swiper';
 import { SwiperComponent } from './swiper/swiper.component';
 import { LandingComponent } from './landing/landing.component';
 import { CategoryTimelineComponent } from './landing/category-timeline/category-timeline.component';
+import {MomentModule} from 'angular2-moment';
 
 @NgModule({
   declarations: [
@@ -96,7 +97,8 @@ import { CategoryTimelineComponent } from './landing/category-timeline/category-
     MentionModule,
     SwiperModule,
     Ng2OrderModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    MomentModule
   ],
   providers: [AuthGuard, AuthService, SocketIOService, LocalStorageService],
   bootstrap: [AppComponent],
