@@ -178,12 +178,9 @@ router.route('/:userId/notifications')
     })
     .post(function (req, res) {
         let userId = req.params.userId;
-        console.log(chalk.magenta('Ready to post new notification'));
         let notification = req.body;
 
         notificationService.pushNotification(userId, notification).then(notification => {
-            console.log(chalk.blue('Returned notification'));
-            console.log(chalk.magenta(notification));
             res.status(200).send(notification);
         })
 
