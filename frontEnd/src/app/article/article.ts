@@ -12,7 +12,7 @@ export class Article {
     public author: String;
     public source: String;
 
-    public tag: {
+    public tags: {
         tag_id: String,
         name: String
     }[];

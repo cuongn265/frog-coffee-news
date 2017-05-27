@@ -54,9 +54,19 @@ export class SocketIOService {
         };
         // make sure user stay on this category at least 5 seconds
         setTimeout(function () {
-            console.log('message emitted');
             socket.emit('category browsing', data);
         }, 5000);
+    }
+
+    sendUserTagsBrowsingEvent(userId: string, tags: any[]) {
+        let socket = this.socket;
+        let data = {
+            user_id: userId,
+            tags: tags
+        };
+        setTimeout(() => {
+            socket.emit('tags browsing', data);
+        });
     }
 
     sendIncreaseViewCountEvent(articleId: string) {

@@ -38,10 +38,11 @@ let UserSchema = new Schema({
         bookmark_count: Number
     }],
     tags_track: [{
-        tag: {
+        tag_id: {
             type: ObjectId,
             ref: 'tags'
         },
+        name: String,
         visit_time: Number,
         comment_count: Number,
         bookmark_count: Number
