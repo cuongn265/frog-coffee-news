@@ -2,6 +2,7 @@
  * Configure local storage to handle stuff on localstorage
  */
 
+
 export class LocalStorageService {
 
 

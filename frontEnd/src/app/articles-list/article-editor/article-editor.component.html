@@ -8,8 +8,8 @@
       </md-input-container>
 
       <md-input-container style="width: 100%">
-        <textarea mdInput maxlength="200" placeholder="Desciption" [(ngModel)]="articleDetail.description"
-          id="description" name="description" #description>
+        <textarea mdInput maxlength="200" placeholder="Desciption" [(ngModel)]="articleDetail.description" id="description" name="description"
+          #description>
         </textarea>
         <md-hint align="end">{{description.value.length}} / 200</md-hint>
       </md-input-container>
@@ -18,29 +18,42 @@
         <input mdInput placeholder="Author (current user)" [(ngModel)]="articleDetail.author" id="author" name="author">
       </md-input-container>
 
-      <!-- <div class="row"> -->
-        <!-- <div class="col-md-8 col-sm-8"> -->
-          <!-- <md-input-container style="width: 100%">
-            <input mdInput id="imageUrl" required [(ngModel)]="articleDetail.header_image" name="header_image" placeholder="Image URL">
-          </md-input-container> -->
-
-          <!-- <div style="width: 100%; margin-top: 10px"> -->
       <md-select style="width: 100%; margin: 20px 0px;" placeholder="Category" [(ngModel)]="articleDetail.category" name="category">
         <md-option required *ngFor="let category of categories" [value]="category._id">
           {{category.name}}
         </md-option>
       </md-select>
-          <!-- </div> -->
-        <!-- </div> -->
 
-        <!-- <div class="col-md-4 col-sm-4">
-          <img id="image" name="headerImage" style="width: 100%; height: 100%;" [src]="articleDetail.header_image == null || articleDetail.header_image == '' ? 'http://www.doitacaav.vn/bitrix/components/vportal/news.list/templates/tinmoinhat/images/no_images.png' : articleDetail.header_image"
-          />
-        </div> -->
-      <!-- </div> -->
+      <tag-input [(ngModel)]="articleDetail.tags" [onlyFromAutocomplete]="true" name="tags" [secondaryPlaceholder]="'Select tags for article'"
+        [displayBy]="'name'">
+        <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="articleTags" [displayBy]="'name'" [identifyBy]="'_id'">
+        </tag-input-dropdown>
+      </tag-input>
+      <br>
 
-      <ckeditor required name="content" [(ngModel)]="articleDetail.content" [config]="{extraPlugins: 'divarea'}"
-        debounce="500">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="file-upload">
+            <input md-button id="custom-input" name='header_image' type="file" (change)="fileChangeListener($event)">
+          </div>
+          <div>
+            <br>
+            <img-cropper #cropper [image]="data" [settings]="cropperSettings" (onCrop)="cropped($event, articleDetail)" [style.display]="data.image ? 'block' : 'hidden'">
+            </img-cropper>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <button md-raised-button color="primary" type="button" (click)="onApplyCrop(data)" [disabled]="isLoading" *ngIf="data.image">
+            <md-spinner color="accent" *ngIf="isLoading"></md-spinner>Apply crop &nbsp;&nbsp;
+          </button>
+          <div class="result rounded" *ngIf="data.image">
+            <br>
+            <img [src]="data.image" class="img-responsive">
+          </div>
+        </div>
+      </div>
+
+      <ckeditor required name="content" [(ngModel)]="articleDetail.content" [config]="{extraPlugins: 'divarea'}" debounce="500">
       </ckeditor>
     </md-card-content>
     <md-card-actions>

@@ -6,6 +6,12 @@ export class User {
   public last_name: string;
   public phone: string;
   public email: string;
-  public role: number;
+  public role: string;
   public enable: boolean;
+  public identities: Array<{
+    user_id: string,
+    provider: string,
+    connection: string,
+    isSocial: boolean
+  }>;
 }

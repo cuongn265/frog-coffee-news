@@ -1,0 +1,8 @@
+<h1 md-dialog-title>Warning</h1>
+<md-dialog-content>
+  Are you sure to delete this one?
+</md-dialog-content>
+<md-dialog-actions class="pull-right">
+  <button md-button color="primary" (click)="dialogRef.close('Yes')">Yes</button>
+  <button md-button (click)="dialogRef.close('No')">No</button>
+</md-dialog-actions>

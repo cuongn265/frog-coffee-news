@@ -3,18 +3,10 @@ let Schema = mongoose.Schema;
 let ObjectId = Schema.ObjectId;
 
 let UserSchema = new Schema({
-    
-    
-    
-    
-    
-    first_name: {
-        type: String,
-        required: true
-    },
-    last_name: {
-        type: String,
-        required: true
+    user_metadata: {
+        first_name: String,
+        last_name: String,
+        phone: String
     },
     profile_image: String,
     password: {
@@ -25,7 +17,6 @@ let UserSchema = new Schema({
         type: String,
         required: true
     },
-    phone: String,
     facebook: String,
     twitter: String,
     googleplus: String,
@@ -45,7 +36,8 @@ let UserSchema = new Schema({
         last_visit: Date,
         comment_count: Number,
         bookmark_count: Number
-    }]
+    }],
+    
 });
 
 let User = mongoose.model('users', UserSchema);

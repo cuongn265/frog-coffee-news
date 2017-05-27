@@ -1,6 +1,5 @@
 /** User Service: provide methods on User Model */
 let User = require('../models/user-model');
-let Comment = require('../models/comment-model');
 let ObjectId = require('mongoose').Types.ObjectId;
 let Q = require('q');
 const chalk = require('chalk');
@@ -50,7 +49,6 @@ let self = module.exports = {
     /** Update User document */
     update: function (id, document, callback) {
         let documentId = id;
-        console.log(documentId);
         if (ObjectId.isValid(documentId)) {
             User.findByIdAndUpdate(documentId, document, function (err) {
                 if (err) return callback(err);
@@ -177,5 +175,53 @@ let self = module.exports = {
         }, function (err) {
             console.log(err);
         })
+    },
+
+    /** Notification Method stuffs */
+    pushNotification: function (notification) {
+        let defer = Q.defer();
+        let option = {
+            upsert: true,
+            new: true,
+            setDefaultsOnInsert: true
+        }
+
+
+        User.findByIdAndUpdate(notification.recipient, {
+            "$push": {
+                "notifications": {
+                    "sender": notification.sender,
+                    "message": notification.message,
+                    "seen": notification.seen,
+                    "read": notification.read
+                }
+            }
+        }, option, function (err) {
+            if (err) defer.reject(err);
+            defer.resolve(null);
+        })
+        return defer.promise;
+    },
+
+
+    /** Miscellanious  */
+    getIdAndUsername: function (userId) {
+        let defer = Q.defer();
+        let info = {
+            user_id: undefined,
+            username: undefined
+        }
+        User.findById(userId, function (err, doc) {
+            if (err) {
+                console.log(err);
+                defer.reject(err);
+            } else {
+                info.user_id = doc._id;
+                info.username = (doc.user_metadata.first_name + doc.user_metadata.last_name).replace(" ", "");
+                defer.resolve(info);
+            }
+        });
+        return defer.promise;
     }
+
 }

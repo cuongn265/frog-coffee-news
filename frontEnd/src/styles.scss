@@ -1,10 +1,76 @@
 /* You can add global styles to this file, and also import other style files */
 /*@import '~@angular/material/core/theming/prebuilt/pink-bluegrey.css';*/
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+@import '~@angular/material/theming';
+@import 'src/theming.scss';
+@include mat-core();
+
 body {
     margin: 0px;
-    font-family: 'Noto Sans', sans-serif !important;
+    font-family: 'Montserrat', sans-serif !important;
+    .mat-button-toggle,
+    %mat-button-base,
+    .mat-button,
+    .mat-raised-button,
+    .mat-fab,
+    .mat-icon-button,
+    .mat-mini-fab,
+    .mat-card,
+    .mat-checkbox,
+    .mat-input-container,
+    .mat-list,
+    .mat-menu-item,
+    .mat-radio-button,
+    .mat-select,
+    .mat-list .mat-list-item .mat-list-item-content,
+    .mat-nav-list .mat-list-item .mat-list-item-content,
+    .mat-simple-snackbar,
+    .mat-tab-label,
+    .mat-slide-toggle-content,
+    .mat-toolbar,
+    .mat-tooltip  {
+      font-family: 'Montserrat', sans-serif !important;;
+    }
+
+    .mat-toolbar {
+      box-shadow: 0 2px 5px 0 rgba(0,0,0,0.24);
+    }
+
+    md-sidenav-container /deep/ .mat-sidenav-content {
+      overflow-x: hidden;
+    }
+
+    .clickable {
+      &:hover {
+        cursor: pointer
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .cdk-overlay-container .mat-menu-panel.my-menu {
+      max-width: 400px;
+      max-height: 600px;
+      .mat-menu-content .mat-menu-item {
+        color: #000;
+        font-size: 12px;
+        white-space: normal;
+        overflow: visible;
+        line-height: 18px;
+        padding: 10px 16px;
+        min-height: 72px;
+        border-bottom: 1px solid #fdfdfd;
+        .message, .time {
+          margin: 0
+        }
+        .time {
+          font-size: 10px;
+          color: rgba(0, 0, 0, 0.54);
+        }
+      }
+    }
 }
+
 
 .loader {
   position: absolute;
