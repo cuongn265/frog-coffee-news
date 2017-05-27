@@ -154,28 +154,33 @@ router.route('/:articleId')
     .put(function (req, res) {
         let articleId = req.params.articleId;
         let article = req.body;
-        console.log(article);
-        articleService.update(articleId, article, function (err) {
-            if (err) {
-                res.send(404).send(err);
-            } else {
-                if (article.tags) {
-                    let tagsId = [];
-                    for (let tag of article.tags) {
-                        console.log(tag);
-                        tagsId.push(tag.tag_id);
-                    }
-                    console.log(chalk.yellow('Tag to be pushed'));
-                    console.log(tagsId);
-                    tagService.pushArticleToTags(articleId, tagsId).then(() => {
-                        res.status(202).send();
-                    }).catch((err) => {
-                        res.status(400).send(err);
-                    });
-                }
-                res.status(202).send();
-            }
+        articleService.update(articleId, article).then(() => {
+            res.status(202).send();
+        }).catch((err) => {
+            console.error(err);
+            res.status(400).send();
         });
+        // articleService.update(articleId, article, function (err) {
+        //     if (err) {
+        //         res.send(404).send(err);
+        //     } else {
+        //         if (article.tags) {
+        //             let tagsId = [];
+        //             for (let tag of article.tags) {
+        //                 console.log(tag);
+        //                 tagsId.push(tag.tag_id);
+        //             }
+        //             console.log(chalk.yellow('Tag to be pushed'));
+        //             console.log(tagsId);
+        //             tagService.pushArticleToTags(articleId, tagsId).then(() => {
+        //                 res.status(202).send();
+        //             }).catch((err) => {
+        //                 res.status(400).send(err);
+        //             });
+        //         }
+        //         res.status(202).send();
+        //     }
+        // });
     })
     /** DELETE: Remove document */
     .delete(function (req, res) {
