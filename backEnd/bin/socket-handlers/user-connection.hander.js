@@ -20,6 +20,10 @@ let self = module.exports = function (socket) {
         trackerService.trackUserCategory(data);
     });
 
+    socket.on('tags browsing', function(data){
+        trackerService.trackUserTags(data);
+    });
+
     socket.on('increaseViewCount', function (article_id) {
         trackerService.increaseArticleView(article_id);
     });

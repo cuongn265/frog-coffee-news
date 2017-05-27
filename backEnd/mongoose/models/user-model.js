@@ -37,6 +37,16 @@ let UserSchema = new Schema({
         comment_count: Number,
         bookmark_count: Number
     }],
+    tags_track: [{
+        tag_id: {
+            type: ObjectId,
+            ref: 'tags'
+        },
+        name: String,
+        visit_time: Number,
+        comment_count: Number,
+        bookmark_count: Number
+    }]
     
 });
 

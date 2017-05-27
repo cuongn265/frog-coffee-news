@@ -64,6 +64,7 @@ export class ArticleDetailComponent implements OnInit {
       this.articleService.getArticleDetail(this.articleId).then(article => {
         /**Emit user category track */
         this.socketService.sendUserCategoryBrowsingEvent(String(userId), String(article.category));
+        this.socketService.sendUserTagsBrowsingEvent(userId, article.tags);
         /**Emit increased view count */
         this.socketService.sendIncreaseViewCountEvent(this.articleId);
         this.article = article;

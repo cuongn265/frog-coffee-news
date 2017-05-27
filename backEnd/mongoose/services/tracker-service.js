@@ -7,7 +7,7 @@ let ObjectId = require('mongoose').Types.ObjectId;
 
 let self = module.exports = {
 
-        
+
     isValidUser: function (userId) {
         if (ObjectId.isValid(userId))
             return true;
@@ -23,6 +23,16 @@ let self = module.exports = {
         }
     },
 
+    trackUserTags: function (data) {
+        let userId = data.user_id;
+        let tags = data.tags;
+        if (self.isValidUser(userId)) {
+            userService.updateTagsVisitCount(userId, tags).then(() => {
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
+    },
     /** track article view */
     increaseArticleView: function (article_id) {
         articleService.increaseView(article_id).then((doc) => {
