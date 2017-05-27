@@ -11,11 +11,11 @@ router.route('/initScore')
     .post(function (req, res) {
         console.log('init score');
         articleService.initScore(function (err) {
-            if(err) res.status(400).send();
+            if (err) res.status(400).send();
             res.status(202).send();
         });
     });
-    
+
 router.route('/initDiscussion')
     .post(function (req, res) {
         console.log(chalk.cyan("ready to init"));
@@ -54,11 +54,21 @@ router.route('/')
     /** POST: Submit new article to server*/
     .post(function (req, res) {
         let article = req.body;
-        articleService.save(article, function (err) {
+        articleService.save(article, function (err, articleId) {
             if (err) {
                 res.status(400).send(err);
             } else {
-                res.status(201).send();
+                if (article.tags) {
+                    let tagsId = [];
+                    for (let tag of article.tags) {
+                        tagsId.push(tag.tag_id);
+                    }
+                    tagService.pushArticleToTags(articleId, tagsId).then(() => {
+                        res.status(201).send();
+                    }).catch((err) => {
+                        res.status(400).send(err);
+                    })
+                }
             }
         });
     });
@@ -144,13 +154,33 @@ router.route('/:articleId')
     .put(function (req, res) {
         let articleId = req.params.articleId;
         let article = req.body;
-        articleService.update(articleId, article, function (err) {
-            if (err) {
-                res.send(404).send(err);
-            } else {
-                res.status(202).send();
-            }
+        articleService.update(articleId, article).then(() => {
+            res.status(202).send();
+        }).catch((err) => {
+            console.error(err);
+            res.status(400).send();
         });
+        // articleService.update(articleId, article, function (err) {
+        //     if (err) {
+        //         res.send(404).send(err);
+        //     } else {
+        //         if (article.tags) {
+        //             let tagsId = [];
+        //             for (let tag of article.tags) {
+        //                 console.log(tag);
+        //                 tagsId.push(tag.tag_id);
+        //             }
+        //             console.log(chalk.yellow('Tag to be pushed'));
+        //             console.log(tagsId);
+        //             tagService.pushArticleToTags(articleId, tagsId).then(() => {
+        //                 res.status(202).send();
+        //             }).catch((err) => {
+        //                 res.status(400).send(err);
+        //             });
+        //         }
+        //         res.status(202).send();
+        //     }
+        // });
     })
     /** DELETE: Remove document */
     .delete(function (req, res) {

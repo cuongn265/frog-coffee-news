@@ -25,9 +25,10 @@ let ArticleSchema = new Schema({
         ref: 'categories'
     },
     tags: [{
-        type: ObjectId,
-        ref: 'tags'
-    },{
+        tag_id: {
+            type: ObjectId,
+            ref: 'tags'
+        },
         name: String
     }],
     visit_count: {

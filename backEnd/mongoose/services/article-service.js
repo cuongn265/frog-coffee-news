@@ -3,7 +3,8 @@ let Article = require('../models/article-model');
 let ObjectId = require('mongoose').Types.ObjectId;
 let DateService = require('../technical/current-date-service');
 let categoryService = require('./category-service');
-let DiscussionService = require('./discussion-service')
+let discussionService = require('./discussion-service')
+let tagService = require('./tag-service');
 let Q = require('q');
 
 const chalk = require('chalk');
@@ -104,7 +105,7 @@ let self = module.exports = {
     //
     initDiscussion: function (articleId) {
         let defer = Q.defer();
-        DiscussionService.save(articleId, function (err) {
+        discussionService.save(articleId, function (err) {
             if (err) {
                 return defer.reject();
             }
@@ -124,7 +125,7 @@ let self = module.exports = {
             else {
                 // return callback(null);
                 self.initDiscussion(article._id).then(function () {
-                    return callback(null)
+                    return callback(null, article._id);
                 }, function (err) {
                     return callback(err);
                 });
@@ -133,17 +134,63 @@ let self = module.exports = {
     },
 
     /**Update article */
-    update: function (documentId, document, callback) {
+    update: function (documentId, document) {
+        let defer = Q.defer();
         if (ObjectId.isValid(documentId)) {
-            Article.findByIdAndUpdate(documentId, document, function (err) {
-                if (err) return callback(err);
-                else {
-                    return callback(null);
-                }
-            });
-        } else {
-            return callback('Invalid ObjectId');
+            if (document.tags) {
+                console.log(chalk.yellow('New tags'));
+                console.log(document.tags);
+                self.findOnePromise(documentId).then((article) => {
+                    let missingTags = article.tags;
+                    console.log(chalk.blue('Current tags'));
+                    console.log(article.tags);
+                    for (let tag of document.tags) {
+                        for (var index = 0; index < missingTags.length; index++) {
+                            if (tag.tag_id == missingTags[index].tag_id) {
+                                missingTags.splice(index, 1);
+                            }
+                            break;
+                        }
+                    }
+                    return missingTags;
+                }).then((missingTags) => {
+                    console.log(chalk.cyan('Missing tags'));
+                    console.log(missingTags);
+                    if (missingTags.length == 0)
+                       Q.resolve(null);
+                    else {
+                        let promises = missingTags.map(tag => {
+                            console.log('Article ID '+documentId);
+                            console.log('Tag ID '+tag.tag_id);
+                            return tagService.pullArticleFromTag(documentId, tag.tag_id).then(() => {
+                                console.log(chalk.green('Pulled'));
+                                Q.resolve(null);
+                            }).catch((err) => {
+                                Q.reject(err);
+                            });
+                        });
+                        return Q.all(promises);
+                    }
+                }).then(() => {
+                    let tagsId = [];
+                    for (let tag of document.tags) {
+                        tagsId.push(tag.tag_id);
+                    }
+                    console.log(chalk.yellow('Tag to be pushed'));
+                    console.log(tagsId);
+                    tagService.pushArticleToTags(documentId, tagsId).then(() => {
+                        return Q.resolve(null);
+                    })
+                }).then(() => {
+                    Article.findByIdAndUpdate(documentId, document, function (err) {
+                        if (err) defer.reject(err);
+                        defer.resolve(null);
+                    });
+                });
+            }
+
         }
+        return defer.promise;
     },
 
     /** Remove article */

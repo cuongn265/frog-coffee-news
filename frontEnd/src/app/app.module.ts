@@ -11,6 +11,8 @@ import { AuthService } from './auth.service';
 import { MaterialModule } from '@angular/material';
 import { CollapseDirective } from 'ng2-bootstrap';
 
+import { TagInputModule } from "ng2-tag-input";
+
 
 import { AppComponent } from './app.component';
 import { ArticleComponent } from './article/article.component';
@@ -85,6 +87,7 @@ import {MomentModule} from 'angular2-moment';
     DataTableModule,
     ButtonModule,
     InputTextModule,
+    TagInputModule,
     DialogModule,
     DataGridModule,
     MenuModule,

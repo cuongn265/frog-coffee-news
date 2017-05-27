@@ -106,7 +106,11 @@ export class ArticleService {
         }).catch(this.handleError);
 
     }
+  }
 
+  getTags(): Promise<any> {
+    let url = this.apiUrl + 'articles/tags';
+    return this.http.get(url).toPromise().then(response => response.json()).catch(this.handleError);
   }
 
 
