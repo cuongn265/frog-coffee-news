@@ -11,6 +11,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 import * as AWS from 'aws-sdk';
+import { AuthService } from "../../auth.service";
+
 require('dotenv').config()
 
 @Component({
@@ -44,7 +46,7 @@ export class ArticleEditorComponent implements OnInit {
     private categoryService: CategoryService,
     private _location: Location,
     private route: ActivatedRoute,
-
+    private auth: AuthService,
     private snackBar: MdSnackBar) {
     this.cropperSettings = new CropperSettings();
     this.cropperSettings.noFileInput = true;
@@ -52,7 +54,7 @@ export class ArticleEditorComponent implements OnInit {
     this.cropperSettings.height = 900;
     this.cropperSettings.croppedWidth = 1600;
     this.cropperSettings.croppedHeight = 900;
-
+    
     /**
      * Get tags first
      */
@@ -132,6 +134,8 @@ export class ArticleEditorComponent implements OnInit {
           this.cropper.setImage(image);
         });
         this.isCreate = false;
+      } else {
+        this.articleDetail.author = this.auth.userProfile.first_name + '' + this.auth.userProfile.last_name;
       }
       this.categoryService.getCategories().then((res) => {
         this.categories = res;
@@ -165,12 +169,14 @@ export class ArticleEditorComponent implements OnInit {
     if (article._id === undefined) {
       this.articleService.postArticle(article).then((res) => {
         this.openSnackBar('Article is created successfully', null);
+        this.onCancel();
       }).catch(res => {
         this.openSnackBar('An error occurred', null);
       });
     } else {
       this.articleService.putArticle(article).then((res) => {
         this.openSnackBar('Article is updated successfully', null);
+        this.onCancel();
       }).catch(res => {
         this.openSnackBar('An error occurred', null);
       });

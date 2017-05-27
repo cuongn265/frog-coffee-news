@@ -6,13 +6,8 @@
   <span class="remaining-space"></span>
   <span [routerLink]="['/news/home']" class="header-title clickable"> Mercury </span>
 </md-toolbar>
-<md-sidenav-container height="100%" style="top: 48px;" class="admin-container">
+<md-sidenav-container height="100%" style="top: 64px;" class="admin-container">
   <md-sidenav mode="side" opened="true" #start class="admin-sidenav">
-    <!--<md-toolbar color="primary">
-      <span [routerLink]="['/news/all']" id="header-title"> Mercury </span>
-      <span class="remaining-space"></span>
-    </md-toolbar>-->
-
     <md-card class="user-card">
       <md-card-header *ngIf="auth.authenticated() && auth.userProfile">
         <img md-card-avatar [src]="auth.userProfile.picture">
