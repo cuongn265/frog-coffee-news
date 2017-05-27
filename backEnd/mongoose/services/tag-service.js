@@ -96,7 +96,6 @@ let self = module.exports = {
     },
 
     pushArticleToTag: function (articleId, tagId) {
-        console.log(chalk.yellow('Push article_id' + articleId + ' to tag ' + tagId));
         let defer = Q.defer();
         self.tagContainArticle(articleId, tagId).then((isExist) => {
             if (isExist) defer.resolve();
@@ -114,10 +113,20 @@ let self = module.exports = {
         return defer.promise;
     },
 
+    pullArticleFromTags: function (articleId, tags) {
+        let promises = tags.map(tag => {
+            return self.pullArticleFromTag(articleId, tag.tag_id).then(() => {
+                return Q.resolve();
+            }).catch((err) => {
+                return Q.reject(err);
+            });
+        });
+        return Q.all(promises);
+    },
+
     pullArticleFromTag: function (articleId, tagId) {
         let defer = Q.defer();
         self.tagContainArticle(articleId, tagId).then((isExist) => {
-            console.log(isExist);
             if (isExist) {
                 Tag.findByIdAndUpdate(tagId, {
                     "$pull": {
@@ -125,8 +134,6 @@ let self = module.exports = {
                     }
                 }, function (err, doc) {
                     if (err) defer.reject(err);
-                    console.log(chalk.yellow('Pulled doc'));
-                    console.log(doc);
                     defer.resolve(doc);
                 });
             }
@@ -145,7 +152,6 @@ let self = module.exports = {
             }
         }).select('articles').exec(function (err, doc) {
             if (err) defer.reject(err);
-            console.log(chalk.blue(doc));
             if (typeof doc[0] !== 'undefined') {
                 for (let article of doc[0].articles) {
                     if (article == articleId) {

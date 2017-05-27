@@ -157,11 +157,11 @@ let self = module.exports = {
                     console.log(chalk.cyan('Missing tags'));
                     console.log(missingTags);
                     if (missingTags.length == 0)
-                       Q.resolve(null);
+                        Q.resolve(null);
                     else {
                         let promises = missingTags.map(tag => {
-                            console.log('Article ID '+documentId);
-                            console.log('Tag ID '+tag.tag_id);
+                            console.log('Article ID ' + documentId);
+                            console.log('Tag ID ' + tag.tag_id);
                             return tagService.pullArticleFromTag(documentId, tag.tag_id).then(() => {
                                 console.log(chalk.green('Pulled'));
                                 Q.resolve(null);
@@ -196,12 +196,21 @@ let self = module.exports = {
     /** Remove article */
     remove: function (documentId, callback) {
         if (ObjectId.isValid(documentId)) {
-            Article.findByIdAndRemove(documentId, function (err) {
-                if (err) return callback(err);
-                else {
-                    return callback(null);
+            self.findOnePromise(documentId).then((article) => {
+                if (article.tags) {
+                    tagService.pullArticleFromTags(documentId, article.tags);
                 }
-            })
+            }).catch((err) => {
+                console.log(err);
+                return callback(err);
+            }).then(() => {
+                Article.findByIdAndRemove(documentId, function (err) {
+                    if (err) return callback(err);
+                    else {
+                        return callback(null);
+                    }
+                })
+            });
         } else {
             return callback('Invalid ObjectId');
         }

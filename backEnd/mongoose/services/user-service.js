@@ -49,7 +49,6 @@ let self = module.exports = {
     /** Update User document */
     update: function (id, document, callback) {
         let documentId = id;
-        console.log(documentId);
         if (ObjectId.isValid(documentId)) {
             User.findByIdAndUpdate(documentId, document, function (err) {
                 if (err) return callback(err);
