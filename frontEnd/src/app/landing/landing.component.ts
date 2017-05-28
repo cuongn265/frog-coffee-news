@@ -29,6 +29,9 @@ export class LandingComponent implements OnInit {
   categoryPage: any;
   comingSoonCategoryLength: any;
   comingSoonCategory: any;
+  newsType: string = 'latest';
+  activeTab: string = 'latest';
+  inactiveTab: string = 'popular'
 
   constructor(private categoryService: CategoryService, private auth: AuthService) { }
 
@@ -66,8 +69,8 @@ export class LandingComponent implements OnInit {
     return false;
   }
 
-  onClick() {
-    console.log('click');
+  updateTab() {
+    this.activeTab = this.activeTab == 'latest' ? 'popular' : 'latest';
+    this.inactiveTab = this.inactiveTab == 'latest' ? 'popular' : 'latest';
   }
-
 }
