@@ -11,9 +11,9 @@
           </div>
           <div class="col-md-4 col-sm-12 col-xs-12">
             <div class="actions">
-              <a md-fab routerLink="." color="primary"><md-icon>comment</md-icon></a>
+              <a md-fab scrollTo href="#comment-section" color="primary"><md-icon>comment</md-icon></a>
               <a md-fab routerLink="." color="primary"><md-icon>bookmark</md-icon></a>
-              <a md-fab routerLink="." color="primary"><md-icon>share</md-icon></a>
+              <a md-fab color="primary" shareButton="facebook"><md-icon>share</md-icon></a>
             </div>
           </div>
         </div>
@@ -50,5 +50,5 @@
       </div>
     </div>-->
   </div>
-  <app-comment [comments]="commentList"></app-comment>
+  <app-comment id="comment-section" [comments]="commentList"></app-comment>
 </div>
