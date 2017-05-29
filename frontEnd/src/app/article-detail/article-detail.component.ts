@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Article } from '../article/article';
 import { ArticleService } from '../article/article.service';

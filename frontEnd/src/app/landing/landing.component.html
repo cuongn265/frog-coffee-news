@@ -35,8 +35,19 @@
   </swiper>
 
   <div class="latest-news-area">
-    <div *ngFor="let category of categoryList" class="category-timeline-container" >
-      <app-category-timeline [category]="category"></app-category-timeline>
+    <div class="headline-title row">
+      <div class="col-md-4 col-sm-4"></div>
+      <div class="col-md-8 col-sm-8 type-container">
+        <span class="active">
+          {{activeTab}}
+        </span>
+        <span (click)="updateTab()">
+          {{inactiveTab}}
+        </span>
+      </div>
+    </div>
+    <div *ngFor="let category of categoryList" class="category-timeline-container">
+      <app-category-timeline [category]="category" [type]="activeTab"></app-category-timeline>
     </div>
   </div>
 </div>

@@ -131,6 +131,26 @@
 .category-timeline-container:nth-child(even) {
   background: #fafafa;
 }
+
+
+.headline-title {
+  margin: 100px 200px 0 100px;
+  .active {
+    font-size: 30px;
+    color: mat-color($primary);
+  }
+  span {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .type-container {
+    padding-left: 40px;
+    border-bottom: 2px solid #dfdfdf;
+    margin: 0 -5px;
+    text-transform: capitalize;
+  }
+}
 @media screen and (max-width: 400px) {
   .content {
     h3 {
