@@ -6,7 +6,7 @@
     </div>
 
     <div class="col-md-8 col-sm-8 article-container">
-    <div class="article" *ngFor="let article of articles | orderBy: orderField : isReverse | slice:0:3">
+      <div class="article clickable" [routerLink]="['/news', category.name.toLowerCase(), article._id]" *ngFor="let article of articles | orderBy: orderField : isReverse | slice:0:3">
         <div class="card-container">
           <md-card>
             <md-card-title-group>
