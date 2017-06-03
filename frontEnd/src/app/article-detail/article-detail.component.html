@@ -34,6 +34,11 @@
         <p class="info-category">{{categoryName}}</p>
       </div>
       <div [innerHTML]="article.content" class="text-body"></div>
+      <div class="tag-container">
+        <md-chip-list>
+          <md-chip *ngFor="let tag of article.tags">{{tag.name}}</md-chip>
+        </md-chip-list>
+      </div>
     </div>
     <!--<div class="col-md-3 col-sm-3 col-xs-12 related-articles">
       <p><b>Related Stories</b></p>
