@@ -3,6 +3,7 @@ let router = express.Router();
 
 let articleService = require('../mongoose/services/article-service');
 let tagService = require('../mongoose/services/tag-service');
+let userService = require('../mongoose/services/user-service');
 let discussionService = require('../mongoose/services/discussion-service');
 
 const chalk = require('chalk');
@@ -71,6 +72,14 @@ router.route('/')
             }
         });
     });
+
+router.route('/users/:userId/suggestions')
+    .get(function (req, res) {
+        let user = req.params.userId;
+        userService.findFavoriteTags(user);
+        res.status(200).send();
+    })
+
 
 /**
  * --------Begin of TAG Request -----------------------------------------------------

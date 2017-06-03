@@ -154,14 +154,10 @@ let self = module.exports = {
                     }
                     return missingTags;
                 }).then((missingTags) => {
-                    console.log(chalk.cyan('Missing tags'));
-                    console.log(missingTags);
                     if (missingTags.length == 0)
                         Q.resolve(null);
                     else {
                         let promises = missingTags.map(tag => {
-                            console.log('Article ID ' + documentId);
-                            console.log('Tag ID ' + tag.tag_id);
                             return tagService.pullArticleFromTag(documentId, tag.tag_id).then(() => {
                                 console.log(chalk.green('Pulled'));
                                 Q.resolve(null);
@@ -353,5 +349,17 @@ let self = module.exports = {
             });
         });
         return defer.promise;
+    },
+
+
+    serveFeaturedArticlesForUser: function (userId) {
+        /**
+         * Step to do
+         * 1: Find user favorite tags
+         * 2: Filter out a number of his favorite tags (10 tags)
+         * 3: Find articles by these tags (), 
+         */
+        
+
     }
 }

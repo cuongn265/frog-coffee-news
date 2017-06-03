@@ -234,12 +234,41 @@ let self = module.exports = {
                     "tags_track.$.visit_time": 1
                 }
             }, option, function (err, doc) {
-                if(err) defer.reject(err);
+                if (err) defer.reject(err);
                 defer.resolve(null);
             });
         }).catch((err) => {
             console.log(err);
         });
+        return defer.promise;
+    },
+
+    findFavoriteTags: function (userId) {
+        let defer = Q.defer();
+        console.log(userId);
+        User.aggregate({
+            '$match': {
+                '_id': ObjectId(userId)
+            }
+        }, {
+            '$unwind': "$tags_track"
+        }, {
+            '$sort': {
+                'tags_track.visit_time': -1
+            }
+        }, {
+            '$limit': 10
+        }, {
+            '$project': {
+                'tag_id': '$tags_track.tag_id',
+                'name': '$tags_track.name',
+                'visit_time': '$tags_track.visit_time'
+            }
+        }).exec(function (err, tags) {
+            if (err) defer.reject(err);
+            defer.resolve(tags);
+        });
+
         return defer.promise;
     },
 
@@ -288,5 +317,7 @@ let self = module.exports = {
         });
         return defer.promise;
     }
+
+
 
 }
