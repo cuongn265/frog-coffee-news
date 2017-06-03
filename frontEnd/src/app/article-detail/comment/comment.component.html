@@ -42,27 +42,32 @@
     </div>
     <!-- End of user comment box -->
     <md-list *ngIf="comments">
-      <div *ngFor="let comment of comments | orderBy: order : reverse" class="comment">
-        <md-list-item>
-          <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar" class="avatar">
-          <h2 md-line> {{getUsernameByUserId(comment.user_id)}} </h2>
-          <p md-line>
-            {{getCommentPeriod(comment.date)}}
-          </p>
-          <span class="pull-right" *ngIf="authService.authenticated() && authService.userProfile">
-            <button md-icon-button [md-menu-trigger-for]="menu" *ngIf="comment.user_id == authService.userProfile.identities[0]?.user_id || authService.userProfile.role == '58cd45e0879f9e00c88747bf'" >
-              <md-icon>more_vert</md-icon>
-            </button>
-            <md-menu #menu="mdMenu">
-              <button md-menu-item *ngIf="comment.user_id == authService.userProfile.identities[0].user_id" (click)="onModify($event, comment)"> Modify... </button>
-              <button md-menu-item (click)="onOpenConfirmDialog(comment._id)"> Remove... </button>
-            </md-menu> 
-          </span>
-        </md-list-item>
-        <div class="comment-content">
-          <p>{{comment.text}}</p>
+      <div *ngFor="let comment of comments | orderBy: order : reverse; let i = index" class="comment">
+        <div *ngIf="i < commentLimit">
+          <md-list-item>
+            <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar" class="avatar">
+            <h2 md-line> {{getUsernameByUserId(comment.user_id)}} </h2>
+            <p md-line>
+              {{getCommentPeriod(comment.date)}}
+            </p>
+            <span class="pull-right" *ngIf="authService.authenticated() && authService.userProfile">
+              <button md-icon-button [md-menu-trigger-for]="menu" *ngIf="comment.user_id == authService.userProfile.identities[0]?.user_id || authService.userProfile.role == '58cd45e0879f9e00c88747bf'" >
+                <md-icon>more_vert</md-icon>
+              </button>
+              <md-menu #menu="mdMenu">
+                <button md-menu-item *ngIf="comment.user_id == authService.userProfile.identities[0].user_id" (click)="onModify($event, comment)"> Modify... </button>
+                <button md-menu-item (click)="onOpenConfirmDialog(comment._id)"> Remove... </button>
+              </md-menu> 
+            </span>
+          </md-list-item>
+          <div class="comment-content">
+            <p>{{comment.text}}</p>
+          </div>
+          <hr [hidden]="i == (commentLimit - 1)" class="comment-divider">
         </div>
-        <hr class="comment-divider">
+      </div>
+      <div class="loadmore-container">
+        <button md-raised-button color="primary" (click)="loadMore()" class="btn-loadmore">Load more</button>
       </div>
     </md-list>
   </div>
