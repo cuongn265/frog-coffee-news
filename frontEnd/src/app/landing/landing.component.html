@@ -1,9 +1,9 @@
-<div class="side-nav-content" *ngIf="categoryList">
+<div class="side-nav-content" #snc *ngIf="categoryList" (scroll)="onScroll($event)">
   <swiper [config]="config">
     <div class="swiper-wrapper">
       <md-grid-list cols="2" rowHeight="fit" class="landing swiper-slide" *ngFor="let page of categoryPage; let j = index;">
         <md-grid-tile *ngFor="let category of page; let i = index">
-          <div class="swiper-slide header clickable" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url(' + backgroundUrl[i] + ')'}"
+          <div class="swiper-slide header clickable" [ngStyle]="{'background-image': 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(' + backgroundUrl[4 * j + i] + ')', 'background-repeat':'round'}"
             [routerLink]="['/news', category.name | lowercase]">
             <div [class]="'header header-' + i">
               <div class="flex-col-start"></div>
@@ -33,21 +33,18 @@
     </div>
     <div class="swiper-pagination swiper-pagination-white"></div>
   </swiper>
-
   <div class="latest-news-area">
-    <div class="headline-title row">
-      <div class="col-md-4 col-sm-4"></div>
-      <div class="col-md-8 col-sm-8 type-container">
-        <span class="active">
-          {{activeTab}}
-        </span>
-        <span (click)="updateTab()">
-          {{inactiveTab}}
-        </span>
-      </div>
-    </div>
-    <div *ngFor="let category of categoryList" class="category-timeline-container">
-      <app-category-timeline [category]="category" [type]="activeTab"></app-category-timeline>
-    </div>
+    <md-tab-group md-stretch-tabs>
+      <md-tab label="Lastest">
+        <div *ngFor="let category of categoryList" class="category-timeline-container">
+          <app-category-timeline [category]="category" [type]="latest"></app-category-timeline>
+        </div>
+      </md-tab>
+      <md-tab label="Popular">
+        <div *ngFor="let category of categoryList" class="category-timeline-container">
+          <app-category-timeline [category]="category" [type]="popular"></app-category-timeline>
+        </div>
+      </md-tab>
+    </md-tab-group>
   </div>
 </div>

@@ -5,15 +5,18 @@
 $min-width: 140px;
 
 .category-timeline {
-  padding: 0 200px 0 100px;
+  padding: 0 100px 0 50px;
 
   .category-container {
     font-size: 30px;
     font-weight: bold;
-    color: #eb5322;
+    color: mat-color($primary);
     padding-right: 70px;
+
     .category-name {
+      text-transform: uppercase;
     }
+
     .category-description {
       font-size: 12px;
       font-weight: bold;
@@ -39,6 +42,7 @@ $min-width: 140px;
     width: 100%;
     box-shadow: none;
     background-color: inherit;
+    // margin-bottom: 10px;
   }
 
   md-card-subtitle {
@@ -52,13 +56,33 @@ $min-width: 140px;
       color: mat-color($primary);
     }
     .timeline-icon {
+      // position: absolute;
+      // left: -50px;
+      // top: 10px;
+      // background: inherit;
+      // font-size: 40px;
+      // width: 40px;
+      // height: 40px;
+    }
+    .time {
       position: absolute;
-      left: -50px;
-      top: 10px;
-      background: inherit;
-      font-size: 40px;
-      width: 40px;
-      height: 40px;
+      left: -70px;
+      top: 20px;
+      background: #dfdfdf;
+      padding: 5px;
+      border-radius: 20px;
+    }
+
+    .view-count {
+      margin-left: 5px;
+      opacity: 0.5;
+      md-icon {
+        vertical-align: middle;
+        font-size: 12px;
+        width: 12px;
+        height: 12px;
+        margin-right: 2px;
+      }
     }
   }
 

@@ -52,6 +52,7 @@ import { LandingComponent } from './landing/landing.component';
 import { CategoryTimelineComponent } from './landing/category-timeline/category-timeline.component';
 import {MomentModule} from 'angular2-moment';
 import {ScrollToModule} from 'ng2-scroll-to';
+import {Ng2PageScrollModule} from 'ng2-page-scroll';
 
 @NgModule({
   declarations: [
@@ -104,7 +105,8 @@ import {ScrollToModule} from 'ng2-scroll-to';
     InfiniteScrollModule,
     MomentModule,
     ShareButtonsModule.forRoot(),
-    ScrollToModule.forRoot()
+    ScrollToModule.forRoot(),
+    Ng2PageScrollModule.forRoot()
   ],
   providers: [AuthGuard, AuthService, SocketIOService, LocalStorageService],
   bootstrap: [AppComponent],
