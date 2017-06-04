@@ -86,7 +86,6 @@ let self = module.exports = {
     },
 
     listArticlesWithinDay: function (tagId, numberOfDayAgo) {
-        console.time('populate articles in tags');
         let defer = Q.defer();
         let date = dateService.getSpecificDayAgo(numberOfDayAgo);
         Tag.findById(tagId).populate({
@@ -97,7 +96,6 @@ let self = module.exports = {
                 }
             }
         }).select('articles').exec(function (err, articles) {
-            console.timeEnd('populate articles in tags');
             if (err) defer.reject(err);
             defer.resolve(articles);
         });

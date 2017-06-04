@@ -22,7 +22,6 @@ let self = module.exports = {
 
     /** Find documents with keyword in content */
     findByContent: function (keywords, callback) {
-        console.log('Keyword to find: ' + keywords);
         Article.find({
             title: {
                 $regex: keywords,
@@ -137,12 +136,8 @@ let self = module.exports = {
         let defer = Q.defer();
         if (ObjectId.isValid(documentId)) {
             if (document.tags) {
-                console.log(chalk.yellow('New tags'));
-                console.log(document.tags);
                 self.findOnePromise(documentId).then((article) => {
                     let missingTags = article.tags;
-                    console.log(chalk.blue('Current tags'));
-                    console.log(article.tags);
                     for (let tag of document.tags) {
                         for (var index = 0; index < missingTags.length; index++) {
                             if (tag.tag_id == missingTags[index].tag_id) {
@@ -158,7 +153,6 @@ let self = module.exports = {
                     else {
                         let promises = missingTags.map(tag => {
                             return tagService.pullArticleFromTag(documentId, tag.tag_id).then(() => {
-                                console.log(chalk.green('Pulled'));
                                 Q.resolve(null);
                             }).catch((err) => {
                                 Q.reject(err);
@@ -171,8 +165,6 @@ let self = module.exports = {
                     for (let tag of document.tags) {
                         tagsId.push(tag.tag_id);
                     }
-                    console.log(chalk.yellow('Tag to be pushed'));
-                    console.log(tagsId);
                     tagService.pushArticleToTags(documentId, tagsId).then(() => {
                         return Q.resolve(null);
                     })
@@ -353,13 +345,9 @@ let self = module.exports = {
 
     serveFeaturedArticlesForUser: function (userId) {
         let defer = Q.defer();
-        console.time('find fav_tags');
-        console.time('listArticleWithinDay');
         userService.findFavoriteTags(userId).then((tags) => {
-            console.timeEnd('find fav_tags');
             let promises = tags.map((tag) => {
                 return tagService.listArticlesWithinDay(tag.tag_id, 2).then((articles) => {
-                    console.timeEnd('listArticleWithinDay');
                     return Q.resolve(articles);
 
 
@@ -382,7 +370,8 @@ let self = module.exports = {
                 return targetArticles;
             }).then((targetArticles) => {
                 let articlesStats = self.rateScoreOnArticleBaseOnUserPreferences(targetArticles, tags);
-                defer.resolve(articlesStats);
+                let sortedArticles = self.arrangeSuggestArticlesBaseOnScore(articlesStats);
+                defer.resolve(sortedArticles);
             });
         });
         return defer.promise;
@@ -423,5 +412,12 @@ let self = module.exports = {
             }
         }
         return false;
+    },
+
+    arrangeSuggestArticlesBaseOnScore(suggestedArticles) {
+        suggestedArticles.sort((a, b) => {
+            return b.score - a.score;
+        });
+        return suggestedArticles;
     }
 }
