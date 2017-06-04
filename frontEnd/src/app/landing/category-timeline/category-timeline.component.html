@@ -10,7 +10,15 @@
         <div class="card-container">
           <md-card>
             <md-card-title-group>
-              <md-card-subtitle><md-icon class="timeline-icon" color="primary">fiber_new</md-icon> {{article.date | date: 'mediumTime'}} &nbsp; - &nbsp; <span class="author">{{article.author || 'UNKNOWN'}}</span> - <span class="author">{{article.visit_count || 0}}</span></md-card-subtitle>
+              <md-card-subtitle>
+                <!--<md-icon class="timeline-icon" color="primary">
+                  {{type == 'latest' ? 'fiber_new' : 'trending_up'}}
+                </md-icon> -->
+                <span class="time">{{article.date | date: 'mediumTime'}}</span> 
+                <span class="author">{{article.author || 'Mercury Crew'}}</span>
+                <span class="view-count"><md-icon>pageview</md-icon>{{article.visit_count || 0}}</span>
+                <span class="view-count"><md-icon>mode_comment</md-icon>{{totalComments || 0}}</span>
+              </md-card-subtitle>
               <md-card-title>{{article.title}}</md-card-title>
               <md-card-subtitle>{{article.description}}</md-card-subtitle>
               <img md-card-md-image [src]="article.header_image">
