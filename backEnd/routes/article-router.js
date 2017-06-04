@@ -3,6 +3,7 @@ let router = express.Router();
 
 let articleService = require('../mongoose/services/article-service');
 let tagService = require('../mongoose/services/tag-service');
+let userService = require('../mongoose/services/user-service');
 let discussionService = require('../mongoose/services/discussion-service');
 
 const chalk = require('chalk');
@@ -71,6 +72,17 @@ router.route('/')
             }
         });
     });
+
+router.route('/users/:userId/suggestions')
+    .get(function (req, res) {
+        let user = req.params.userId;
+        articleService.serveFeaturedArticlesForUser(user).then((articles) => {
+            res.status(200).send(articles);
+        }).catch((err) => {
+            res.status(404).send(err);
+        });
+    })
+
 
 /**
  * --------Begin of TAG Request -----------------------------------------------------

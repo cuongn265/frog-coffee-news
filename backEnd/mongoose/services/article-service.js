@@ -4,6 +4,7 @@ let ObjectId = require('mongoose').Types.ObjectId;
 let DateService = require('../technical/current-date-service');
 let categoryService = require('./category-service');
 let discussionService = require('./discussion-service')
+let userService = require('./user-service');
 let tagService = require('./tag-service');
 let Q = require('q');
 
@@ -21,7 +22,6 @@ let self = module.exports = {
 
     /** Find documents with keyword in content */
     findByContent: function (keywords, callback) {
-        console.log('Keyword to find: ' + keywords);
         Article.find({
             title: {
                 $regex: keywords,
@@ -75,8 +75,6 @@ let self = module.exports = {
             })
         }
     },
-
-
 
 
     /** Find by creator */
@@ -138,12 +136,8 @@ let self = module.exports = {
         let defer = Q.defer();
         if (ObjectId.isValid(documentId)) {
             if (document.tags) {
-                console.log(chalk.yellow('New tags'));
-                console.log(document.tags);
                 self.findOnePromise(documentId).then((article) => {
                     let missingTags = article.tags;
-                    console.log(chalk.blue('Current tags'));
-                    console.log(article.tags);
                     for (let tag of document.tags) {
                         for (var index = 0; index < missingTags.length; index++) {
                             if (tag.tag_id == missingTags[index].tag_id) {
@@ -154,16 +148,11 @@ let self = module.exports = {
                     }
                     return missingTags;
                 }).then((missingTags) => {
-                    console.log(chalk.cyan('Missing tags'));
-                    console.log(missingTags);
                     if (missingTags.length == 0)
                         Q.resolve(null);
                     else {
                         let promises = missingTags.map(tag => {
-                            console.log('Article ID ' + documentId);
-                            console.log('Tag ID ' + tag.tag_id);
                             return tagService.pullArticleFromTag(documentId, tag.tag_id).then(() => {
-                                console.log(chalk.green('Pulled'));
                                 Q.resolve(null);
                             }).catch((err) => {
                                 Q.reject(err);
@@ -176,8 +165,6 @@ let self = module.exports = {
                     for (let tag of document.tags) {
                         tagsId.push(tag.tag_id);
                     }
-                    console.log(chalk.yellow('Tag to be pushed'));
-                    console.log(tagsId);
                     tagService.pushArticleToTags(documentId, tagsId).then(() => {
                         return Q.resolve(null);
                     })
@@ -353,5 +340,84 @@ let self = module.exports = {
             });
         });
         return defer.promise;
+    },
+
+
+    serveFeaturedArticlesForUser: function (userId) {
+        let defer = Q.defer();
+        userService.findFavoriteTags(userId).then((tags) => {
+            let promises = tags.map((tag) => {
+                return tagService.listArticlesWithinDay(tag.tag_id, 2).then((articles) => {
+                    return Q.resolve(articles);
+
+
+                }).catch((err) => {
+                    return Q.reject(err);
+                });
+            });
+
+            Q.all(promises).then((articlesWithinTag) => {
+                let targetArticles = [];
+                articlesWithinTag.map((tag) => {
+                    for (let article of tag.articles) {
+                        if (self.arrayContainObject(article, targetArticles)) {
+                            break;
+                        } else {
+                            targetArticles.push(article);
+                        }
+                    }
+                });
+                return targetArticles;
+            }).then((targetArticles) => {
+                let articlesStats = self.rateScoreOnArticleBaseOnUserPreferences(targetArticles, tags);
+                let sortedArticles = self.arrangeSuggestArticlesBaseOnScore(articlesStats);
+                defer.resolve(sortedArticles);
+            });
+        });
+        return defer.promise;
+    },
+
+
+    rateScoreOnArticleBaseOnUserPreferences(articleList, userTagList) {
+        let defer = Q.defer();
+        let articleStats = [];
+        articleList.map((article) => {
+            let articleWithStat = article;
+            let user_score = self.getScoreBaseOnTags(article.tags, userTagList);
+            articleStats.push({
+                article: articleWithStat,
+                score: user_score
+            });
+        });
+        return articleStats;
+    },
+
+    getScoreBaseOnTags(tags, userTagList) {
+        let score = 0;
+        tags.map((tag) => {
+            for (let tagStats of userTagList) {
+                if (tag.tag_id.toString() === tagStats.tag_id.toString()) {
+                    score += tagStats.visit_time;
+                    break;
+                }
+            }
+        });
+        return score;
+    },
+
+    arrayContainObject(obj, list) {
+        for (let index = 0; index < list.length; index++) {
+            if (list[index]._id.toString() == obj._id.toString()) {
+                return true;
+            }
+        }
+        return false;
+    },
+
+    arrangeSuggestArticlesBaseOnScore(suggestedArticles) {
+        suggestedArticles.sort((a, b) => {
+            return b.score - a.score;
+        });
+        return suggestedArticles;
     }
 }
