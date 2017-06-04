@@ -245,7 +245,6 @@ let self = module.exports = {
 
     findFavoriteTags: function (userId) {
         let defer = Q.defer();
-        console.log(userId);
         User.aggregate({
             '$match': {
                 '_id': ObjectId(userId)

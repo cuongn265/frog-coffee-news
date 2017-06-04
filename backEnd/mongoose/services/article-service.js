@@ -4,6 +4,7 @@ let ObjectId = require('mongoose').Types.ObjectId;
 let DateService = require('../technical/current-date-service');
 let categoryService = require('./category-service');
 let discussionService = require('./discussion-service')
+let userService = require('./user-service');
 let tagService = require('./tag-service');
 let Q = require('q');
 
@@ -75,8 +76,6 @@ let self = module.exports = {
             })
         }
     },
-
-
 
 
     /** Find by creator */
@@ -353,13 +352,76 @@ let self = module.exports = {
 
 
     serveFeaturedArticlesForUser: function (userId) {
-        /**
-         * Step to do
-         * 1: Find user favorite tags
-         * 2: Filter out a number of his favorite tags (10 tags)
-         * 3: Find articles by these tags (), 
-         */
-        
+        let defer = Q.defer();
+        console.time('find fav_tags');
+        console.time('listArticleWithinDay');
+        userService.findFavoriteTags(userId).then((tags) => {
+            console.timeEnd('find fav_tags');
+            let promises = tags.map((tag) => {
+                return tagService.listArticlesWithinDay(tag.tag_id, 2).then((articles) => {
+                    console.timeEnd('listArticleWithinDay');
+                    return Q.resolve(articles);
 
+
+                }).catch((err) => {
+                    return Q.reject(err);
+                });
+            });
+
+            Q.all(promises).then((articlesWithinTag) => {
+                let targetArticles = [];
+                articlesWithinTag.map((tag) => {
+                    for (let article of tag.articles) {
+                        if (self.arrayContainObject(article, targetArticles)) {
+                            break;
+                        } else {
+                            targetArticles.push(article);
+                        }
+                    }
+                });
+                return targetArticles;
+            }).then((targetArticles) => {
+                let articlesStats = self.rateScoreOnArticleBaseOnUserPreferences(targetArticles, tags);
+                defer.resolve(articlesStats);
+            });
+        });
+        return defer.promise;
+    },
+
+
+    rateScoreOnArticleBaseOnUserPreferences(articleList, userTagList) {
+        let defer = Q.defer();
+        let articleStats = [];
+        articleList.map((article) => {
+            let articleWithStat = article;
+            let user_score = self.getScoreBaseOnTags(article.tags, userTagList);
+            articleStats.push({
+                article: articleWithStat,
+                score: user_score
+            });
+        });
+        return articleStats;
+    },
+
+    getScoreBaseOnTags(tags, userTagList) {
+        let score = 0;
+        tags.map((tag) => {
+            for (let tagStats of userTagList) {
+                if (tag.tag_id.toString() === tagStats.tag_id.toString()) {
+                    score += tagStats.visit_time;
+                    break;
+                }
+            }
+        });
+        return score;
+    },
+
+    arrayContainObject(obj, list) {
+        for (let index = 0; index < list.length; index++) {
+            if (list[index]._id.toString() == obj._id.toString()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

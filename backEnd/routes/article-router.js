@@ -76,8 +76,11 @@ router.route('/')
 router.route('/users/:userId/suggestions')
     .get(function (req, res) {
         let user = req.params.userId;
-        userService.findFavoriteTags(user);
-        res.status(200).send();
+        articleService.serveFeaturedArticlesForUser(user).then((articles) => {
+            res.status(200).send(articles);
+        }).catch((err) => {
+            res.status(404).send(err);
+        });
     })
 
 
