@@ -69,6 +69,9 @@ router.route('/')
                         res.status(400).send(err);
                     })
                 }
+                else{
+                    res.status(201).send();
+                }
             }
         });
     });
