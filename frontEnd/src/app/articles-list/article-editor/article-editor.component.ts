@@ -141,6 +141,8 @@ export class ArticleEditorComponent implements OnInit {
         this.isCreate = false;
       } else {
         this.articleDetail.author = this.auth.userProfile.first_name + '' + this.auth.userProfile.last_name;
+        this.articleDetail.source = 'Mercury';
+        this.articleDetail.source = "Mercury";
       }
       this.categoryService.getCategories().then((res) => {
         this.categories = res;

@@ -22,12 +22,17 @@ export class LandingComponent implements OnInit {
     'https://www.sketchappsources.com/resources/source-image/Xbox-One-Pad-dembsky.png',
     'https://i.ytimg.com/vi/t5CotvyUmb8/maxresdefault.jpg',
     'https://i.ytimg.com/vi/ROlYuWRGP0w/maxresdefault.jpg',
+    'https://mir-s3-cdn-cf.behance.net/project_modules/fs/537d9047268173.587553663b674.png',
+    'http://www.gettingsmart.com/wp-content/uploads/2015/07/theory-vector-482x335.jpg'
+
   ];
   config: Object = {
     pagination: '.swiper-pagination',
     paginationClickable: true,
     autoplay: 5000
   };
+  //http://www.gettingsmart.com/wp-content/uploads/2015/07/theory-vector-482x335.jpg
+  //https://www.colourbox.com/preview/11546518-creative-science-flat-concept.jpg
   categoryPage: any;
   comingSoonCategoryLength: any;
   comingSoonCategory: any;
@@ -83,13 +88,13 @@ export class LandingComponent implements OnInit {
   lastScrollTop = 0;
 
   @HostListener('window:scroll', ['$event']) onScrollEvent($event) {
-    let p = $('.latest-news-area').offset().top - $(window).height() * 0.1;
-    let pos = document.body.scrollTop;
-    if (pos == 0) {
-      $('html, body').animate({
-        scrollTop: p
-      }, 1000);
-    }
+    // let p = $('.latest-news-area').offset().top - $(window).height() * 0.1;
+    // let pos = document.body.scrollTop;
+    // if (pos == 0) {
+    //   $('html, body').animate({
+    //     scrollTop: p
+    //   }, 1000);
+    // }
     // var st = $('body').scrollTop();
     
     // if (st > this.lastScrollTop) {

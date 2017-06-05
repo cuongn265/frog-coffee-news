@@ -18,6 +18,11 @@
         <input mdInput placeholder="Author (current user)" [(ngModel)]="articleDetail.author" id="author" name="author"/>
       </md-input-container>
 
+       <md-input-container style="width: 100%">
+        <input mdInput placeholder="Source" [(ngModel)]="articleDetail.source" id="source" name="source" />
+      </md-input-container>
+
+
       <md-select style="width: 100%; margin: 20px 0px;" placeholder="Category" [(ngModel)]="articleDetail.category" name="category">
         <md-option required *ngFor="let category of categories" [value]="category._id">
           {{category.name}}
