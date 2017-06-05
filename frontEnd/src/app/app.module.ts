@@ -18,7 +18,7 @@ import { AppComponent } from './app.component';
 import { ArticleComponent } from './article/article.component';
 import { AppRoutes } from './app.routing';
 import { LoginComponent } from './login/login.component';
-import { ShareButtonsModule } from 'ng2-sharebuttons';
+import { ShareButtonsModule } from 'ngx-sharebuttons';
 import { ArticleDetailComponent } from './article-detail/article-detail.component';
 import { AdminComponent } from './admin/admin.component';
 import { AuthGuard } from './auth-guard.service';
@@ -51,6 +51,8 @@ import { SwiperComponent } from './swiper/swiper.component';
 import { LandingComponent } from './landing/landing.component';
 import { CategoryTimelineComponent } from './landing/category-timeline/category-timeline.component';
 import {MomentModule} from 'angular2-moment';
+import {ScrollToModule} from 'ng2-scroll-to';
+import {Ng2PageScrollModule} from 'ng2-page-scroll';
 
 @NgModule({
   declarations: [
@@ -101,7 +103,10 @@ import {MomentModule} from 'angular2-moment';
     SwiperModule,
     Ng2OrderModule,
     InfiniteScrollModule,
-    MomentModule
+    MomentModule,
+    ShareButtonsModule.forRoot(),
+    ScrollToModule.forRoot(),
+    Ng2PageScrollModule.forRoot()
   ],
   providers: [AuthGuard, AuthService, SocketIOService, LocalStorageService],
   bootstrap: [AppComponent],

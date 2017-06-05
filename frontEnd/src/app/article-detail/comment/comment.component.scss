@@ -52,6 +52,15 @@ md-list-item /deep/ .mat-list-item-content.mat-ripple {
   width: 100%;
 }
 
+.loadmore-container {
+  margin: 0 72px 20px 72px;
+  text-align: center;
+  
+  .btn-loadmore {
+    width: 100%;
+  }
+}
+
 .comment {
   margin-top: 15px;
   .comment-content {

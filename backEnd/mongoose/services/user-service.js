@@ -4,6 +4,8 @@ let ObjectId = require('mongoose').Types.ObjectId;
 let Q = require('q');
 const chalk = require('chalk');
 
+let tagService = require('./tag-service');
+
 let self = module.exports = {
 
     /**Find one user */
@@ -21,12 +23,12 @@ let self = module.exports = {
 
     /** Find one with promise */
     findOne_promise: function (userId) {
-        let deffer = Q.defer();
+        let defer = Q.defer();
         User.findById(userId, function (err, doc) {
-            if (err) return deffer.reject(err);
-            return deffer.resolve(doc);
+            if (err) return defer.reject(err);
+            return defer.resolve(doc);
         });
-        return deffer.promise;
+        return defer.promise;
     },
     /** Find all users */
     findAll: function (callback) {
@@ -98,15 +100,15 @@ let self = module.exports = {
 
     /** Set lock/unlock */
     setAccountStatus: function (userId, currentStatus) {
-        let deffer = Q.defer();
+        let defer = Q.defer();
         let newStatus = !currentStatus;
         User.findByIdAndUpdate(userId, {
             enable: newStatus
         }, function (err) {
-            if (err) return deffer.reject(err);
-            return deffer.resolve(null);
+            if (err) return defer.reject(err);
+            return defer.resolve(null);
         });
-        return deffer.promise;
+        return defer.promise;
     },
 
 
@@ -120,7 +122,7 @@ let self = module.exports = {
 
     queryTrackingCategory: function (userId, categoryName) {
         // find - if not push new
-        let deffer = Q.defer();
+        let defer = Q.defer();
         let option = {
             upsert: true,
             new: true
@@ -140,18 +142,46 @@ let self = module.exports = {
                             "category": categoryName
                         }
                     }
-                }, function (err) {
-                    if (err) deffer.reject(err);
-                    deffer.resolve(true);
+                }, option, function (err) {
+                    if (err) defer.reject(err);
+                    defer.resolve(true);
                 });
             } else {
-                deffer.resolve(true);
+                defer.resolve(true);
             }
         });
-        return deffer.promise;
+        return defer.promise;
     },
 
-
+    queryTrackingTag: function (userId, tag) {
+        let defer = Q.defer();
+        let option = {
+            upsert: true,
+            new: true
+        };
+        User.findOne({
+            "_id": userId,
+            "tags_track.tag_id": tag.tag_id
+        }, function (err, doc) {
+            if (err) console.log(err);
+            if (doc == null) {
+                User.findByIdAndUpdate(userId, {
+                    $push: {
+                        "tags_track": {
+                            "tag_id": tag.tag_id,
+                            "name": tag.name
+                        }
+                    }
+                }, option, function (err, doc) {
+                    if (err) defer.reject(err);
+                    defer.resolve(true);
+                });
+            } else {
+                defer.resolve(true);
+            }
+        });
+        return defer.promise;
+    },
 
 
     /** User tracking stuff */
@@ -160,7 +190,7 @@ let self = module.exports = {
             upsert: true,
             new: true,
             setDefaultsOnInsert: true
-        }
+        };
         self.queryTrackingCategory(userId, categoryName).then(function () {
             User.findOneAndUpdate({
                 "_id": userId,
@@ -174,7 +204,71 @@ let self = module.exports = {
             });
         }, function (err) {
             console.log(err);
-        })
+        });
+    },
+
+    updateTagsVisitCount: function (userId, tags) {
+        let promises = tags.map((tag) => {
+            return self.updateTagVisitCount(userId, tag).then(() => {
+                Q.resolve(null);
+            }).catch((err) => {
+                console.error(err);
+            });
+        });
+        return Q.all(promises);
+    },
+
+    updateTagVisitCount: function (userId, tag) {
+        let defer = Q.defer();
+        let option = {
+            upsert: true,
+            new: true,
+            setDefaultsOnInsert: true
+        }
+        self.queryTrackingTag(userId, tag).then(() => {
+            User.update({
+                "_id": userId,
+                "tags_track.tag_id": tag.tag_id
+            }, {
+                "$inc": {
+                    "tags_track.$.visit_time": 1
+                }
+            }, option, function (err, doc) {
+                if (err) defer.reject(err);
+                defer.resolve(null);
+            });
+        }).catch((err) => {
+            console.log(err);
+        });
+        return defer.promise;
+    },
+
+    findFavoriteTags: function (userId) {
+        let defer = Q.defer();
+        User.aggregate({
+            '$match': {
+                '_id': ObjectId(userId)
+            }
+        }, {
+            '$unwind': "$tags_track"
+        }, {
+            '$sort': {
+                'tags_track.visit_time': -1
+            }
+        }, {
+            '$limit': 10
+        }, {
+            '$project': {
+                'tag_id': '$tags_track.tag_id',
+                'name': '$tags_track.name',
+                'visit_time': '$tags_track.visit_time'
+            }
+        }).exec(function (err, tags) {
+            if (err) defer.reject(err);
+            defer.resolve(tags);
+        });
+
+        return defer.promise;
     },
 
     /** Notification Method stuffs */
@@ -213,7 +307,6 @@ let self = module.exports = {
         }
         User.findById(userId, function (err, doc) {
             if (err) {
-                console.log(err);
                 defer.reject(err);
             } else {
                 info.user_id = doc._id;
@@ -223,5 +316,7 @@ let self = module.exports = {
         });
         return defer.promise;
     }
+
+
 
 }

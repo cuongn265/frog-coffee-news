@@ -1,5 +1,16 @@
 .new-article-form {
     margin: 30px;
+
+    // .myCropper {
+    //   width: 100%;
+    //   display: block;
+    //   visibility: hidden !important;
+    // }
+    //
+    //
+    // .myCropping {
+    //   visibility: visible !important;
+    // }
 }
 
 .file-upload {
@@ -11,4 +22,9 @@ md-spinner {
   width: 24px;
   height: 24px;
   margin: 5px 10px 0px 0px;
+}
+
+.img-responsive {
+  width: 300px;
+  height: 150px;
 }

@@ -12,7 +12,13 @@ module.exports = {
         return time;
     },
 
-    getMinutesSinceRelease: function(date){
+    getSpecificDayAgo: function (dayDistance) {
+        let date = new Date();
+        date.setDate(date.getDate() - dayDistance);
+        return date.toISOString();
+    },
+
+    getMinutesSinceRelease: function (date) {
         let currentTimestamp = new Date().getTime();
         let distance = currentTimestamp - date.getTime();
         let distance_minutes = distance / (1000 * 60);

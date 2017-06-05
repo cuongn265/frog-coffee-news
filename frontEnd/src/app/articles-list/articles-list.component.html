@@ -1,11 +1,11 @@
 <div class="articles-list-container">
   <button pButton type="button" (click)="toggle()"
-          style="margin-bottom:10px" label="Desktop"
+          style="margin-bottom:10px" label="Mobile"
           icon="fa-desktop"
           *ngIf="!stacked">
   </button>
   <button pButton type="button" (click)="toggle()"
-          style="margin-bottom:10px" label="Mobile"
+          style="margin-bottom:10px" label="Desktop"
           icon="fa-mobile" *ngIf="stacked">
   </button>
   <input #gb type="text" placeholder="Global search" pInputText style="margin-bottom:10px">
@@ -33,5 +33,5 @@
       </div>
     </footer>
   </p-dataTable>
-  <p-contextMenu #cm [model]="menuItems"></p-contextMenu>
+  <p-contextMenu #cm [model]="menuItems" appendTo="body"></p-contextMenu>
 </div>

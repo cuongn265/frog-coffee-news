@@ -4,6 +4,8 @@
 @import 'src/theming.scss';
 @include mat-core();
 
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 body {
     margin: 0px;
     font-family: 'Montserrat', sans-serif !important;
@@ -27,8 +29,9 @@ body {
     .mat-tab-label,
     .mat-slide-toggle-content,
     .mat-toolbar,
-    .mat-tooltip  {
-      font-family: 'Montserrat', sans-serif !important;;
+    .mat-tooltip,
+    p, div  {
+      font-family: 'Montserrat', sans-serif !important;
     }
 
     .mat-toolbar {

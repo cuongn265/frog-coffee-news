@@ -6,11 +6,19 @@
     </div>
 
     <div class="col-md-8 col-sm-8 article-container">
-      <div class="article" *ngFor="let article of articles | orderBy: 'date' : reverse | slice:0:3">
+      <div class="article clickable" [routerLink]="['/news', category.name.toLowerCase(), article._id]" *ngFor="let article of articles | orderBy: orderField : isReverse | slice:0:3">
         <div class="card-container">
           <md-card>
             <md-card-title-group>
-              <md-card-subtitle><md-icon class="timeline-icon" color="primary">fiber_new</md-icon> {{article.date | date: 'mediumTime'}} &nbsp; - &nbsp; <span class="author">{{article.author || 'UNKNOWN'}}</span></md-card-subtitle>
+              <md-card-subtitle>
+                <!--<md-icon class="timeline-icon" color="primary">
+                  {{type == 'latest' ? 'fiber_new' : 'trending_up'}}
+                </md-icon> -->
+                <span class="time">{{article.date | date: 'mediumTime'}}</span> 
+                <span class="author">{{article.author || 'Mercury Crew'}}</span>
+                <span class="view-count"><md-icon>pageview</md-icon>{{article.visit_count || 0}}</span>
+                <span class="view-count"><md-icon>mode_comment</md-icon>{{totalComments || 0}}</span>
+              </md-card-subtitle>
               <md-card-title>{{article.title}}</md-card-title>
               <md-card-subtitle>{{article.description}}</md-card-subtitle>
               <img md-card-md-image [src]="article.header_image">

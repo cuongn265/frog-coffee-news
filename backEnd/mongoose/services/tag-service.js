@@ -4,6 +4,7 @@
 
 
 let Tag = require('../models/tag-model');
+let dateService = require('../technical/current-date-service');
 let ObjectId = require('mongoose').Types.ObjectId;
 let Q = require('q');
 const chalk = require('chalk');
@@ -73,14 +74,32 @@ let self = module.exports = {
 
 
     /** List all article info in selected tag */
-    listArticles: function (documentId, callback) {
+    listArticles: function (documentId) {
+        let defer = Q.defer();
         if (ObjectId.isValid(documentId)) {
             Tag.findById(documentId).populate('articles').exec(function (err, docs) {
-                if (err) return callback(err);
-                return callback(null, docs);
+                if (err) defer.reject(err);
+                defer.resolve(docs);
             });
         }
-        return callback('Invalid ObjectId');
+        return defer.promise;
+    },
+
+    listArticlesWithinDay: function (tagId, numberOfDayAgo) {
+        let defer = Q.defer();
+        let date = dateService.getSpecificDayAgo(numberOfDayAgo);
+        Tag.findById(tagId).populate({
+            path: 'articles',
+            match: {
+                'date': {
+                    '$gte': new Date(date)
+                }
+            }
+        }).select('articles').exec(function (err, articles) {
+            if (err) defer.reject(err);
+            defer.resolve(articles);
+        });
+        return defer.promise;
     },
 
     pushArticleToTags: function (articleId, tags) {

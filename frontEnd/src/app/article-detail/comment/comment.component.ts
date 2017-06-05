@@ -31,6 +31,7 @@ export class CommentComponent implements OnInit {
   order = 'text';
   reverse = false;
   isActive = 'best';
+  commentLimit = 10;
 
   commentText: string = "";
   private mentionParticipants: string[] = [];
@@ -160,5 +161,12 @@ export class CommentComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.articleService.getComments(this.articleId).then(res => this.comments = res.comments)
     })
+  }
+
+  loadMore() {
+    this.commentLimit += 10;
+    if (this.commentLimit > this.comments.length) {
+      this.commentLimit = this.comments.length;
+    }
   }
 }
