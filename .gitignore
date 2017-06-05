@@ -2,3 +2,5 @@
 backEnd/\.vscode/settings\.json
 
 \.idea/
+
+frontEnd/src/environments/environment\.ts
