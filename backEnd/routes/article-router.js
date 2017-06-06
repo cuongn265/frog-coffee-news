@@ -17,6 +17,15 @@ router.route('/initScore')
         });
     });
 
+router.route('/initCommentcount')
+    .post(function (req, res) {
+        articleService.initCommentCount().then(() => {
+            res.status(202).send();
+        }).catch((err) => {
+            res.status(500).send(err);
+        })
+    })
+
 router.route('/initDiscussion')
     .post(function (req, res) {
         discussionService.initDiscussion(function (err) {
@@ -68,6 +77,8 @@ router.route('/')
                     }).catch((err) => {
                         res.status(400).send(err);
                     })
+                } else {
+                    res.status(201).send();
                 }
             }
         });
@@ -198,10 +209,17 @@ router.route('/:articleId/comments')
     .post(function (req, res) {
         let comment = req.body;
         let articleId = req.params.articleId;
+        console.log('Let me add comment');
         discussionService.addComment(articleId, comment, function (err) {
             if (err) res.status(400).send(err);
-            res.status(201).send();
-        })
+            else {
+                articleService.increaseCommentCount(articleId).then(() => {
+                    res.status(201).send();
+                }).catch((err) => {
+                    res.status(400).send(err);
+                })
+            }
+        });
     });
 
 router.route('/:articleId/comments/:commentId')
@@ -227,7 +245,13 @@ router.route('/:articleId/comments/:commentId')
         let commentId = req.params.commentId;
         discussionService.removeComment(articleId, commentId, function (err) {
             if (err) res.status(400).send(err);
-            res.status(202).send();
+            else {
+                articleService.decreaseCommentCount(articleId).then(() => {
+                    res.status(202).send();
+                }).catch((err) => {
+                    res.status(400).send(err);
+                });
+            }
         });
     });
 

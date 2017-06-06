@@ -175,6 +175,7 @@ export class ArticleEditorComponent implements OnInit {
 
     if (article._id === undefined) {
       this.articleService.postArticle(article).then((res) => {
+        console.log('Article submitted to server !');
         this.openSnackBar('Article is created successfully', null);
         this.onCancel();
       }).catch(res => {
