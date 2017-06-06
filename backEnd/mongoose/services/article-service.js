@@ -44,6 +44,15 @@ let self = module.exports = {
 
     },
 
+    findAllPromise: function () {
+        let defer = Q.defer();
+        Article.find(function (err, docs) {
+            if (err) defer.reject(err);
+            defer.resolve(docs);
+        });
+        return defer.promise;
+    },
+
     /** Find by category */
     findByCategory: function (category, callback) {
         let defer = Q.defer();
@@ -232,10 +241,10 @@ let self = module.exports = {
             "$set": {
                 "comment_count": 0
             }
-        },{
+        }, {
             multi: true
         }).exec(function (err, docs) {
-            if(err) defer.reject(err);
+            if (err) defer.reject(err);
             defer.resolve(docs);
         });
         return defer.promise;
