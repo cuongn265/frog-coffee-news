@@ -14,7 +14,7 @@
                 <!--<md-icon class="timeline-icon" color="primary">
                   {{type == 'latest' ? 'fiber_new' : 'trending_up'}}
                 </md-icon> -->
-                <span class="time">{{article.date | date: 'mediumTime'}}</span> 
+                <span class="time">{{article.date | amTimeAgo}}</span> 
                 <span class="author">{{article.author || 'Mercury Crew'}}</span>
                 <span class="view-count"><md-icon>pageview</md-icon>{{article.visit_count || 0}}</span>
                 <span class="view-count"><md-icon>mode_comment</md-icon>{{article.comment_count || 0}}</span>
