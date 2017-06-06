@@ -222,6 +222,55 @@ let self = module.exports = {
     },
 
     /**
+     * Set comment_count
+     * 
+     */
+    //TODO: This method is used only one time
+    initCommentCount: function () {
+        let defer = Q.defer();
+        Article.update({}, {
+            "$set": {
+                "comment_count": 0
+            }
+        },{
+            multi: true
+        }).exec(function (err, docs) {
+            if(err) defer.reject(err);
+            defer.resolve(docs);
+        });
+        return defer.promise;
+    },
+
+    /**
+     * Increase & Decrease Comment Count on Article
+     */
+    increaseCommentCount: function (documentId) {
+        let defer = Q.defer();
+        Article.findByIdAndUpdate(documentId, {
+            "$inc": {
+                "comment_count": 1
+            }
+        }, function (err, doc) {
+            if (err) defer.reject(err);
+            defer.resolve(doc);
+        })
+        return defer.promise;
+    },
+    decreaseCommentCount: function (documentId) {
+        let defer = Q.defer();
+        Article.findByIdAndUpdate(documentId, {
+            "$inc": {
+                "comment_count": -1
+            }
+        }, function (err, doc) {
+            if (err) defer.reject(err);
+            defer.resolve(doc);
+        })
+        return defer.promise;
+    },
+
+
+    /**
      * Update score base on release date and view
      */
     updateScore: function (documentId) {
@@ -341,6 +390,7 @@ let self = module.exports = {
         });
         return defer.promise;
     },
+
 
 
     serveFeaturedArticlesForUser: function (userId) {
