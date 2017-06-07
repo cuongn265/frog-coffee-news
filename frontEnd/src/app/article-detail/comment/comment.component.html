@@ -16,7 +16,7 @@
       <form (ngSubmit)="onSubmit(commentForm.value)" #commentForm="ngForm" role="form" novalidate>
         <md-list>
           <md-list-item>
-            <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar">
+            <img md-list-avatar src="{{currentUserProfileImage}}" alt="user-avatar">
               <input type="hidden" name="user_id" [value]="authService.userProfile.identities[0].user_id" [(ngModel)]="comment.user_id"
               #userId>
               <md-input-container style="width: 100%;" class="comment-input">
@@ -45,7 +45,7 @@
       <div *ngFor="let comment of comments | orderBy: order : reverse; let i = index" class="comment">
         <div *ngIf="i < commentLimit">
           <md-list-item>
-            <img md-list-avatar src="https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png" alt="user-avatar" class="avatar">
+            <img md-list-avatar src="{{getProfileImageByUserId(comment.user_id)}}" alt="user-avatar" class="avatar">
             <h2 md-line> {{getUsernameByUserId(comment.user_id)}} </h2>
             <p md-line>
               {{getCommentPeriod(comment.date)}}

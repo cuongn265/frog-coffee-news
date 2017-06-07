@@ -26,6 +26,10 @@ export class UserService {
         return this.http.get(this.apiUrl + 'users/' + userId).toPromise().then(response => response.json()).catch(this.handleError);
     }
 
+    getUserProfileImage(userId: string): Promise<string> {
+        return this.http.get(this.apiUrl + 'users/' + userId + '/image').toPromise().then((imageURL) => imageURL.text()).catch(this.handleError);
+    }
+
     toggleStatus(userId: string) {
         let putUrl = this.apiUrl + 'users/' + userId + '/toggleStatus';
         return this.http.put(putUrl, {}).toPromise().then(response => response).catch(this.handleError);

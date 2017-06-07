@@ -325,11 +325,12 @@ let self = module.exports = {
 
 
     /** Miscellanious  */
-    getIdAndUsername: function (userId) {
+    getIdAndUsernameWithProfileImage: function (userId) {
         let defer = Q.defer();
         let info = {
             user_id: undefined,
-            username: undefined
+            username: undefined,
+            profileImage: undefined
         }
         User.findById(userId, function (err, doc) {
             if (err) {
@@ -337,7 +338,12 @@ let self = module.exports = {
             } else {
                 info.user_id = doc._id;
                 info.username = (doc.user_metadata.first_name + doc.user_metadata.last_name).replace(" ", "");
-                defer.resolve(info);
+                self.getProfileImageUrl(info.user_id).then((imageURL) => {
+                    info.profileImage = imageURL;
+                    defer.resolve(info);
+                }).catch((err)=>{
+                    defer.reject(err);
+                })
             }
         });
         return defer.promise;

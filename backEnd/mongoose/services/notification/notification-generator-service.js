@@ -29,7 +29,7 @@ let self = module.exports = {
         self.getTemplateMessageOnType(data.type).then(message => {
             if (data.type == 'mentioned') {
                 ArticleService.findOnePromise(data.article_id).then(article => {
-                    UserService.getIdAndUsername(data.sender).then(info => {
+                    UserService.getIdAndUsernameWithProfileImage(data.sender).then(info => {
                         let generatedMessage = info.username + " " + message + " " + article.title; 
                         defer.resolve(generatedMessage);
                     })

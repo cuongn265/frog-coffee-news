@@ -209,7 +209,6 @@ router.route('/:articleId/comments')
     .post(function (req, res) {
         let comment = req.body;
         let articleId = req.params.articleId;
-        console.log('Let me add comment');
         discussionService.addComment(articleId, comment, function (err) {
             if (err) res.status(400).send(err);
             else {
