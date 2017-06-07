@@ -26,8 +26,11 @@ export class CommentComponent implements OnInit {
   articleId: string;
   participants: {
     user_id: string,
-    username: string
+    username: string,
+    profileImage: string
   }[] = [];
+
+  currentUserProfileImage: string = undefined;
   order = 'text';
   reverse = false;
   isActive = 'best';
@@ -43,10 +46,15 @@ export class CommentComponent implements OnInit {
     private articleService: ArticleService,
     private route: ActivatedRoute,
     private dialog: MdDialog,
-    private localStorageService: LocalStorageService) { }
+    private localStorageService: LocalStorageService,
+    private userService: UserService) { }
 
   ngOnInit() {
     let user_id = this.authService.authenticated() ? this.authService.userProfile.identities[0].user_id : '';
+    console.log('user id for request: ' +user_id);
+    this.userService.getUserProfileImage(user_id).then((imageURL) => {
+      this.currentUserProfileImage = imageURL;
+    })
     this.comment = { _id: '', user_id: user_id, text: '', date: new Date() };
     this.sub = this.route.params.subscribe(params => {
       this.articleId = params['articleId'];
@@ -89,6 +97,20 @@ export class CommentComponent implements OnInit {
     return username;
   }
 
+  getProfileImageByUserId(userId: string) {
+    let imageURL = '';
+    if (this.participants) {
+      for (let i = 0; i < this.participants.length; i++) {
+        let participant = this.participants[i];
+        if (participant.user_id == userId) {
+          imageURL = participant.profileImage;
+          break;
+        }
+      }
+    }
+    return imageURL;
+  }
+
   getNumberOfMentionedParticipant(text: string) {
     return (text.match(/@/g) || []).length;
   }
@@ -102,7 +124,7 @@ export class CommentComponent implements OnInit {
       this.articleService.getComments(this.articleId).then(res => this.comments = res.comments);
       this.comment.text = '';
 
-     
+
       if (this.mentionedParticipants != null && this.mentionedParticipants.length > 0) {
         let user_id = this.authService.authenticated() ? this.authService.userProfile.identities[0].user_id : '';
         let mentionedParticipants = this.getMentionedParticipantIdList();
@@ -111,7 +133,7 @@ export class CommentComponent implements OnInit {
     });
   }
 
- getMentionedParticipantIdList(): any[] {
+  getMentionedParticipantIdList(): any[] {
     let taggedUserIdArray = [];
     for (let tag of this.mentionedParticipants) {
       for (let user of this.participants) {
@@ -157,7 +179,7 @@ export class CommentComponent implements OnInit {
         articleId: this.articleId
       }
     });
-    
+
     dialogRef.afterClosed().subscribe((result) => {
       this.articleService.getComments(this.articleId).then(res => this.comments = res.comments)
     })

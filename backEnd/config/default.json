@@ -25,5 +25,9 @@
             "name": "tagged"
         }]
     },
-    "articlesScoreUpdateInterval": 1800000
+    "articlesScoreUpdateInterval": 1800000,
+    "auth0ProfileImage": {
+        "path": "https://cdn.auth0.com/avatars/",
+        "extension-type": ".png"
+    }
 }

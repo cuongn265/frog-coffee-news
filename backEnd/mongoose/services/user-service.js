@@ -2,6 +2,9 @@
 let User = require('../models/user-model');
 let ObjectId = require('mongoose').Types.ObjectId;
 let Q = require('q');
+let gravatar = require('gravatar');
+let config = require('config');
+
 const chalk = require('chalk');
 
 let tagService = require('./tag-service');
@@ -22,7 +25,7 @@ let self = module.exports = {
 
 
     /** Find one with promise */
-    findOne_promise: function (userId) {
+    findOnePromise: function (userId) {
         let defer = Q.defer();
         User.findById(userId, function (err, doc) {
             if (err) return defer.reject(err);
@@ -82,7 +85,7 @@ let self = module.exports = {
          * second query to update it to !
          */
         if (ObjectId.isValid(userId)) {
-            self.findOne_promise(userId).then(function (doc) {
+            self.findOnePromise(userId).then(function (doc) {
                 let currentStatus = doc.enable;
                 self.setAccountStatus(userId, currentStatus).then(function () {
                     return callback(null);
@@ -118,6 +121,29 @@ let self = module.exports = {
             if (err) return callback(err);
             return callback(null, doc.role.name);
         });
+    },
+
+    getProfileImageUrl: function (userId) {
+        let defer = Q.defer();
+        self.findOnePromise(userId).then((user) => {
+            let email = user.email;
+            let first_name = user.user_metadata.first_name;
+            let last_name = user.user_metadata.last_name;
+            let defaultImage = self.generateAuth0ProfileImage(first_name, last_name);
+            let profileImageUrl = gravatar.url(email, {
+                d: defaultImage,
+                protocol: 'https'
+            });
+            defer.resolve(profileImageUrl);
+        });
+        return defer.promise;
+    },
+
+    generateAuth0ProfileImage: function (first_name, last_name) {
+        let name = first_name.slice(0, 1) + last_name.slice(0, 1);
+        name = name.toLowerCase();
+        let url = config.get('auth0ProfileImage.path') + name + config.get('auth0ProfileImage.extension-type');
+        return url;
     },
 
     queryTrackingCategory: function (userId, categoryName) {
@@ -299,11 +325,12 @@ let self = module.exports = {
 
 
     /** Miscellanious  */
-    getIdAndUsername: function (userId) {
+    getIdAndUsernameWithProfileImage: function (userId) {
         let defer = Q.defer();
         let info = {
             user_id: undefined,
-            username: undefined
+            username: undefined,
+            profileImage: undefined
         }
         User.findById(userId, function (err, doc) {
             if (err) {
@@ -311,7 +338,12 @@ let self = module.exports = {
             } else {
                 info.user_id = doc._id;
                 info.username = (doc.user_metadata.first_name + doc.user_metadata.last_name).replace(" ", "");
-                defer.resolve(info);
+                self.getProfileImageUrl(info.user_id).then((imageURL) => {
+                    info.profileImage = imageURL;
+                    defer.resolve(info);
+                }).catch((err)=>{
+                    defer.reject(err);
+                })
             }
         });
         return defer.promise;

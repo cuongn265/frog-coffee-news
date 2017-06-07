@@ -114,7 +114,7 @@ let self = module.exports = {
           let promises = comments.map(comment => {
             if (participantId.indexOf(String(comment.user_id)) < 0) {
               participantId.push(String(comment.user_id));
-              return userService.getIdAndUsername(comment.user_id).then(info => {
+              return userService.getIdAndUsernameWithProfileImage(comment.user_id).then(info => {
                 participantsList.push(info);
                 return Q.resolve(info);
               })
