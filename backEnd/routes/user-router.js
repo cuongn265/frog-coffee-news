@@ -140,6 +140,16 @@ router.route('/:userId')
         });
     })
 
+router.route('/:userId/image')
+    .get(function (req, res) {
+        let userId = req.params.userId;
+        userService.getProfileImageUrl(userId).then((profileImgUrl) => {
+            res.status(200).send(profileImgUrl);
+        }).catch((err) => {
+            res.status(400).send(err);
+        });
+    })
+
 /**
  * ------------ END OF INFORMATIONAL USER REQUEST  ---------------------------------------------------
  */
@@ -196,6 +206,7 @@ router.route('/:userId/notification/:notificationId')
     .delete(function (req, res) {
 
     })
+
 
 
 
