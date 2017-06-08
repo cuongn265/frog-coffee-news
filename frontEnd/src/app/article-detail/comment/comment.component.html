@@ -16,7 +16,7 @@
       <form (ngSubmit)="onSubmit(commentForm.value)" #commentForm="ngForm" role="form" novalidate>
         <md-list>
           <md-list-item>
-            <img md-list-avatar src="{{currentUserProfileImage}}" alt="user-avatar">
+            <img md-list-avatar src="{{getProfileImageByUserId(comment.user_id)}}" alt="user-avatar">
               <input type="hidden" name="user_id" [value]="authService.userProfile.identities[0].user_id" [(ngModel)]="comment.user_id"
               #userId>
               <md-input-container style="width: 100%;" class="comment-input">
