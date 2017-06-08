@@ -51,10 +51,12 @@ export class CommentComponent implements OnInit {
 
   ngOnInit() {
     let user_id = this.authService.authenticated() ? this.authService.userProfile.identities[0].user_id : '';
-    console.log('user id for request: ' +user_id);
-    this.userService.getUserProfileImage(user_id).then((imageURL) => {
-      this.currentUserProfileImage = imageURL;
-    })
+    if (user_id) {
+      this.userService.getUserProfileImage(user_id).then((imageURL) => {
+        this.currentUserProfileImage = imageURL;
+      });
+    }
+
     this.comment = { _id: '', user_id: user_id, text: '', date: new Date() };
     this.sub = this.route.params.subscribe(params => {
       this.articleId = params['articleId'];
